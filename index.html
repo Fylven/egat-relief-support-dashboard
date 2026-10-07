@@ -157,18 +157,22 @@ body{
 }
 .item-images img:hover{transform:scale(1.015)}
 .filter-status{
-  margin-top:28px;
+  margin-top:auto;
   padding-top:18px;
   border-top:1px solid #eee8bd;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
   font-size:13px;
   font-weight:400;
   color:#999;
-  text-align:center;
-  line-height:1.8
+  text-align:left;
+  line-height:1.5;
 }
 .filter-status .last-updated{
-  display:block;
-  margin-top:2px;
+  text-align:right;
+  white-space:nowrap;
 }
 .loading,.empty{
   min-height:250px;display:flex;align-items:center;justify-content:center;
@@ -209,15 +213,18 @@ body{
   .support-card{padding:15px}
   .support-title{font-size:23px}
   .support-list{height:auto;max-height:700px}
+  .filter-status{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:3px;
+  }
+  .filter-status .last-updated{
+    text-align:left;
+    white-space:normal;
+  }
   .item-images{gap:8px}
   .item-images img{width:calc(50% - 4px);height:auto;aspect-ratio:16/9}
 }
-
-  /* หน้าแจกแล้ว / ยังไม่ได้แจก ไม่ต้องแสดงยอดซ้ำด้านล่าง */
-.page-single-summary .summary-total {
-  display: none;
-}
-  
 </style>
 </head>
 
@@ -254,9 +261,9 @@ body{
 </section>
 
 <nav class="page-tabs" aria-label="ประเภทข้อมูล">
-  <button class="page-tab" data-page="completed">แจกไปแล้ว</button>
+  <button class="page-tab active" data-page="completed">แจกไปแล้ว</button>
   <button class="page-tab" data-page="planned">ยังไม่ได้แจก</button>
-  <button class="page-tab active" data-page="all">ทั้งหมด</button>
+  <button class="page-tab" data-page="all">ทั้งหมด</button>
 </nav>
 
 <main class="main-grid">
@@ -302,7 +309,7 @@ body{
       <div class="loading">กำลังโหลดข้อมูล...</div>
     </div>
     <div id="filterStatus" class="filter-status">
-      <div id="filterStatusText">ข้อมูลทั้งหมด • 0 รายการ</div>
+      <div id="filterStatusText">ข้อมูลที่แจกแล้ว • 0 รายการ</div>
       <div id="lastUpdated" class="last-updated">อัปเดตล่าสุด ณ วันที่ -</div>
     </div>
   </section>
@@ -376,11 +383,6 @@ function getPageData(data) {
 }
 
 function updatePageText() {
-  document.querySelector(".summary-section")
-  .classList.toggle(
-    "page-single-summary",
-    currentPage === "planned" || currentPage === "completed"
-  );
   if (currentPage === "planned") {
     summarySectionTitle.textContent = "แผนการมอบ";
     bagsTitle.textContent = "แผนการมอบถุงยังชีพ (ถุง)";
@@ -450,290 +452,85 @@ function applyFilters() {
 }
 
 function renderDashboard(pageData, filteredAllData) {
-
   updatePageText();
 
-  const plannedData =
-    filteredAllData.filter(
-      item => item.status === "planned"
-    );
+  const plannedData = filteredAllData.filter(item => item.status === "planned");
+  const completedData = filteredAllData.filter(item => item.status === "completed");
 
-  const completedData =
-    filteredAllData.filter(
-      item => item.status === "completed"
-    );
-
-
-  let bagsValue = 0;
-  let waterValue = 0;
-
-  let bagsTotalValue = 0;
-  let waterTotalValue = 0;
-
-
-  /* =====================================================
-     PAGE 2 : ยังไม่ได้แจก
-  ====================================================== */
+  let bagsValue, waterValue, bagsTotalValue, waterTotalValue;
 
   if (currentPage === "planned") {
-
-    bagsValue =
-      plannedData.reduce(
-        (sum, item) =>
-          sum + Number(item.bags || 0),
-        0
-      );
-
-    waterValue =
-      plannedData.reduce(
-        (sum, item) =>
-          sum + Number(item.water || 0),
-        0
-      );
-
+    bagsValue = plannedData.reduce((s,i)=>s+Number(i.bags||0),0);
+    waterValue = plannedData.reduce((s,i)=>s+Number(i.water||0),0);
     bagsTotalValue = bagsValue;
     waterTotalValue = waterValue;
-
-  }
-
-
-  /* =====================================================
-     PAGE 1 : แจกไปแล้ว
-  ====================================================== */
-
-  else if (currentPage === "completed") {
-
-    bagsValue =
-      completedData.reduce(
-        (sum, item) =>
-          sum + Number(item.bags || 0),
-        0
-      );
-
-    waterValue =
-      completedData.reduce(
-        (sum, item) =>
-          sum + Number(item.water || 0),
-        0
-      );
-
+  } else if (currentPage === "completed") {
+    bagsValue = completedData.reduce((s,i)=>s+Number(i.bags||0),0);
+    waterValue = completedData.reduce((s,i)=>s+Number(i.water||0),0);
     bagsTotalValue = bagsValue;
     waterTotalValue = waterValue;
-
+  } else {
+    bagsValue = plannedData.reduce((s,i)=>s+Number(i.bags||0),0);
+    waterValue = plannedData.reduce((s,i)=>s+Number(i.water||0),0);
+    bagsTotalValue = filteredAllData.reduce((s,i)=>s+Number(i.bags||0),0);
+    waterTotalValue = filteredAllData.reduce((s,i)=>s+Number(i.water||0),0);
   }
 
-
-  /* =====================================================
-     PAGE 3 : ทั้งหมด
-
-     A = ยังไม่ได้แจกทั้งหมด
-     B = แจกแล้วทั้งหมด
-  ====================================================== */
-
-  else {
-
-    // ข้อมูล A
-    bagsValue =
-      plannedData.reduce(
-        (sum, item) =>
-          sum + Number(item.bags || 0),
-        0
-      );
-
-    waterValue =
-      plannedData.reduce(
-        (sum, item) =>
-          sum + Number(item.water || 0),
-        0
-      );
-
-
-    // ข้อมูล B
-    bagsTotalValue =
-      completedData.reduce(
-        (sum, item) =>
-          sum + Number(item.bags || 0),
-        0
-      );
-
-    waterTotalValue =
-      completedData.reduce(
-        (sum, item) =>
-          sum + Number(item.water || 0),
-        0
-      );
-
-  }
-
-
-  /* =====================================================
-     แสดงตัวเลข
-  ====================================================== */
-
-  bagsTotal.textContent =
-    formatNumber(bagsValue);
-
-  bagsTotalSmall.textContent =
-    formatNumber(bagsTotalValue);
-
-  waterTotal.textContent =
-    formatNumber(waterValue);
-
-  waterTotalSmall.textContent =
-    formatNumber(waterTotalValue);
-
-
-  /* =====================================================
-     รายการข้อมูล
-  ====================================================== */
+  bagsTotal.textContent = formatNumber(bagsValue);
+  bagsTotalSmall.textContent = formatNumber(bagsTotalValue);
+  waterTotal.textContent = formatNumber(waterValue);
+  waterTotalSmall.textContent = formatNumber(waterTotalValue);
 
   if (!pageData.length) {
-
-    supportList.innerHTML =
-      '<div class="empty">ไม่พบข้อมูลตามเงื่อนไขที่เลือก</div>';
-
+    supportList.innerHTML = '<div class="empty">ไม่พบข้อมูลตามเงื่อนไขที่เลือก</div>';
     updateFilterStatus(pageData);
-
     return;
   }
 
-
   const groups = {};
-
-
   pageData.forEach(item => {
-
-    if (!groups[item.date]) {
-      groups[item.date] = [];
-    }
-
+    if (!groups[item.date]) groups[item.date] = [];
     groups[item.date].push(item);
-
   });
 
-
   let html = "";
+  Object.keys(groups).sort().reverse().forEach(date => {
+    html += `<div class="date-group"><div class="date-badge">${formatThaiDate(date)}</div>`;
 
-
-  Object.keys(groups)
-    .sort()
-    .reverse()
-    .forEach(date => {
+    groups[date].forEach((item,index) => {
+      const images = Array.isArray(item.images) ? item.images : [];
+      const chip = item.status === "completed"
+        ? '<span class="status-chip completed">แจกแล้ว</span>'
+        : '<span class="status-chip planned">ยังไม่ได้แจก</span>';
 
       html += `
-        <div class="date-group">
-
-          <div class="date-badge">
-            ${formatThaiDate(date)}
+        <div class="support-item">
+          <div class="item-title">
+            ${index + 1}. ${escapeHtml(item.location)}
+            จ.<strong>${escapeHtml(item.province)}</strong>
+            ${currentPage === "all" ? chip : ""}
           </div>
-      `;
-
-
-      groups[date].forEach(
-        (item, index) => {
-
-          const images =
-            Array.isArray(item.images)
-              ? item.images
-              : [];
-
-
-          const chip =
-            item.status === "completed"
-              ? '<span class="status-chip completed">แจกแล้ว</span>'
-              : '<span class="status-chip planned">ยังไม่ได้แจก</span>';
-
-
-          html += `
-
-            <div class="support-item">
-
-              <div class="item-title">
-
-                ${index + 1}.
-                ${escapeHtml(item.location)}
-
-                จ.<strong>
-                  ${escapeHtml(item.province)}
-                </strong>
-
-                ${
-                  currentPage === "all"
-                    ? chip
-                    : ""
-                }
-
-              </div>
-
-
-              <div class="item-amount">
-
-                • ถุงยังชีพ
-                <strong>
-                  ${formatNumber(item.bags)}
-                </strong>
-                ถุง
-
-                &nbsp;&nbsp;•
-
-                น้ำดื่ม
-                <strong>
-                  ${formatNumber(item.water)}
-                </strong>
-                แพ็ก
-
-              </div>
-
-
-              ${
-                images.length
-                  ? `
-
-                    <div class="item-images">
-
-                      ${
-                        images
-                          .slice(0, 3)
-                          .map(
-                            url => `
-
-                              <img
-                                src="${escapeHtml(url)}"
-                                alt="รูปภาพการสนับสนุน"
-                                loading="lazy"
-                                onclick="openImage('${escapeHtml(url)}')"
-                              >
-
-                            `
-                          )
-                          .join("")
-                      }
-
-                    </div>
-
-                  `
-                  : ""
-              }
-
+          <div class="item-amount">
+            • ถุงยังชีพ <strong>${formatNumber(item.bags)}</strong> ถุง
+            &nbsp;&nbsp;• น้ำดื่ม <strong>${formatNumber(item.water)}</strong> แพ็ก
+          </div>
+          ${images.length ? `
+            <div class="item-images">
+              ${images.slice(0,3).map(url => `
+                <img src="${escapeHtml(url)}" alt="รูปภาพการสนับสนุน" loading="lazy"
+                     onclick="openImage('${escapeHtml(url)}')">
+              `).join("")}
             </div>
-
-          `;
-
-        }
-      );
-
-
-      html += `
+          ` : ""}
         </div>
       `;
-
     });
 
+    html += "</div>";
+  });
 
   supportList.innerHTML = html;
-
   updateFilterStatus(pageData);
-
 }
 
 function updateFilterStatus(data) {
@@ -759,39 +556,38 @@ function updateFilterStatus(data) {
 
   filterStatusText.textContent = text;
   lastUpdated.textContent =
-    `อัปเดตล่าสุด ณ วันที่ ${getLatestUpdateDate()}`;
+    `อัปเดตล่าสุด ณ วันที่ ${getLatestUpdatedDate()}`;
 }
 
-function getLatestUpdateDate() {
-  if (!allData.length) {
-    return "-";
-  }
+function getLatestUpdatedDate() {
+  if (!allData.length) return "-";
 
-  const dates = allData
-    .map(item => item.date)
-    .filter(Boolean)
-    .sort();
+  const latest = [...allData]
+    .filter(item => item.updated_at || item.created_at || item.date)
+    .sort((a, b) => {
+      const aTime = new Date(
+        a.updated_at || a.created_at || (a.date + "T00:00:00")
+      ).getTime();
+      const bTime = new Date(
+        b.updated_at || b.created_at || (b.date + "T00:00:00")
+      ).getTime();
+      return bTime - aTime;
+    })[0];
 
-  if (!dates.length) {
-    return "-";
-  }
+  if (!latest) return "-";
 
-  const latestDate = dates[dates.length - 1];
+  const rawDate =
+    latest.updated_at ||
+    latest.created_at ||
+    (latest.date + "T00:00:00");
 
-  return formatThaiDateLong(latestDate);
-}
+  const date = new Date(rawDate);
 
-function formatThaiDateLong(dateString) {
-  const date = new Date(dateString + "T00:00:00");
-
-  return date.toLocaleDateString(
-    "th-TH",
-    {
-      day: "numeric",
-      month: "long",
-      year: "2-digit"
-    }
-  );
+  return date.toLocaleDateString("th-TH", {
+    day: "numeric",
+    month: "long",
+    year: "2-digit"
+  });
 }
 
 async function loadData() {
