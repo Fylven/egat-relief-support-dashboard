@@ -202,6 +202,12 @@ body{
   .item-images{gap:8px}
   .item-images img{width:calc(50% - 4px);height:auto;aspect-ratio:16/9}
 }
+
+  /* หน้าแจกแล้ว / ยังไม่ได้แจก ไม่ต้องแสดงยอดซ้ำด้านล่าง */
+.page-single-summary .summary-total {
+  display: none;
+}
+  
 </style>
 </head>
 
@@ -355,6 +361,11 @@ function getPageData(data) {
 }
 
 function updatePageText() {
+  document.querySelector(".summary-section")
+  .classList.toggle(
+    "page-single-summary",
+    currentPage === "planned" || currentPage === "completed"
+  );
   if (currentPage === "planned") {
     summarySectionTitle.textContent = "แผนการมอบ";
     bagsTitle.textContent = "แผนการมอบถุงยังชีพ (ถุง)";
