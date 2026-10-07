@@ -115,13 +115,19 @@ body{
   border-radius:15px;
   background:rgba(255,255,255,.42);
   text-align:center;
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:baseline;
 }
-.summary-total-label{font-size:15px}
+.summary-total-label{
+  font-size:15px;
+  grid-column:1 / -1;
+}
 .summary-total-number{
   margin-top:3px;
   font-size:27px;
   font-weight:900;
-  display:inline;
+  justify-self:center;
 }
 
 .summary-total-sub{
@@ -129,7 +135,7 @@ body{
   color:#0e4b91;
   display:inline;
   margin-right:16px;
-  vertical-align:baseline;
+  justify-self:end;
   font-weight:600;
 }
   
