@@ -50,6 +50,13 @@ body{
   font-size:14px;color:#222;background:#fff;flex-shrink:0
 }
 .date-input{width:155px;max-width:100%}.province-select{width:205px;max-width:100%}
+.date-picker-wrap{position:relative;display:inline-flex;align-items:center;flex-shrink:0}
+.date-picker-wrap .date-input{padding-right:38px}
+.calendar-btn{position:absolute;right:5px;top:50%;transform:translateY(-50%);width:28px;height:30px;border:0;background:transparent;color:#222;cursor:pointer;font-size:15px;line-height:1;padding:0;display:flex;align-items:center;justify-content:center}
+.calendar-btn:hover{color:#16599e}
+.calendar-icon{width:16px;height:16px;display:block}
+.native-date-picker{position:absolute;right:5px;top:50%;width:1px;height:1px;opacity:0;pointer-events:none}
+
 .search-btn{
   height:42px;padding:0 18px;border:none;border-radius:8px;background:#16599e;
   color:#fff;font-size:14px;font-weight:800;cursor:pointer
@@ -86,15 +93,12 @@ body{
   gap:16px;
   align-items:stretch;
   width:auto;
+  height:920px;
+  min-height:920px;
 }
-.left-column{min-width:0;width:100%;display:flex;flex-direction:column}
+.left-column{min-width:0;width:100%;height:100%;display:flex;flex-direction:column;min-height:0}
 .summary-section{margin-bottom:16px}
-.summary-section-title{
-  margin:0 0 9px;
-  font-size:18px;
-  font-weight:900;
-  color:#123b70;
-}
+.summary-section-title{display:none}
 .summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .summary-card{
   min-height:190px;border-radius:18px;padding:20px 15px;text-align:center;
@@ -124,8 +128,8 @@ body.page-completed .summary-number,
 body.page-planned .summary-number{margin-top:14px}
 
 .map-card{
-  background:#fff;border-radius:18px;padding:18px;min-height:500px;
-  box-shadow:0 3px 12px rgba(0,0,0,.06);flex:1
+  background:#fff;border-radius:18px;padding:18px 18px 10px;min-height:0;height:100%;
+  box-shadow:0 3px 12px rgba(0,0,0,.06);flex:1;display:flex;flex-direction:column;overflow:hidden
 }
 .map-title{font-size:20px;font-weight:900;margin-bottom:12px}
 .map-placeholder{
@@ -134,8 +138,8 @@ body.page-planned .summary-number{margin-top:14px}
 }
 
 .support-card{
-  min-width:0;width:100%;background:#fffde4;border-radius:18px;padding:18px 20px 20px;
-  box-shadow:0 3px 12px rgba(0,0,0,.06);display:flex;flex-direction:column
+  min-width:0;width:100%;height:100%;min-height:0;background:#fffde4;border-radius:18px;padding:18px 20px 20px;
+  box-shadow:0 3px 12px rgba(0,0,0,.06);display:flex;flex-direction:column;overflow:hidden
 }
 .support-title{margin:0 0 13px;font-size:27px;font-weight:900;color:#123b70}
 .support-list{
@@ -262,8 +266,8 @@ body.page-planned .summary-number{margin-top:14px}
 }
 
 @media (max-width:1100px){
-  .main-grid{grid-template-columns:1fr}
-  .left-column,.support-card{width:100%}
+  .main-grid{grid-template-columns:1fr;height:auto;min-height:0}
+  .left-column,.support-card{width:100%;height:auto}
   .support-list{height:600px}
 }
 @media (max-width:1100px){
@@ -323,6 +327,96 @@ body.page-planned .summary-number{margin-top:14px}
   object-fit: contain;
 }
 
+
+ .thailand-map{
+  height:auto;
+  min-height:0;
+  flex:1;
+  width:100%;
+  border-radius:14px;
+  background:#f1f3f5;
+  overflow:hidden;
+  position:relative;
+}
+ .thailand-map svg{
+  display:block;
+  width:100%;
+  height:100%;
+  preserveAspectRatio:xMidYMid meet;
+}
+.map-province{
+  stroke:#fff;
+  stroke-width:1.2;
+  vector-effect:non-scaling-stroke;
+  transition:fill .18s ease,opacity .18s ease;
+}
+.map-province.active{fill:#ffc400}
+.map-province.thailand-background{fill:#d9dde1;stroke:#fff;stroke-width:1.2;vector-effect:non-scaling-stroke}
+.map-province.inactive{fill:#d9dde1}
+.map-province:hover{
+  stroke:#0753a4;
+  stroke-width:2;
+  cursor:pointer;
+}
+.map-label{
+  font-family:Arial,"Noto Sans Thai",Tahoma,sans-serif;
+  fill:#58616b;
+  font-size:10px;
+  font-weight:600;
+  pointer-events:none;
+  text-anchor:middle;
+  paint-order:stroke;
+  stroke:#f1f3f5;
+  stroke-width:3px;
+  stroke-linejoin:round;
+}
+.map-label.active{
+  fill:#0753a4;
+  font-size:13px;
+  font-weight:900;
+}
+.map-tooltip{
+  position:absolute;
+  display:none;
+  z-index:5;
+  pointer-events:none;
+  padding:7px 10px;
+  border-radius:8px;
+  background:rgba(18,59,112,.95);
+  color:#fff;
+  font-size:12px;
+  font-weight:700;
+  white-space:nowrap;
+  box-shadow:0 4px 12px rgba(0,0,0,.16);
+}
+.map-legend{
+  display:flex;
+  justify-content:flex-start;
+  gap:18px;
+  flex-wrap:wrap;
+  margin-top:5px;
+  padding:0 0 0 4px;
+  min-height:20px;
+  color:#737b84;
+  font-size:12px;
+}
+.map-legend span{display:inline-flex;align-items:center;gap:6px}
+.legend-box{
+  width:12px;
+  height:12px;
+  display:inline-block;
+  border-radius:3px;
+  border:1px solid #d1d6db;
+}
+.legend-box.active{background:#ffc400;border-color:#e2b000}
+.legend-box.inactive{background:#d9dde1}
+@media (max-width:600px){
+  .thailand-map{height:430px;min-height:430px}
+  .thailand-map svg{height:430px}
+  .map-label{font-size:8px}
+  .map-label.active{font-size:10px}
+}
+
 </style>
 </head>
 
@@ -351,9 +445,17 @@ body.page-planned .summary-number{margin-top:14px}
     <button class="quick-btn" data-range="30">30 วัน</button>
     <button class="quick-btn active" data-range="all">ทั้งหมด</button>
     <span class="custom-label">หรือกำหนดเอง</span>
-    <input type="date" id="startDate" class="date-input">
+    <div class="date-picker-wrap">
+      <input type="text" id="startDate" class="date-input" placeholder="dd/mm/yyyy" inputmode="numeric" maxlength="10" autocomplete="off">
+      <button type="button" class="calendar-btn" data-picker="startPicker" aria-label="เลือกวันที่เริ่มต้น"><svg class="calendar-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M7.5 3.5v4M16.5 3.5v4M3.5 9.5h17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M7.5 13h.01M12 13h.01M16.5 13h.01M7.5 17h.01M12 17h.01M16.5 17h.01" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></button>
+      <input type="date" id="startPicker" class="native-date-picker" tabindex="-1" aria-hidden="true">
+    </div>
     <span class="custom-label">ถึง</span>
-    <input type="date" id="endDate" class="date-input">
+    <div class="date-picker-wrap">
+      <input type="text" id="endDate" class="date-input" placeholder="dd/mm/yyyy" inputmode="numeric" maxlength="10" autocomplete="off">
+      <button type="button" class="calendar-btn" data-picker="endPicker" aria-label="เลือกวันที่สิ้นสุด"><svg class="calendar-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M7.5 3.5v4M16.5 3.5v4M3.5 9.5h17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M7.5 13h.01M12 13h.01M16.5 13h.01M7.5 17h.01M12 17h.01M16.5 17h.01" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></button>
+      <input type="date" id="endPicker" class="native-date-picker" tabindex="-1" aria-hidden="true">
+    </div>
     <span class="custom-label">จังหวัด</span>
     <select id="provinceFilter" class="province-select">
       <option value="">ทุกจังหวัด</option>
@@ -399,7 +501,11 @@ body.page-planned .summary-number{margin-top:14px}
 
     <div class="map-card">
       <div class="map-title">🗺️ พื้นที่ดำเนินการ</div>
-      <div class="map-placeholder">แผนที่ประเทศไทยจะเพิ่มแผนที่จริงในขั้นต่อไป</div>
+      <div id="thailandMap" class="thailand-map" aria-label="แผนที่พื้นที่ดำเนินการ 14 จังหวัด"></div>
+      <div class="map-legend">
+        <span><i class="legend-box active"></i> มีรายการสนับสนุน</span>
+        <span><i class="legend-box inactive"></i> ยังไม่มีรายการ</span>
+      </div>
     </div>
 
   </section>
@@ -441,6 +547,9 @@ const bagsTotalSub = document.getElementById("bagsTotalSub");
 const waterTotalSub = document.getElementById("waterTotalSub");
 const startDate = document.getElementById("startDate");
 const endDate = document.getElementById("endDate");
+const startPicker = document.getElementById("startPicker");
+const endPicker = document.getElementById("endPicker");
+const calendarButtons = document.querySelectorAll(".calendar-btn");
 const provinceFilter = document.getElementById("provinceFilter");
 const searchBtn = document.getElementById("searchBtn");
 const clearBtn = document.getElementById("clearBtn");
@@ -452,6 +561,30 @@ const pageTabs = document.querySelectorAll(".page-tab");
 const imageModal = document.getElementById("imageModal");
 const modalImage = document.getElementById("modalImage");
 const imageModalClose = document.getElementById("imageModalClose");
+const thailandMap = document.getElementById("thailandMap");
+
+const TARGET_PROVINCES = [
+  "พระนครศรีอยุธยา",
+  "สิงห์บุรี",
+  "สุพรรณบุรี",
+  "ลพบุรี",
+  "อ่างทอง",
+  "ระยอง",
+  "ชลบุรี",
+  "สระบุรี",
+  "นครนายก",
+  "ฉะเชิงเทรา",
+  "ปราจีนบุรี",
+  "จันทบุรี",
+  "สระแก้ว",
+  "ตราด"
+];
+
+const GEOJSON_URL =
+  "https://raw.githubusercontent.com/chingchai/OpenGISData-Thailand/master/provinces.geojson";
+
+let provinceGeoJSON = null;
+let mapResizeObserver = null;
 
 let allData = [];
 let currentRange = "all";
@@ -526,6 +659,26 @@ function updatePageText() {
   }
 }
 
+function parseThaiDateInput(value, endOfDay = false) {
+  const text = String(value || "").trim();
+  if (!text) return null;
+  const match = text.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (!match) return null;
+  const day = Number(match[1]);
+  const month = Number(match[2]);
+  const year = Number(match[3]);
+  const date = new Date(year, month - 1, day, endOfDay ? 23 : 0, endOfDay ? 59 : 0, endOfDay ? 59 : 0);
+  if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) return null;
+  return date;
+}
+
+function formatDateInput(value) {
+  const digits = String(value || "").replace(/\D/g, "").slice(0, 8);
+  if (digits.length <= 2) return digits;
+  if (digits.length <= 4) return digits.slice(0, 2) + "/" + digits.slice(2);
+  return digits.slice(0, 2) + "/" + digits.slice(2, 4) + "/" + digits.slice(4);
+}
+
 function applyFilters() {
   let data = [...allData];
 
@@ -550,14 +703,21 @@ function applyFilters() {
   }
 
   if (startDate.value || endDate.value) {
-    const start = startDate.value ? new Date(startDate.value + "T00:00:00") : null;
-    const end = endDate.value ? new Date(endDate.value + "T23:59:59") : null;
-    data = data.filter(item => {
-      const d = new Date(item.date + "T12:00:00");
-      if (start && d < start) return false;
-      if (end && d > end) return false;
-      return true;
-    });
+    const start = parseThaiDateInput(startDate.value, false);
+    const end = parseThaiDateInput(endDate.value, true);
+    const hasInvalidStart = startDate.value && !start;
+    const hasInvalidEnd = endDate.value && !end;
+
+    if (hasInvalidStart || hasInvalidEnd) {
+      data = [];
+    } else {
+      data = data.filter(item => {
+        const d = new Date(item.date + "T12:00:00");
+        if (start && d < start) return false;
+        if (end && d > end) return false;
+        return true;
+      });
+    }
   }
 
   const pageData = getPageData(data);
@@ -583,10 +743,13 @@ function renderDashboard(pageData, filteredAllData) {
     bagsTotalValue = bagsValue;
     waterTotalValue = waterValue;
   } else {
-    bagsValue = filteredAllData.reduce((s,i)=>s+Number(i.bags||0),0);
-    waterValue = filteredAllData.reduce((s,i)=>s+Number(i.water||0),0);
-    bagsTotalValue = bagsValue;
-    waterTotalValue = waterValue;
+    // หน้า "ภาพรวมแผนงาน":
+    // ตัวเลขหลัก = ยอดที่ยังไม่ได้สนับสนุน (planned)
+    // ยอดสนับสนุนรวม = ยอดที่สนับสนุนแล้ว (completed)
+    bagsValue = plannedData.reduce((s,i)=>s+Number(i.bags||0),0);
+    waterValue = plannedData.reduce((s,i)=>s+Number(i.water||0),0);
+    bagsTotalValue = completedData.reduce((s,i)=>s+Number(i.bags||0),0);
+    waterTotalValue = completedData.reduce((s,i)=>s+Number(i.water||0),0);
   }
 
   bagsTotal.textContent = formatNumber(bagsValue);
@@ -598,6 +761,7 @@ function renderDashboard(pageData, filteredAllData) {
     if (!filteredAllData.length) {
       supportList.innerHTML = '<div class="empty">ไม่พบข้อมูลตามเงื่อนไขที่เลือก</div>';
       updateFilterStatus(filteredAllData);
+      renderThailandMap(filteredAllData);
       return;
     }
 
@@ -660,6 +824,7 @@ function renderDashboard(pageData, filteredAllData) {
   if (!pageData.length) {
     supportList.innerHTML = '<div class="empty">ไม่พบข้อมูลตามเงื่อนไขที่เลือก</div>';
     updateFilterStatus(pageData);
+    renderThailandMap(pageData);
     return;
   }
 
@@ -707,6 +872,7 @@ function renderDashboard(pageData, filteredAllData) {
 
   supportList.innerHTML = html;
   updateFilterStatus(pageData);
+  renderThailandMap(currentPage === "province" ? filteredAllData : pageData);
 }
 
 function updateFilterStatus(data) {
@@ -758,6 +924,289 @@ function formatThaiLongDate(dateString) {
   return `${d} ${months[m-1]} ${String(buddhistYear).slice(-2)}`;
 }
 
+
+function normalizeProvinceName(value) {
+  return String(value || "")
+    .replace(/^จังหวัด/, "")
+    .replace(/^จ\./, "")
+    .replace(/\s+/g, "")
+    .trim();
+}
+
+function provinceNameFromFeature(feature) {
+  return normalizeProvinceName(
+    feature?.properties?.pro_th ||
+    feature?.properties?.name_th ||
+    feature?.properties?.NAME_1 ||
+    feature?.properties?.name ||
+    ""
+  );
+}
+
+function buildActiveProvinceSet(data) {
+  return new Set(
+    (data || [])
+      .map(item => normalizeProvinceName(item.province))
+      .filter(name => TARGET_PROVINCES.includes(name))
+  );
+}
+
+function addLabelPositions(items, width, height) {
+  const placed = [];
+  const minDistance = 17;
+
+  items.forEach(item => {
+    let x = item.x;
+    let y = item.y;
+
+    for (let attempt = 0; attempt < 12; attempt++) {
+      const collision = placed.some(p => {
+        const dx = x - p.x;
+        const dy = y - p.y;
+        return Math.sqrt(dx * dx + dy * dy) < minDistance;
+      });
+
+      if (!collision) break;
+
+      const angle = attempt * 0.9;
+      const radius = 12 + Math.floor(attempt / 3) * 7;
+      x = item.x + Math.cos(angle) * radius;
+      y = item.y + Math.sin(angle) * radius;
+    }
+
+    x = Math.max(18, Math.min(width - 18, x));
+    y = Math.max(14, Math.min(height - 12, y));
+
+    placed.push({x, y});
+    item.labelX = x;
+    item.labelY = y;
+  });
+
+  return items;
+}
+
+function projectPoint(lon, lat, bounds, width, height) {
+  const [[minLon, minLat], [maxLon, maxLat]] = bounds;
+
+  // True Web Mercator: x/y are derived directly from geographic coordinates.
+  // The same scale is used on both axes, so the map is never stretched.
+  const toX = value => value * Math.PI / 180;
+  const toY = value => {
+    const clamped = Math.max(-85.05112878, Math.min(85.05112878, value));
+    const rad = clamped * Math.PI / 180;
+    return Math.log(Math.tan(Math.PI / 4 + rad / 2));
+  };
+
+  const x0 = toX(minLon);
+  const x1 = toX(maxLon);
+  // Geographic north must render toward the top of the SVG.
+  // Web Mercator Y increases upward, while SVG Y increases downward,
+  // so we keep the geographic bounds in south -> north order here
+  // and invert Y only when converting to SVG coordinates.
+  const y0 = toY(minLat);
+  const y1 = toY(maxLat);
+
+  const geoWidth = Math.max(x1 - x0, 0.000001);
+  const geoHeight = Math.max(y1 - y0, 0.000001);
+
+  const padX = 18;
+  const padY = 18;
+
+  // One uniform scale for both axes = real geographic proportions.
+  const fitScale = Math.min(
+    (width - padX * 2) / geoWidth,
+    (height - padY * 2) / geoHeight
+  );
+
+  // ขยายแผนที่ขึ้นอีกเล็กน้อย โดยคงสัดส่วนจริงและจัดให้อยู่กึ่งกลาง
+  const scale = fitScale * 1.08;
+
+  const drawWidth = geoWidth * scale;
+  const drawHeight = geoHeight * scale;
+  const offsetX = (width - drawWidth) / 2;
+  const offsetY = (height - drawHeight) / 2;
+
+  return [
+    offsetX + (toX(lon) - x0) * scale,
+    offsetY + (y1 - toY(lat)) * scale
+  ];
+}
+function geometryToPath(geometry, bounds, width, height) {
+  if (!geometry) return "";
+
+  const ringToPath = ring => ring.map((point, index) => {
+    const [x, y] = projectPoint(point[0], point[1], bounds, width, height);
+    return `${index === 0 ? "M" : "L"}${x.toFixed(2)},${y.toFixed(2)}`;
+  }).join(" ") + " Z";
+
+  if (geometry.type === "Polygon") {
+    return geometry.coordinates.map(ring => ringToPath(ring)).join(" ");
+  }
+
+  if (geometry.type === "MultiPolygon") {
+    return geometry.coordinates
+      .map(polygon => polygon.map(ring => ringToPath(ring)).join(" "))
+      .join(" ");
+  }
+
+  return "";
+}
+
+function getFeatureBounds(features) {
+  let minLon = Infinity, minLat = Infinity;
+  let maxLon = -Infinity, maxLat = -Infinity;
+
+  const visit = coords => {
+    if (!Array.isArray(coords)) return;
+    if (typeof coords[0] === "number" && typeof coords[1] === "number") {
+      minLon = Math.min(minLon, coords[0]);
+      maxLon = Math.max(maxLon, coords[0]);
+      minLat = Math.min(minLat, coords[1]);
+      maxLat = Math.max(maxLat, coords[1]);
+      return;
+    }
+    coords.forEach(visit);
+  };
+
+  features.forEach(feature => visit(feature.geometry?.coordinates));
+  return [[minLon, minLat], [maxLon, maxLat]];
+}
+
+function featureCentroid(feature, bounds, width, height) {
+  const points = [];
+  const visit = coords => {
+    if (!Array.isArray(coords)) return;
+    if (typeof coords[0] === "number" && typeof coords[1] === "number") {
+      points.push(coords);
+      return;
+    }
+    coords.forEach(visit);
+  };
+  visit(feature.geometry?.coordinates);
+
+  if (!points.length) return [width / 2, height / 2];
+
+  const lon = points.reduce((sum, p) => sum + p[0], 0) / points.length;
+  const lat = points.reduce((sum, p) => sum + p[1], 0) / points.length;
+  return projectPoint(lon, lat, bounds, width, height);
+}
+
+function escapeXml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function renderThailandMap(data) {
+  if (!thailandMap || !provinceGeoJSON) return;
+
+  const width = thailandMap.clientWidth || 520;
+  const height = window.innerWidth <= 600 ? 440 : 520;
+
+  // Show only the 14 provinces in the plan.
+  // Other Thai provinces are intentionally removed from the map.
+  const allFeatures = provinceGeoJSON.features || [];
+  const targetSet = new Set(TARGET_PROVINCES);
+  const targetFeatures = allFeatures.filter(feature =>
+    targetSet.has(provinceNameFromFeature(feature))
+  );
+  const bounds = getFeatureBounds(targetFeatures);
+  const activeSet = buildActiveProvinceSet(data);
+
+  if (!targetFeatures.length) {
+    thailandMap.innerHTML =
+      '<div class="empty" style="min-height:500px">ไม่พบข้อมูลขอบเขต 14 จังหวัด</div>';
+    return;
+  }
+
+  const paths = targetFeatures.map((feature, index) => {
+    const name = provinceNameFromFeature(feature);
+    const active = activeSet.has(name);
+    const className = `map-province ${active ? "active" : "inactive"}`;
+    const path = geometryToPath(feature.geometry, bounds, width, height);
+
+    return `<path id="province-${index}"
+      class="${className}"
+      d="${path}"
+      data-province="${escapeXml(name)}">
+      <title>${escapeXml(name)} • ${active ? "มีรายการสนับสนุน" : "ยังไม่มีรายการ"}</title>
+    </path>`;
+  }).join("");
+
+  // Only label the 14 target provinces that are active in the current page/filter.
+  const labelItems = targetFeatures
+    .filter(feature => {
+      const name = provinceNameFromFeature(feature);
+      return activeSet.has(name);
+    })
+    .map(feature => {
+      const name = provinceNameFromFeature(feature);
+      const [x, y] = featureCentroid(feature, bounds, width, height);
+      return {name, x, y, active:true};
+    });
+
+  const placed = [];
+  labelItems.forEach(item => {
+    let x = item.x;
+    let y = item.y;
+
+    for (let attempt = 0; attempt < 10; attempt++) {
+      const collide = placed.some(
+        p => Math.hypot(x - p.x, y - p.y) < 20
+      );
+      if (!collide) break;
+
+      const angle = attempt * 0.9;
+      const radius = 10 + Math.floor(attempt / 3) * 6;
+      x = item.x + Math.cos(angle) * radius;
+      y = item.y + Math.sin(angle) * radius;
+    }
+
+    item.labelX = Math.max(15, Math.min(width - 15, x));
+    item.labelY = Math.max(15, Math.min(height - 12, y));
+    placed.push({x:item.labelX, y:item.labelY});
+  });
+
+  const labels = labelItems.map(item =>
+    `<text class="map-label active"
+      x="${item.labelX.toFixed(1)}"
+      y="${item.labelY.toFixed(1)}">${escapeXml(item.name)}</text>`
+  ).join("");
+
+  thailandMap.innerHTML = `
+    <svg viewBox="0 0 ${width} ${height}"
+         preserveAspectRatio="xMidYMid meet"
+         role="img"
+         aria-label="แผนที่ประเทศไทย พื้นที่ อปก. 14 จังหวัด">
+      <g>${paths}</g>
+      <g>${labels}</g>
+    </svg>`;
+}
+async function loadProvinceMap() {
+  if (!thailandMap) return;
+
+  try {
+    const response = await fetch(GEOJSON_URL, {mode: "cors", cache: "force-cache"});
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+    provinceGeoJSON = await response.json();
+    renderThailandMap(getPageData(allData));
+
+    if (mapResizeObserver) mapResizeObserver.disconnect();
+    if (window.ResizeObserver) {
+      mapResizeObserver = new ResizeObserver(() => {
+        renderThailandMap(getPageData(allData));
+      });
+      mapResizeObserver.observe(thailandMap);
+    }
+  } catch (error) {
+    console.error("โหลดแผนที่ไม่สำเร็จ:", error);
+    thailandMap.innerHTML = '<div class="empty" style="min-height:430px">โหลดแผนที่ไม่สำเร็จ<br><br>ลองรีเฟรชหน้าเว็บอีกครั้ง</div>';
+  }
+}
 async function loadData() {
   supportList.innerHTML = '<div class="loading">กำลังโหลดข้อมูล...</div>';
 
@@ -794,8 +1243,51 @@ quickButtons.forEach(button => {
     currentRange = button.dataset.range;
     startDate.value = "";
     endDate.value = "";
+    startPicker.value = "";
+    endPicker.value = "";
     applyFilters();
   });
+});
+
+[startDate, endDate].forEach(input => {
+  input.addEventListener("input", () => {
+    const cursorEnd = input.selectionStart === input.value.length;
+    input.value = formatDateInput(input.value);
+    if (cursorEnd) input.setSelectionRange(input.value.length, input.value.length);
+  });
+});
+
+function isoToThaiInput(value){
+  if(!value) return "";
+  const [y,m,d] = value.split("-");
+  return `${d}/${m}/${y}`;
+}
+
+function thaiInputToIso(value){
+  const date = parseThaiDateInput(value, false);
+  if(!date) return "";
+  const y = date.getFullYear();
+  const m = String(date.getMonth()+1).padStart(2,"0");
+  const d = String(date.getDate()).padStart(2,"0");
+  return `${y}-${m}-${d}`;
+}
+
+calendarButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    const picker = document.getElementById(button.dataset.picker);
+    if (!picker) return;
+    const textInput = button.dataset.picker === "startPicker" ? startDate : endDate;
+    picker.value = thaiInputToIso(textInput.value);
+    if (typeof picker.showPicker === "function") picker.showPicker();
+    else picker.click();
+  });
+});
+
+startPicker.addEventListener("change", () => {
+  startDate.value = isoToThaiInput(startPicker.value);
+});
+endPicker.addEventListener("change", () => {
+  endDate.value = isoToThaiInput(endPicker.value);
 });
 
 searchBtn.addEventListener("click", () => {
@@ -810,6 +1302,8 @@ clearBtn.addEventListener("click", () => {
   currentRange = "all";
   startDate.value = "";
   endDate.value = "";
+  startPicker.value = "";
+  endPicker.value = "";
   provinceFilter.value = "";
   quickButtons.forEach(btn => btn.classList.remove("active"));
   document.querySelector('[data-range="all"]').classList.add("active");
@@ -839,6 +1333,7 @@ pageTabs.forEach(btn => {
 });
 
 loadData();
+loadProvinceMap();
 </script>
 </body>
 </html>
