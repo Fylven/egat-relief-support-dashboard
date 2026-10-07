@@ -41,7 +41,7 @@ body {
     font-size: 24px;
     font-weight: bold;
     color: #123d78;
-    line-height: 1.45;
+    line-height: 1.4;
 }
 
 .logo {
@@ -51,21 +51,23 @@ body {
     white-space: nowrap;
 }
 
+
 /* ================= FILTER ================= */
 
 .filter-area {
     margin-top: 14px;
     background: white;
     border-radius: 12px;
-    padding: 14px;
+    padding: 12px;
     box-shadow: 0 1px 4px rgba(0,0,0,.08);
 }
 
-.quick-filter {
+.filter-row {
     display: flex;
     align-items: center;
     gap: 8px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    width: 100%;
 }
 
 .filter-button {
@@ -77,6 +79,7 @@ body {
     font-size: 15px;
     cursor: pointer;
     transition: .2s;
+    white-space: nowrap;
 }
 
 .filter-button:hover {
@@ -89,44 +92,42 @@ body {
     border-color: #164d91;
 }
 
-/* CUSTOM FILTER */
-
-.custom-filter {
-    margin-top: 12px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
 .filter-label {
     font-size: 14px;
     color: #666;
+    white-space: nowrap;
 }
 
 input[type="date"],
 select {
+    height: 40px;
     border: 1px solid #d6dce5;
     border-radius: 8px;
-    padding: 9px 10px;
+    padding: 8px 10px;
     font-size: 14px;
     color: #333;
     background: white;
 }
 
+input[type="date"] {
+    width: 145px;
+}
+
 select {
-    min-width: 190px;
+    width: 190px;
     cursor: pointer;
 }
 
 .search-button {
+    height: 40px;
     background: #174d91;
     color: white;
     border: none;
     border-radius: 8px;
-    padding: 10px 18px;
+    padding: 0 18px;
     cursor: pointer;
     font-weight: bold;
+    white-space: nowrap;
 }
 
 .search-button:hover {
@@ -134,13 +135,15 @@ select {
 }
 
 .clear-button {
+    height: 40px;
     background: white;
     color: #174d91;
     border: 1px solid #174d91;
     border-radius: 8px;
-    padding: 9px 17px;
+    padding: 0 16px;
     cursor: pointer;
     font-weight: bold;
+    white-space: nowrap;
 }
 
 .clear-button:hover {
@@ -148,11 +151,12 @@ select {
 }
 
 .report-date {
-    margin-top: 12px;
+    margin-top: 10px;
     font-weight: bold;
     font-size: 16px;
     color: #183b70;
 }
+
 
 /* ================= MAIN ================= */
 
@@ -168,6 +172,7 @@ select {
     flex-direction: column;
     gap: 14px;
 }
+
 
 /* ================= SUMMARY ================= */
 
@@ -214,6 +219,7 @@ select {
     font-size: 24px;
 }
 
+
 /* ================= MAP ================= */
 
 .map-card {
@@ -243,6 +249,7 @@ select {
     color: #777;
     font-size: 20px;
 }
+
 
 /* ================= LIST ================= */
 
@@ -335,6 +342,7 @@ select {
     color: #777;
 }
 
+
 /* ================= FOOTER ================= */
 
 .footer {
@@ -346,8 +354,20 @@ select {
     padding: 5px;
 }
 
+
 /* ================= RESPONSIVE ================= */
 
+/* หน้าจอเริ่มแคบ */
+@media (max-width: 1250px) {
+
+    .filter-row {
+        flex-wrap: wrap;
+    }
+
+}
+
+
+/* Tablet */
 @media (max-width: 900px) {
 
     .main-grid {
@@ -361,24 +381,44 @@ select {
     .logo {
         font-size: 26px;
     }
+
 }
 
+
+/* Mobile */
 @media (max-width: 600px) {
+
+    .header {
+        padding: 14px;
+    }
+
+    .header-title {
+        font-size: 16px;
+    }
+
+    .logo {
+        font-size: 22px;
+    }
 
     .summary-grid {
         grid-template-columns: 1fr;
     }
 
-    .custom-filter {
-        align-items: stretch;
+    .filter-row {
         flex-direction: column;
+        align-items: stretch;
     }
 
+    .filter-button,
     input[type="date"],
     select,
     .search-button,
     .clear-button {
         width: 100%;
+    }
+
+    .filter-label {
+        margin-top: 4px;
     }
 
     .item-images {
@@ -393,17 +433,24 @@ select {
 </style>
 </head>
 
+
 <body>
 
 <div class="container">
 
-<!-- ================= HEADER ================= -->
+
+<!-- ==================================================
+     HEADER
+================================================== -->
 
 <header class="header">
 
     <div class="header-title">
+
         รายการสนับสนุนถุงยังชีพและน้ำดื่ม กฟผ.<br>
+
         ผู้ประสบอุทกภัย พื้นที่ อปก. ปี 2569
+
     </div>
 
     <div class="logo">
@@ -413,45 +460,67 @@ select {
 </header>
 
 
-<!-- ================= FILTER ================= -->
+
+<!-- ==================================================
+     FILTER
+================================================== -->
 
 <section class="filter-area">
 
-    <div class="quick-filter">
+    <div class="filter-row">
 
-        <button class="filter-button" data-range="today">
+
+        <!-- ช่วงเวลา -->
+
+        <button
+            class="filter-button"
+            data-range="today"
+        >
             วันนี้
         </button>
 
-        <button class="filter-button" data-range="7">
+
+        <button
+            class="filter-button"
+            data-range="7"
+        >
             7 วัน
         </button>
 
-        <button class="filter-button" data-range="30">
+
+        <button
+            class="filter-button"
+            data-range="30"
+        >
             30 วัน
         </button>
 
-        <button class="filter-button active" data-range="all">
+
+        <button
+            class="filter-button active"
+            data-range="all"
+        >
             ทั้งหมด
         </button>
 
-    </div>
 
-
-    <div class="custom-filter">
+        <!-- กำหนดเอง -->
 
         <span class="filter-label">
             หรือกำหนดเอง
         </span>
+
 
         <input
             type="date"
             id="startDate"
         >
 
+
         <span>
             ถึง
         </span>
+
 
         <input
             type="date"
@@ -459,9 +528,12 @@ select {
         >
 
 
+        <!-- จังหวัด -->
+
         <span class="filter-label">
             จังหวัด
         </span>
+
 
         <select id="provinceFilter">
 
@@ -528,6 +600,8 @@ select {
         </select>
 
 
+        <!-- ปุ่ม -->
+
         <button
             class="search-button"
             id="searchButton"
@@ -543,6 +617,7 @@ select {
             ล้างตัวกรอง
         </button>
 
+
     </div>
 
 
@@ -556,118 +631,134 @@ select {
 </section>
 
 
-<!-- ================= MAIN ================= -->
+
+<!-- ==================================================
+     MAIN
+================================================== -->
 
 <main class="main-grid">
 
 
-<!-- LEFT COLUMN -->
+    <!-- ================= LEFT ================= -->
 
-<div class="left-column">
-
-
-    <!-- SUMMARY -->
-
-    <div class="summary-grid">
+    <div class="left-column">
 
 
-        <div class="summary-card bag-card">
+        <!-- SUMMARY -->
 
-            <div class="summary-title">
-                ถุงยังชีพ (ถุง)
-            </div>
+        <div class="summary-grid">
 
-            <div
-                class="summary-number"
-                id="bagNumber"
-            >
-                0
-            </div>
 
-            <div class="summary-total">
+            <!-- ถุงยังชีพ -->
 
-                ยอดสนับสนุนรวม
+            <div class="summary-card bag-card">
 
-                <strong id="bagTotal">
+                <div class="summary-title">
+                    ถุงยังชีพ (ถุง)
+                </div>
+
+                <div
+                    class="summary-number"
+                    id="bagNumber"
+                >
                     0
-                </strong>
+                </div>
+
+                <div class="summary-total">
+
+                    ยอดสนับสนุนรวม
+
+                    <strong id="bagTotal">
+                        0
+                    </strong>
+
+                </div>
 
             </div>
 
-        </div>
 
+            <!-- น้ำดื่ม -->
 
-        <div class="summary-card water-card">
+            <div class="summary-card water-card">
 
-            <div class="summary-title">
-                น้ำดื่ม (แพ็ก)
-            </div>
+                <div class="summary-title">
+                    น้ำดื่ม (แพ็ก)
+                </div>
 
-            <div
-                class="summary-number"
-                id="waterNumber"
-            >
-                0
-            </div>
-
-            <div class="summary-total">
-
-                ยอดสนับสนุนรวม
-
-                <strong id="waterTotal">
+                <div
+                    class="summary-number"
+                    id="waterNumber"
+                >
                     0
-                </strong>
+                </div>
+
+                <div class="summary-total">
+
+                    ยอดสนับสนุนรวม
+
+                    <strong id="waterTotal">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- MAP -->
+
+        <div class="map-card">
+
+            <div class="map-title">
+                🗺️ พื้นที่ดำเนินการ
+            </div>
+
+            <div class="map-placeholder">
+
+                แผนที่ประเทศไทย
+
+                <br>
+
+                <small>
+                    จะเพิ่มแผนที่จริงในขั้นต่อไป
+                </small>
 
             </div>
 
         </div>
 
+
     </div>
 
 
-    <!-- MAP -->
 
-    <div class="map-card">
+    <!-- ================= RIGHT ================= -->
 
-        <div class="map-title">
-            🗺️ พื้นที่ดำเนินการ
-        </div>
+    <div class="list-card">
 
-        <div class="map-placeholder">
+        <div class="list-header">
 
-            แผนที่ประเทศไทย
-
-            <br>
-
-            <small>
-                จะเพิ่มแผนที่จริงในขั้นต่อไป
-            </small>
+            <h2>
+                รายการสนับสนุน
+            </h2>
 
         </div>
 
-    </div>
-
-</div>
-
-
-<!-- RIGHT COLUMN -->
-
-<div class="list-card">
-
-    <div class="list-header">
-
-        <h2>
-            รายการสนับสนุน
-        </h2>
+        <div id="supportList"></div>
 
     </div>
 
-    <div id="supportList"></div>
-
-</div>
 
 </main>
 
+
+
+<!-- ==================================================
+     FOOTER
+================================================== -->
 
 <footer class="footer">
 
@@ -681,14 +772,16 @@ select {
 
 </footer>
 
+
 </div>
+
 
 
 <script>
 
-/* =====================================================
+/* ==================================================
    ข้อมูลตัวอย่าง
-===================================================== */
+================================================== */
 
 const supportData = [
 
@@ -830,9 +923,10 @@ const supportData = [
 ];
 
 
-/* =====================================================
+
+/* ==================================================
    ELEMENTS
-===================================================== */
+================================================== */
 
 const bagNumber =
     document.getElementById("bagNumber");
@@ -862,9 +956,10 @@ const provinceFilter =
     document.getElementById("provinceFilter");
 
 
-/* =====================================================
+
+/* ==================================================
    FORMAT NUMBER
-===================================================== */
+================================================== */
 
 function formatNumber(number) {
 
@@ -873,9 +968,10 @@ function formatNumber(number) {
 }
 
 
-/* =====================================================
+
+/* ==================================================
    FORMAT DATE
-===================================================== */
+================================================== */
 
 function formatThaiDate(dateString) {
 
@@ -894,9 +990,10 @@ function formatThaiDate(dateString) {
 }
 
 
-/* =====================================================
+
+/* ==================================================
    RENDER
-===================================================== */
+================================================== */
 
 function render(data) {
 
@@ -928,9 +1025,13 @@ function render(data) {
     if (data.length === 0) {
 
         supportList.innerHTML = `
+
             <div class="empty">
+
                 ไม่พบข้อมูลตามตัวกรองที่เลือก
+
             </div>
+
         `;
 
         return;
@@ -959,7 +1060,9 @@ function render(data) {
 
                     `).join("");
 
-            } else {
+            }
+
+            else {
 
                 images = `
 
@@ -981,8 +1084,11 @@ function render(data) {
                 <article class="item">
 
                     <div class="item-date">
+
                         ${formatThaiDate(item.date)}
+
                     </div>
+
 
                     <div class="item-title">
 
@@ -991,11 +1097,13 @@ function render(data) {
 
                     </div>
 
+
                     <div class="item-province">
 
                         📍 ${item.province}
 
                     </div>
+
 
                     <div class="item-info">
 
@@ -1015,6 +1123,7 @@ function render(data) {
 
                     </div>
 
+
                     <div class="item-images">
 
                         ${images}
@@ -1030,9 +1139,41 @@ function render(data) {
 }
 
 
-/* =====================================================
+
+/* ==================================================
+   APPLY PROVINCE
+================================================== */
+
+function applyProvinceFilter(data) {
+
+    const province =
+        provinceFilter.value;
+
+
+    if (province === "all") {
+
+        render(data);
+
+        return;
+
+    }
+
+
+    const filtered =
+        data.filter(item =>
+            item.province === province
+        );
+
+
+    render(filtered);
+
+}
+
+
+
+/* ==================================================
    QUICK FILTER
-===================================================== */
+================================================== */
 
 function filterByRange(range) {
 
@@ -1112,46 +1253,21 @@ function filterByRange(range) {
 
     applyProvinceFilter(filtered);
 
-}
 
+    if (provinceFilter.value !== "all") {
 
-/* =====================================================
-   PROVINCE FILTER
-===================================================== */
-
-function applyProvinceFilter(data) {
-
-    const province =
-        provinceFilter.value;
-
-
-    if (province === "all") {
-
-        render(data);
-
-        return;
+        reportDate.textContent +=
+            ` | จังหวัด${provinceFilter.value}`;
 
     }
 
-
-    const filtered =
-        data.filter(item =>
-            item.province === province
-        );
-
-
-    render(filtered);
-
-
-    reportDate.textContent +=
-        ` | จังหวัด${province}`;
-
 }
 
 
-/* =====================================================
-   QUICK BUTTON EVENT
-===================================================== */
+
+/* ==================================================
+   QUICK BUTTON
+================================================== */
 
 document
 .querySelectorAll(".filter-button")
@@ -1181,9 +1297,10 @@ document
 });
 
 
-/* =====================================================
-   SEARCH BUTTON
-===================================================== */
+
+/* ==================================================
+   SEARCH
+================================================== */
 
 document
 .getElementById("searchButton")
@@ -1266,9 +1383,10 @@ document
 );
 
 
-/* =====================================================
+
+/* ==================================================
    CLEAR FILTER
-===================================================== */
+================================================== */
 
 document
 .getElementById("clearButton")
@@ -1287,7 +1405,7 @@ document
         provinceFilter.value = "all";
 
 
-        /* ล้าง Active ทุกปุ่ม */
+        /* เอา Active ออกจากทุกปุ่ม */
 
         document
         .querySelectorAll(".filter-button")
@@ -1315,9 +1433,10 @@ document
 );
 
 
-/* =====================================================
-   INITIAL LOAD
-===================================================== */
+
+/* ==================================================
+   INITIAL
+================================================== */
 
 render(supportData);
 
