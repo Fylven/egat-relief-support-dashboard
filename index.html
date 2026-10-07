@@ -1,2473 +1,602 @@
 <!DOCTYPE html>
 <html lang="th">
-
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EGAT Support Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  overflow-x:hidden;
+  font-family:Arial,"Noto Sans Thai",Tahoma,sans-serif;
+  background:#f4f6f8;
+  color:#123b70;
+}
+.header{
+  margin:14px 26px 18px;
+  padding:18px 28px;
+  min-height:92px;
+  background:#ffc400;
+  border-radius:18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  box-shadow:0 4px 12px rgba(0,0,0,.10);
+}
+.header-title{font-size:29px;font-weight:900;line-height:1.35}
+.header-logo{font-size:38px;font-weight:900;color:#0753a4;white-space:nowrap}
 
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <title>
-    EGAT Support Dashboard
-  </title>
-
-
-  <!-- =====================================================
-       SUPABASE
-  ====================================================== -->
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-
-  <style>
-
-    /* =====================================================
-       RESET
-    ====================================================== */
-
-    * {
-      box-sizing: border-box;
-    }
-
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-
-    body {
-
-      margin: 0;
-      overflow-x: hidden;
-
-      font-family:
-        Arial,
-        "Noto Sans Thai",
-        Tahoma,
-        sans-serif;
-
-      background: #f4f6f8;
-
-      color: #123b70;
-
-    }
-
-
-    /* =====================================================
-       HEADER
-    ====================================================== */
-
-    .header {
-
-      margin: 14px 26px 18px;
-
-      padding: 18px 28px;
-
-      min-height: 92px;
-
-      background: #ffc400;
-
-      border-radius: 18px;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: space-between;
-
-      box-shadow:
-        0 4px 12px rgba(0, 0, 0, .10);
-
-    }
-
-
-    .header-title {
-
-      font-size: 29px;
-
-      font-weight: 900;
-
-      line-height: 1.35;
-
-    }
-
-
-    .header-logo {
-
-      font-size: 38px;
-
-      font-weight: 900;
-
-      color: #0753a4;
-
-      white-space: nowrap;
-
-    }
-
-
-    /* =====================================================
-       FILTER
-    ====================================================== */
-
-    .filter-card {
-
-      margin: 0 26px 18px;
-
-      padding: 14px 16px;
-
-      background: #ffffff;
-
-      border-radius: 18px;
-
-      box-shadow:
-        0 3px 12px rgba(0, 0, 0, .07);
-
-    }
-
-
-.filter-row {
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 10px;
-
-  flex-wrap: nowrap;
-
+.filter-card{
+  margin:0 26px 18px;
+  padding:14px 16px;
+  background:#fff;
+  border-radius:18px;
+  box-shadow:0 3px 12px rgba(0,0,0,.07);
+}
+.filter-row{display:flex;align-items:center;gap:10px;flex-wrap:nowrap}
+.quick-btn{
+  height:48px;padding:0 20px;border-radius:11px;border:1px solid #cfd8e3;
+  background:#fff;color:#123b70;font-size:16px;font-weight:700;cursor:pointer;white-space:nowrap
+}
+.quick-btn:hover{background:#f1f5f9}
+.quick-btn.active{background:#16599e;color:#fff;border-color:#16599e}
+.custom-label{font-size:16px;color:#666;white-space:nowrap}
+.date-input,.province-select{
+  height:48px;padding:0 13px;border:1px solid #cfd8e3;border-radius:10px;
+  font-size:16px;color:#222;background:#fff;flex-shrink:0
+}
+.date-input{width:180px}.province-select{width:220px}
+.search-btn{
+  height:48px;padding:0 25px;border:none;border-radius:11px;background:#16599e;
+  color:#fff;font-size:16px;font-weight:800;cursor:pointer
+}
+.clear-btn{
+  height:48px;padding:0 24px;border:1px solid #16599e;border-radius:11px;
+  background:#fff;color:#16599e;font-size:16px;font-weight:800;cursor:pointer
 }
 
+.page-tabs{
+  margin:0 26px 18px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+.page-tab{
+  border:1px solid #d4dce5;
+  background:#fff;
+  color:#123b70;
+  border-radius:12px;
+  padding:13px 10px;
+  font-size:17px;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:0 2px 8px rgba(0,0,0,.04);
+}
+.page-tab.active{background:#16599e;color:#fff;border-color:#16599e}
 
-    .quick-btn {
+.main-grid{
+  margin:0 26px 30px;
+  display:grid;
+  grid-template-columns:minmax(0,2fr) minmax(0,3fr);
+  gap:16px;
+  align-items:stretch;
+  width:auto;
+}
+.left-column{min-width:0;width:100%;display:flex;flex-direction:column}
+.summary-section{margin-bottom:16px}
+.summary-section-title{
+  margin:0 0 9px;
+  font-size:18px;
+  font-weight:900;
+  color:#123b70;
+}
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.summary-card{
+  min-height:190px;border-radius:18px;padding:20px 15px;text-align:center;
+  box-shadow:0 3px 10px rgba(0,0,0,.06)
+}
+.summary-card.bags{background:#ffedac}.summary-card.water{background:#a7dcf7}
+.summary-title{font-size:20px;font-weight:800}
+.summary-number{
+  margin-top:16px;font-size:43px;line-height:1;font-weight:900;color:#0e4b91
+}
+.summary-total{
+  margin-top:15px;padding:10px;border-radius:15px;background:rgba(255,255,255,.42)
+}
+.summary-total-label{font-size:15px}
+.summary-total-number{margin-top:3px;font-size:27px;font-weight:900}
+.summary-total-sub{font-size:13px;color:#777;margin-top:1px}
 
-  height: 48px;
-
-  padding: 0 20px;
-
-  border-radius: 11px;
-
-  border: 1px solid #cfd8e3;
-
-  background: #ffffff;
-
-  color: #123b70;
-
-  font-size: 16px;
-
-  font-weight: 700;
-
-  cursor: pointer;
-
-  white-space: nowrap;
-
+.map-card{
+  background:#fff;border-radius:18px;padding:18px;min-height:500px;
+  box-shadow:0 3px 12px rgba(0,0,0,.06);flex:1
+}
+.map-title{font-size:20px;font-weight:900;margin-bottom:12px}
+.map-placeholder{
+  min-height:430px;border-radius:14px;background:#eef0f2;display:flex;
+  align-items:center;justify-content:center;text-align:center;padding:20px;color:#777;font-size:18px
 }
 
+.support-card{
+  min-width:0;width:100%;background:#fffde4;border-radius:18px;padding:18px 20px 20px;
+  box-shadow:0 3px 12px rgba(0,0,0,.06);display:flex;flex-direction:column
+}
+.support-title{margin:0 0 13px;font-size:27px;font-weight:900;color:#123b70}
+.support-list{height:590px;overflow-y:auto;padding-right:12px}
+.support-list::-webkit-scrollbar{width:8px}
+.support-list::-webkit-scrollbar-track{background:#eee;border-radius:10px}
+.support-list::-webkit-scrollbar-thumb{background:#b7bdc4;border-radius:10px}
 
-    .quick-btn:hover {
-
-      background: #f1f5f9;
-
-    }
-
-
-    .quick-btn.active {
-
-      background: #16599e;
-
-      color: #ffffff;
-
-      border-color: #16599e;
-
-    }
-
-
-    .custom-label {
-
-      font-size: 16px;
-
-      color: #666;
-
-      white-space: nowrap;
-
-    }
-
-
-    .date-input {
-
-  height: 48px;
-
-  width: 180px;
-
-  padding: 0 13px;
-
-  border: 1px solid #cfd8e3;
-
-  border-radius: 10px;
-
-  font-size: 16px;
-
-  color: #222;
-
-  background: #ffffff;
-
-  flex-shrink: 0;
-
+.date-group{
+  margin-bottom:14px;padding:10px 16px 12px;background:#fff9d9;
+  border:1px solid #eee4b5;border-radius:12px
+}
+.date-badge{
+  display:inline-block;margin-bottom:4px;padding:5px 12px;border-radius:8px;
+  background:#ffc400;color:#0753a4;font-size:18px;font-weight:900
+}
+.support-item{padding:12px 0 18px;border-bottom:1px dashed #d8d1a5}
+.support-item:last-child{border-bottom:none}
+.item-title{font-size:17px;line-height:1.55;font-weight:800;color:#123b70}
+.item-title strong{font-weight:900}
+.item-amount{margin-top:7px;color:#222;font-size:15px}
+.item-amount strong{font-size:16px}
+.status-chip{
+  display:inline-block;margin-left:8px;padding:2px 8px;border-radius:999px;
+  font-size:11px;font-weight:800;vertical-align:middle
+}
+.status-chip.planned{background:#fff0b8;color:#9b6d00}
+.status-chip.completed{background:#d8f0df;color:#18713a}
+.item-images{display:flex;gap:10px;margin-top:11px;max-width:620px;flex-wrap:wrap}
+.item-images img{
+  width:180px;height:101px;object-fit:cover;border-radius:9px;background:#ddd;
+  cursor:pointer;transition:.2s
+}
+.item-images img:hover{transform:scale(1.015)}
+.filter-status{
+  margin-top:12px;padding-top:12px;border-top:1px solid #eee8bd;
+  font-size:13px;font-weight:400;color:#999;text-align:left
+}
+.loading,.empty{
+  min-height:250px;display:flex;align-items:center;justify-content:center;
+  color:#777;font-size:17px;text-align:center
+}
+.image-modal{
+  position:fixed;inset:0;display:none;align-items:center;justify-content:center;
+  padding:30px;background:rgba(0,0,0,.78);z-index:9999
+}
+.image-modal.show{display:flex}
+.image-modal img{max-width:90vw;max-height:90vh;border-radius:12px;object-fit:contain}
+.image-modal-close{
+  position:fixed;top:20px;right:25px;width:45px;height:45px;border:none;
+  border-radius:50%;background:#fff;color:#222;font-size:28px;cursor:pointer
 }
 
-
-    .province-select {
-
-  height: 48px;
-
-  width: 220px;
-
-  padding: 0 14px;
-
-  border: 1px solid #cfd8e3;
-
-  border-radius: 10px;
-
-  font-size: 16px;
-
-  background: #ffffff;
-
-  color: #222;
-
-  flex-shrink: 0;
-
+@media (max-width:1100px){
+  .main-grid{grid-template-columns:1fr}
+  .left-column,.support-card{width:100%}
+  .support-list{height:600px}
 }
-
-
-    .search-btn {
-
-      height: 48px;
-
-      padding: 0 25px;
-
-      border: none;
-
-      border-radius: 11px;
-
-      background: #16599e;
-
-      color: #ffffff;
-
-      font-size: 16px;
-
-      font-weight: 800;
-
-      cursor: pointer;
-
-    }
-
-
-    .clear-btn {
-
-      height: 48px;
-
-      padding: 0 24px;
-
-      border: 1px solid #16599e;
-
-      border-radius: 11px;
-
-      background: #ffffff;
-
-      color: #16599e;
-
-      font-size: 16px;
-
-      font-weight: 800;
-
-      cursor: pointer;
-
-    }
-
-
-    .filter-status {
-  margin-top: 28px;
-  padding-top: 14px;
-  border-top: 1px solid #eee8bd;
-  font-size: 13px;
-  font-weight: 400;
-  color: #999;
-  text-align: left;
+@media (max-width:800px){
+  .header{margin:10px;padding:18px;flex-direction:column;align-items:flex-start;gap:12px}
+  .header-title{font-size:22px}.header-logo{font-size:28px}
+  .filter-card{margin:0 10px 12px}
+  .page-tabs{margin:0 10px 12px}
+  .main-grid{margin:0 10px 20px}
+  .filter-row{align-items:stretch;flex-wrap:wrap}
+  .quick-btn,.search-btn,.clear-btn{flex:1}
+  .date-input,.province-select{width:100%}
+  .custom-label{width:100%}
 }
-
-
-    /* =====================================================
-       MAIN GRID
-       40% LEFT / 60% RIGHT
-    ====================================================== */
-
-    .main-grid {
-  display: grid;
-  grid-template-columns: 40% 60%;
-  gap: 14px;
-  align-items: stretch;
+@media (max-width:600px){
+  .page-tabs{grid-template-columns:1fr}
+  .summary-grid{grid-template-columns:1fr}
+  .summary-card{min-height:150px}
+  .summary-number{font-size:38px}
+  .support-card{padding:15px}
+  .support-title{font-size:23px}
+  .support-list{height:auto;max-height:700px}
+  .item-images{gap:8px}
+  .item-images img{width:calc(50% - 4px);height:auto;aspect-ratio:16/9}
 }
-
-
-    /* =====================================================
-       LEFT SIDE
-    ====================================================== */
-
-    .left-column {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-
-    .summary-grid {
-
-      display: grid;
-
-      grid-template-columns:
-        1fr 1fr;
-
-      gap: 14px;
-
-      margin-bottom: 16px;
-
-    }
-
-
-    .summary-card {
-
-      min-height: 180px;
-
-      border-radius: 18px;
-
-      padding: 20px 15px;
-
-      text-align: center;
-
-      box-shadow:
-        0 3px 10px rgba(0, 0, 0, .06);
-
-    }
-
-
-    .summary-card.bags {
-
-      background: #ffedac;
-
-    }
-
-
-    .summary-card.water {
-
-      background: #a7dcf7;
-
-    }
-
-
-    .summary-title {
-
-      font-size: 20px;
-
-      font-weight: 800;
-
-    }
-
-
-    .summary-number {
-
-      margin-top: 16px;
-
-      font-size: 43px;
-
-      line-height: 1;
-
-      font-weight: 900;
-
-      color: #0e4b91;
-
-    }
-
-
-    .summary-total {
-
-      margin-top: 15px;
-
-      padding: 10px;
-
-      border-radius: 15px;
-
-      background: rgba(255,255,255,.42);
-
-    }
-
-
-    .summary-total-label {
-
-      font-size: 16px;
-
-    }
-
-
-    .summary-total-number {
-
-      margin-top: 3px;
-
-      font-size: 27px;
-
-      font-weight: 900;
-
-    }
-
-
-    /* =====================================================
-       MAP
-    ====================================================== */
-
-    .map-card {
-
-      background: #ffffff;
-
-      border-radius: 18px;
-
-      padding: 18px;
-
-      min-height: 500px;
-
-      box-shadow:
-        0 3px 12px rgba(0,0,0,.06);
-
-    }
-
-
-    .map-title {
-
-      font-size: 20px;
-
-      font-weight: 900;
-
-      margin-bottom: 12px;
-
-    }
-
-
-    .map-placeholder {
-
-      min-height: 430px;
-
-      border-radius: 14px;
-
-      background: #eef0f2;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-      text-align: center;
-
-      padding: 20px;
-
-      color: #777;
-
-      font-size: 18px;
-
-    }
-
-
-    /* =====================================================
-       RIGHT SIDE
-    ====================================================== */
-
-    .support-card {
-
-      min-width: 0;
-
-      background: #fffde4;
-
-      border-radius: 18px;
-
-      padding: 18px 20px 20px;
-
-      box-shadow:
-        0 3px 12px rgba(0,0,0,.06);
-
-    }
-
-
-    .support-title {
-
-      margin: 0 0 13px;
-
-      font-size: 27px;
-
-      font-weight: 900;
-
-      color: #123b70;
-
-    }
-
-
-    /* =====================================================
-       SUPPORT LIST SCROLL
-    ====================================================== */
-
-    .support-list {
-
-      height: 590px;
-
-      overflow-y: auto;
-
-      padding-right: 12px;
-
-    }
-
-
-    .support-list::-webkit-scrollbar {
-
-      width: 8px;
-
-    }
-
-
-    .support-list::-webkit-scrollbar-track {
-
-      background: #eeeeee;
-
-      border-radius: 10px;
-
-    }
-
-
-    .support-list::-webkit-scrollbar-thumb {
-
-      background: #b7bdc4;
-
-      border-radius: 10px;
-
-    }
-
-
-/* =====================================================
-   DATE GROUP
-====================================================== */
-
-.date-group {
-  margin-bottom: 14px;
-  padding: 10px 16px 12px 16px;
-  background: #fff9d9;
-  border: 1px solid #eee4b5;
-  border-radius: 12px;
-  box-sizing: border-box;
-}
-
-
-
-/* วันที่ */
-
-.date-badge {
-  display: inline-block;
-  margin-bottom: 4px;
-  padding: 5px 12px;
-  border-radius: 8px;
-  background: #ffc400;
-  color: #0753a4;
-  font-size: 18px;
-  font-weight: 900;
-}
-
-
-    /* =====================================================
-       ITEM
-    ====================================================== */
-
-    .support-item {
-
-      padding: 12px 0 18px;
-
-      border-bottom: 1px dashed #d8d1a5;
-
-    }
-
-
-    .support-item:last-child {
-
-      border-bottom: none;
-
-    }
-
-
-    .item-title {
-
-      font-size: 17px;
-
-      line-height: 1.55;
-
-      font-weight: 800;
-
-      color: #123b70;
-
-    }
-
-
-    .item-title strong {
-
-      font-weight: 900;
-
-    }
-
-
-    .item-amount {
-
-      margin-top: 7px;
-
-      color: #222;
-
-      font-size: 15px;
-
-    }
-
-
-    .item-amount strong {
-
-      font-size: 16px;
-
-    }
-
-
-    /* =====================================================
-       IMAGES
-    ====================================================== */
-
-.item-images {
-  display: flex;
-  gap: 10px;
-  margin-top: 11px;
-  max-width: 620px;
-  flex-wrap: wrap;
-}
-
-.item-images img {
-  width: 180px;
-  height: 101px;
-  object-fit: cover;
-  border-radius: 9px;
-  background: #ddd;
-  cursor: pointer;
-  transition: .2s;
-}
-
-
-    .item-images img:hover {
-
-      transform: scale(1.015);
-
-    }
-
-
-    /* =====================================================
-       LOADING / EMPTY
-    ====================================================== */
-
-    .loading,
-    .empty {
-
-      min-height: 250px;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-      color: #777;
-
-      font-size: 17px;
-
-      text-align: center;
-
-    }
-
-
-    /* =====================================================
-       IMAGE MODAL
-    ====================================================== */
-
-    .image-modal {
-
-      position: fixed;
-
-      inset: 0;
-
-      display: none;
-
-      align-items: center;
-
-      justify-content: center;
-
-      padding: 30px;
-
-      background: rgba(0,0,0,.78);
-
-      z-index: 9999;
-
-    }
-
-
-    .image-modal.show {
-
-      display: flex;
-
-    }
-
-
-    .image-modal img {
-
-      max-width: 90vw;
-
-      max-height: 90vh;
-
-      border-radius: 12px;
-
-      object-fit: contain;
-
-    }
-
-
-    .image-modal-close {
-
-      position: fixed;
-
-      top: 20px;
-
-      right: 25px;
-
-      width: 45px;
-
-      height: 45px;
-
-      border: none;
-
-      border-radius: 50%;
-
-      background: #ffffff;
-
-      color: #222;
-
-      font-size: 28px;
-
-      cursor: pointer;
-
-    }
-
-
-    /* =====================================================
-       RESPONSIVE
-    ====================================================== */
-
-/* =====================================================
-   DESKTOP
-   ให้ฝั่งซ้าย 40% / รายการสนับสนุน 60%
-   และให้ความสูงของ 2 ฝั่งยืดเท่ากัน
-===================================================== */
-
-@media (min-width: 1101px) {
-
-  .main-grid {
-
-    grid-template-columns:
-      40% 60%;
-
-    align-items: stretch;
-
-  }
-
-  .left-column,
-  .support-card {
-
-    height: 100%;
-
-  }
-
-}
-
-/* =====================================================
-   MAIN GRID
-===================================================== */
-
-.main-grid {
-  margin: 0 26px 30px;
-  display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
-  gap: 16px;
-  align-items: stretch;
-  width: auto;
-}
-
-.left-column {
-  min-width: 0;
-  width: 100%;
-}
-
-.support-card {
-  min-width: 0;
-  width: 100%;
-  box-sizing: border-box;
-}
-    
-/* =====================================================
-   TABLET / หน้าจอไม่เกิน 1100px
-===================================================== */
-
-@media (max-width: 1100px) {
-
-  .main-grid {
-
-    grid-template-columns:
-      1fr;
-
-    align-items: stretch;
-
-  }
-
-
-  .left-column,
-  .support-card {
-
-    width: 100%;
-
-  }
-
-
-  .support-list {
-
-    height: 600px;
-
-  }
-
-}
-
-
-/* =====================================================
-   หน้าจอไม่เกิน 800px
-===================================================== */
-
-@media (max-width: 800px) {
-
-  .header {
-
-    margin: 10px;
-
-    padding: 18px;
-
-  }
-
-
-  .header-title {
-
-    font-size: 22px;
-
-  }
-
-
-  .header-logo {
-
-    font-size: 28px;
-
-  }
-
-
-  .filter-card {
-
-    margin: 0 10px 12px;
-
-  }
-
-
-  .main-grid {
-
-    margin: 0 10px 20px;
-
-  }
-
-
-.filter-row {
-
-  align-items: stretch;
-
-  flex-wrap: wrap;
-
-}
-
-
-  .quick-btn,
-  .search-btn,
-  .clear-btn {
-
-    flex: 1;
-
-  }
-
-
-  .date-input,
-  .province-select {
-
-    width: 100%;
-
-  }
-
-
-  .custom-label {
-
-    width: 100%;
-
-  }
-
-}
-
-
-/* =====================================================
-   MOBILE / หน้าจอไม่เกิน 600px
-===================================================== */
-
-@media (max-width: 600px) {
-
-  .summary-grid {
-
-    grid-template-columns:
-      1fr;
-
-  }
-
-
-  .summary-card {
-
-    min-height: 150px;
-
-  }
-
-
-  .summary-number {
-
-    font-size: 38px;
-
-  }
-
-
-  .support-card {
-
-    padding: 15px;
-
-  }
-
-
-  .support-title {
-
-    font-size: 23px;
-
-  }
-
-
-  .support-list {
-
-    height: auto;
-
-    max-height: 700px;
-
-  }
-
-
-  /* รูป 16:9 บนมือถือ */
-
-  .item-images {
-
-    display: flex;
-
-    gap: 10px;
-
-    flex-wrap: wrap;
-
-  }
-
-
-  .item-images img {
-
-    width: 180px;
-
-    height: 101px;
-
-    object-fit: cover;
-
-  }
-
-}
-
-
 </style>
-
-
 </head>
 
-
 <body>
+<header class="header">
+  <div class="header-title">
+    รายการสนับสนุนถุงยังชีพและน้ำดื่ม กฟผ.<br>
+    ผู้ประสบอุทกภัย พื้นที่ อปก. ปี 2569
+  </div>
+  <div class="header-logo">กฟผ.</div>
+</header>
 
+<section class="filter-card">
+  <div class="filter-row">
+    <button class="quick-btn" data-range="today">วันนี้</button>
+    <button class="quick-btn" data-range="7">7 วัน</button>
+    <button class="quick-btn" data-range="30">30 วัน</button>
+    <button class="quick-btn active" data-range="all">ทั้งหมด</button>
+    <span class="custom-label">หรือกำหนดเอง</span>
+    <input type="date" id="startDate" class="date-input">
+    <span class="custom-label">ถึง</span>
+    <input type="date" id="endDate" class="date-input">
+    <span class="custom-label">จังหวัด</span>
+    <select id="provinceFilter" class="province-select">
+      <option value="">ทุกจังหวัด</option>
+      <option>พระนครศรีอยุธยา</option><option>สิงห์บุรี</option><option>สุพรรณบุรี</option>
+      <option>ลพบุรี</option><option>อ่างทอง</option><option>ระยอง</option><option>ชลบุรี</option>
+      <option>สระบุรี</option><option>นครนายก</option><option>ฉะเชิงเทรา</option>
+      <option>ปราจีนบุรี</option><option>จันทบุรี</option><option>สระแก้ว</option><option>ตราด</option>
+    </select>
+    <button id="searchBtn" class="search-btn">ค้นหา</button>
+    <button id="clearBtn" class="clear-btn">ล้างตัวกรอง</button>
+  </div>
+</section>
 
-  <!-- =====================================================
-       HEADER
-  ====================================================== -->
+<nav class="page-tabs" aria-label="ประเภทข้อมูล">
+  <button class="page-tab" data-page="completed">แจกไปแล้ว</button>
+  <button class="page-tab" data-page="planned">ยังไม่ได้แจก</button>
+  <button class="page-tab active" data-page="all">ทั้งหมด</button>
+</nav>
 
-  <header class="header">
+<main class="main-grid">
+  <section class="left-column">
 
-    <div class="header-title">
+    <div class="summary-section">
+      <h2 class="summary-section-title" id="summarySectionTitle">แผนการมอบ</h2>
+      <div class="summary-grid">
 
-      รายการสนับสนุนถุงยังชีพและน้ำดื่ม กฟผ.<br>
+        <div class="summary-card bags">
+          <div class="summary-title" id="bagsTitle">แผนการมอบถุงยังชีพ (ถุง)</div>
+          <div id="bagsTotal" class="summary-number">0</div>
+          <div class="summary-total">
+            <div class="summary-total-label" id="bagsTotalLabel">ยอดสนับสนุนรวม</div>
+            <div id="bagsTotalSmall" class="summary-total-number">0</div>
+            <div class="summary-total-sub" id="bagsTotalSub">ปัจจุบัน</div>
+          </div>
+        </div>
 
-      ผู้ประสบอุทกภัย พื้นที่ อปก. ปี 2569
+        <div class="summary-card water">
+          <div class="summary-title" id="waterTitle">แผนการมอบน้ำดื่ม (แพ็ก)</div>
+          <div id="waterTotal" class="summary-number">0</div>
+          <div class="summary-total">
+            <div class="summary-total-label" id="waterTotalLabel">ยอดสนับสนุนรวม</div>
+            <div id="waterTotalSmall" class="summary-total-number">0</div>
+            <div class="summary-total-sub" id="waterTotalSub">ปัจจุบัน</div>
+          </div>
+        </div>
 
+      </div>
     </div>
 
-
-    <div class="header-logo">
-      กฟผ.
+    <div class="map-card">
+      <div class="map-title">🗺️ พื้นที่ดำเนินการ</div>
+      <div class="map-placeholder">แผนที่ประเทศไทยจะเพิ่มแผนที่จริงในขั้นต่อไป</div>
     </div>
-
-  </header>
-
-
-
-  <!-- =====================================================
-       FILTER
-  ====================================================== -->
-
-  <section class="filter-card">
-
-    <div class="filter-row">
-
-
-      <button
-        class="quick-btn"
-        data-range="today"
-      >
-        วันนี้
-      </button>
-
-
-      <button
-        class="quick-btn"
-        data-range="7"
-      >
-        7 วัน
-      </button>
-
-
-      <button
-        class="quick-btn"
-        data-range="30"
-      >
-        30 วัน
-      </button>
-
-
-      <button
-        class="quick-btn active"
-        data-range="all"
-      >
-        ทั้งหมด
-      </button>
-
-
-      <span class="custom-label">
-        หรือกำหนดเอง
-      </span>
-
-
-      <input
-        type="date"
-        id="startDate"
-        class="date-input"
-      >
-
-
-      <span class="custom-label">
-        ถึง
-      </span>
-
-
-      <input
-        type="date"
-        id="endDate"
-        class="date-input"
-      >
-
-
-      <span class="custom-label">
-        จังหวัด
-      </span>
-
-
-      <select
-        id="provinceFilter"
-        class="province-select"
-      >
-
-        <option value="">
-          ทุกจังหวัด
-        </option>
-
-        <option>พระนครศรีอยุธยา</option>
-        <option>สิงห์บุรี</option>
-        <option>สุพรรณบุรี</option>
-        <option>ลพบุรี</option>
-        <option>อ่างทอง</option>
-        <option>ระยอง</option>
-        <option>ชลบุรี</option>
-        <option>สระบุรี</option>
-        <option>นครนายก</option>
-        <option>ฉะเชิงเทรา</option>
-        <option>ปราจีนบุรี</option>
-        <option>จันทบุรี</option>
-        <option>สระแก้ว</option>
-        <option>ตราด</option>
-
-      </select>
-
-
-      <button
-        id="searchBtn"
-        class="search-btn"
-      >
-        ค้นหา
-      </button>
-
-
-      <button
-        id="clearBtn"
-        class="clear-btn"
-      >
-        ล้างตัวกรอง
-      </button>
-
-
-    </div>
-
-
 
   </section>
 
-
-
-  <!-- =====================================================
-       MAIN
-       40% / 60%
-  ====================================================== -->
-
-  <main class="main-grid">
-
-
-    <!-- ===================================================
-         LEFT 40%
-    ==================================================== -->
-
-    <section class="left-column">
-
-
-      <!-- SUMMARY -->
-
-      <div class="summary-grid">
-
-
-        <div class="summary-card bags">
-
-          <div class="summary-title">
-            ถุงยังชีพ (ถุง)
-          </div>
-
-
-          <div
-            id="bagsTotal"
-            class="summary-number"
-          >
-            0
-          </div>
-
-
-          <div class="summary-total">
-
-            <div class="summary-total-label">
-              ยอดสนับสนุนรวม
-            </div>
-
-            <div
-              id="bagsTotalSmall"
-              class="summary-total-number"
-            >
-              0
-            </div>
-
-          </div>
-
-        </div>
-
-
-
-        <div class="summary-card water">
-
-          <div class="summary-title">
-            น้ำดื่ม (แพ็ก)
-          </div>
-
-
-          <div
-            id="waterTotal"
-            class="summary-number"
-          >
-            0
-          </div>
-
-
-          <div class="summary-total">
-
-            <div class="summary-total-label">
-              ยอดสนับสนุนรวม
-            </div>
-
-            <div
-              id="waterTotalSmall"
-              class="summary-total-number"
-            >
-              0
-            </div>
-
-          </div>
-
-        </div>
-
-
-      </div>
-
-
-
-      <!-- MAP -->
-
-      <div class="map-card">
-
-        <div class="map-title">
-          🗺️ พื้นที่ดำเนินการ
-        </div>
-
-
-        <div class="map-placeholder">
-          แผนที่ประเทศไทยจะเพิ่มแผนที่จริงในขั้นต่อไป
-        </div>
-
-      </div>
-
-
-    </section>
-
-
-
-    <!-- ===================================================
-         RIGHT 60%
-    ==================================================== -->
-
-<section class="support-card">
-
-  <h2 class="support-title">
-    รายการสนับสนุน
-  </h2>
-
-  <div
-    id="supportList"
-    class="support-list"
-  >
-
-    <div class="loading">
-      กำลังโหลดข้อมูล...
+  <section class="support-card">
+    <h2 class="support-title" id="supportTitle">รายการสนับสนุน</h2>
+    <div id="supportList" class="support-list">
+      <div class="loading">กำลังโหลดข้อมูล...</div>
     </div>
+    <div id="filterStatus" class="filter-status">ข้อมูลทั้งหมด • 0 รายการ</div>
+  </section>
+</main>
 
-  </div>
-
-  <div
-    id="filterStatus"
-    class="filter-status"
-  >
-    ข้อมูลทั้งหมด • 0 รายการ
-  </div>
-
-</section>
-
-
-  </main>
-
-
-
-  <!-- =====================================================
-       IMAGE MODAL
-  ====================================================== -->
-
-  <div
-    id="imageModal"
-    class="image-modal"
-  >
-
-    <button
-      id="imageModalClose"
-      class="image-modal-close"
-    >
-      ×
-    </button>
-
-
-    <img
-      id="modalImage"
-      src=""
-      alt="รูปภาพ"
-    >
-
-  </div>
-
-
+<div id="imageModal" class="image-modal">
+  <button id="imageModalClose" class="image-modal-close">×</button>
+  <img id="modalImage" src="" alt="รูปภาพ">
+</div>
 
 <script>
+const SUPABASE_URL = "https://voaktlbvwzliyfhxksdz.supabase.co";
+const SUPABASE_KEY = "sb_publishable_g_p2WWtAFq2GppJN-kLaWg_ccrxTkQ2";
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+const supportList = document.getElementById("supportList");
+const supportTitle = document.getElementById("supportTitle");
+const summarySectionTitle = document.getElementById("summarySectionTitle");
+const bagsTitle = document.getElementById("bagsTitle");
+const waterTitle = document.getElementById("waterTitle");
+const bagsTotal = document.getElementById("bagsTotal");
+const bagsTotalSmall = document.getElementById("bagsTotalSmall");
+const waterTotal = document.getElementById("waterTotal");
+const waterTotalSmall = document.getElementById("waterTotalSmall");
+const bagsTotalLabel = document.getElementById("bagsTotalLabel");
+const waterTotalLabel = document.getElementById("waterTotalLabel");
+const bagsTotalSub = document.getElementById("bagsTotalSub");
+const waterTotalSub = document.getElementById("waterTotalSub");
+const startDate = document.getElementById("startDate");
+const endDate = document.getElementById("endDate");
+const provinceFilter = document.getElementById("provinceFilter");
+const searchBtn = document.getElementById("searchBtn");
+const clearBtn = document.getElementById("clearBtn");
+const filterStatus = document.getElementById("filterStatus");
+const quickButtons = document.querySelectorAll(".quick-btn");
+const pageTabs = document.querySelectorAll(".page-tab");
+const imageModal = document.getElementById("imageModal");
+const modalImage = document.getElementById("modalImage");
+const imageModalClose = document.getElementById("imageModalClose");
 
-  /* =====================================================
-     SUPABASE CONFIG
-  ====================================================== */
+let allData = [];
+let currentRange = "all";
+let currentPage = "all";
 
-  const SUPABASE_URL =
-    "https://voaktlbvwzliyfhxksdz.supabase.co";
+function formatNumber(number) {
+  return Number(number || 0).toLocaleString("th-TH");
+}
 
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;").replace(/'/g,"&#039;");
+}
 
-  const SUPABASE_KEY =
-    "sb_publishable_g_p2WWtAFq2GppJN-kLaWg_ccrxTkQ2";
+function formatThaiDate(dateString) {
+  const date = new Date(dateString + "T00:00:00");
+  return date.toLocaleDateString("th-TH",{day:"numeric",month:"short",year:"2-digit"});
+}
 
+function getTodayString() {
+  const date = new Date();
+  return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")}`;
+}
 
-  const supabaseClient =
-    window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
+function getPageData(data) {
+  if (currentPage === "planned") return data.filter(item => item.status === "planned");
+  if (currentPage === "completed") return data.filter(item => item.status === "completed");
+  return data;
+}
 
+function updatePageText() {
+  if (currentPage === "planned") {
+    summarySectionTitle.textContent = "แผนการมอบ";
+    bagsTitle.textContent = "แผนการมอบถุงยังชีพ (ถุง)";
+    waterTitle.textContent = "แผนการมอบน้ำดื่ม (แพ็ก)";
+    bagsTotalLabel.textContent = "ยอดวางแผนทั้งหมด";
+    waterTotalLabel.textContent = "ยอดวางแผนทั้งหมด";
+    bagsTotalSub.textContent = "ยังไม่ได้แจก";
+    waterTotalSub.textContent = "ยังไม่ได้แจก";
+    supportTitle.textContent = "รายการที่ยังไม่ได้แจก";
+  } else if (currentPage === "completed") {
+    summarySectionTitle.textContent = "แจกไปแล้ว";
+    bagsTitle.textContent = "ถุงยังชีพที่แจกแล้ว (ถุง)";
+    waterTitle.textContent = "น้ำดื่มที่แจกแล้ว (แพ็ก)";
+    bagsTotalLabel.textContent = "ยอดแจกแล้วทั้งหมด";
+    waterTotalLabel.textContent = "ยอดแจกแล้วทั้งหมด";
+    bagsTotalSub.textContent = "แจกแล้ว";
+    waterTotalSub.textContent = "แจกแล้ว";
+    supportTitle.textContent = "รายการที่แจกไปแล้ว";
+  } else {
+    summarySectionTitle.textContent = "แผนการมอบ";
+    bagsTitle.textContent = "แผนการมอบถุงยังชีพ (ถุง)";
+    waterTitle.textContent = "แผนการมอบน้ำดื่ม (แพ็ก)";
+    bagsTotalLabel.textContent = "ยอดสนับสนุนรวม";
+    waterTotalLabel.textContent = "ยอดสนับสนุนรวม";
+    bagsTotalSub.textContent = "ปัจจุบัน";
+    waterTotalSub.textContent = "ปัจจุบัน";
+    supportTitle.textContent = "รายการสนับสนุนทั้งหมด";
+  }
+}
 
+function applyFilters() {
+  let data = [...allData];
 
-  /* =====================================================
-     DOM
-  ====================================================== */
-
-  const supportList =
-    document.getElementById(
-      "supportList"
-    );
-
-
-  const bagsTotal =
-    document.getElementById(
-      "bagsTotal"
-    );
-
-
-  const bagsTotalSmall =
-    document.getElementById(
-      "bagsTotalSmall"
-    );
-
-
-  const waterTotal =
-    document.getElementById(
-      "waterTotal"
-    );
-
-
-  const waterTotalSmall =
-    document.getElementById(
-      "waterTotalSmall"
-    );
-
-
-  const startDate =
-    document.getElementById(
-      "startDate"
-    );
-
-
-  const endDate =
-    document.getElementById(
-      "endDate"
-    );
-
-
-  const provinceFilter =
-    document.getElementById(
-      "provinceFilter"
-    );
-
-
-  const searchBtn =
-    document.getElementById(
-      "searchBtn"
-    );
-
-
-  const clearBtn =
-    document.getElementById(
-      "clearBtn"
-    );
-
-
-  const filterStatus =
-    document.getElementById(
-      "filterStatus"
-    );
-
-
-  const quickButtons =
-    document.querySelectorAll(
-      ".quick-btn"
-    );
-
-
-  const imageModal =
-    document.getElementById(
-      "imageModal"
-    );
-
-
-  const modalImage =
-    document.getElementById(
-      "modalImage"
-    );
-
-
-  const imageModalClose =
-    document.getElementById(
-      "imageModalClose"
-    );
-
-
-
-  /* =====================================================
-     STATE
-  ====================================================== */
-
-  let allData = [];
-
-  let currentData = [];
-
-  let currentRange = "all";
-
-
-
-  /* =====================================================
-     FORMAT NUMBER
-  ====================================================== */
-
-  function formatNumber(
-    number
-  ) {
-
-    return Number(
-      number || 0
-    ).toLocaleString(
-      "th-TH"
-    );
-
+  if (provinceFilter.value) {
+    data = data.filter(item => item.province === provinceFilter.value);
   }
 
-
-
-  /* =====================================================
-     ESCAPE HTML
-  ====================================================== */
-
-  function escapeHtml(
-    value
-  ) {
-
-    return String(
-      value ?? ""
-    )
-
-      .replace(
-        /&/g,
-        "&amp;"
-      )
-
-      .replace(
-        /</g,
-        "&lt;"
-      )
-
-      .replace(
-        />/g,
-        "&gt;"
-      )
-
-      .replace(
-        /"/g,
-        "&quot;"
-      )
-
-      .replace(
-        /'/g,
-        "&#039;"
-      );
-
+  if (currentRange === "today") {
+    const today = getTodayString();
+    data = data.filter(item => item.date === today);
   }
 
-
-
-  /* =====================================================
-     THAI DATE
-  ====================================================== */
-
-  function formatThaiDate(
-    dateString
-  ) {
-
-    const date =
-      new Date(
-        dateString +
-        "T00:00:00"
-      );
-
-
-    return date.toLocaleDateString(
-      "th-TH",
-      {
-        day: "numeric",
-        month: "short",
-        year: "2-digit"
-      }
-    );
-
+  if (currentRange === "7" || currentRange === "30") {
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    const start = new Date(today);
+    start.setDate(start.getDate() - (currentRange === "7" ? 6 : 29));
+    data = data.filter(item => {
+      const d = new Date(item.date + "T00:00:00");
+      return d >= start && d <= today;
+    });
   }
 
-
-
-  /* =====================================================
-     GET TODAY
-  ====================================================== */
-
-  function getTodayString() {
-
-    const date =
-      new Date();
-
-
-    const year =
-      date.getFullYear();
-
-
-    const month =
-      String(
-        date.getMonth() + 1
-      ).padStart(
-        2,
-        "0"
-      );
-
-
-    const day =
-      String(
-        date.getDate()
-      ).padStart(
-        2,
-        "0"
-      );
-
-
-    return `${year}-${month}-${day}`;
-
+  if (startDate.value || endDate.value) {
+    const start = startDate.value ? new Date(startDate.value + "T00:00:00") : null;
+    const end = endDate.value ? new Date(endDate.value + "T23:59:59") : null;
+    data = data.filter(item => {
+      const d = new Date(item.date + "T12:00:00");
+      if (start && d < start) return false;
+      if (end && d > end) return false;
+      return true;
+    });
   }
 
+  const pageData = getPageData(data);
+  renderDashboard(pageData, data);
+}
 
+function renderDashboard(pageData, filteredAllData) {
+  updatePageText();
 
-  /* =====================================================
-     LOAD DATA FROM SUPABASE
-  ====================================================== */
+  const plannedData = filteredAllData.filter(item => item.status === "planned");
+  const completedData = filteredAllData.filter(item => item.status === "completed");
 
-  async function loadData() {
+  let bagsValue, waterValue, bagsTotalValue, waterTotalValue;
 
-    supportList.innerHTML = `
-      <div class="loading">
-        กำลังโหลดข้อมูล...
-      </div>
-    `;
-
-
-    const {
-      data,
-      error
-    } =
-      await supabaseClient
-
-        .from(
-          "support_records"
-        )
-
-        .select("*")
-
-        .order(
-          "date",
-          {
-            ascending: false
-          }
-        )
-
-        .order(
-          "id",
-          {
-            ascending: true
-          }
-        );
-
-
-    if (error) {
-
-      console.error(
-        "Supabase error:",
-        error
-      );
-
-
-      supportList.innerHTML = `
-
-        <div class="empty">
-
-          โหลดข้อมูลไม่สำเร็จ
-
-          <br><br>
-
-          ${escapeHtml(
-            error.message
-          )}
-
-        </div>
-
-      `;
-
-      return;
-
-    }
-
-
-    allData =
-      data || [];
-
-
-    applyFilters();
-
+  if (currentPage === "planned") {
+    bagsValue = plannedData.reduce((s,i)=>s+Number(i.bags||0),0);
+    waterValue = plannedData.reduce((s,i)=>s+Number(i.water||0),0);
+    bagsTotalValue = bagsValue;
+    waterTotalValue = waterValue;
+  } else if (currentPage === "completed") {
+    bagsValue = completedData.reduce((s,i)=>s+Number(i.bags||0),0);
+    waterValue = completedData.reduce((s,i)=>s+Number(i.water||0),0);
+    bagsTotalValue = bagsValue;
+    waterTotalValue = waterValue;
+  } else {
+    bagsValue = plannedData.reduce((s,i)=>s+Number(i.bags||0),0);
+    waterValue = plannedData.reduce((s,i)=>s+Number(i.water||0),0);
+    bagsTotalValue = filteredAllData.reduce((s,i)=>s+Number(i.bags||0),0);
+    waterTotalValue = filteredAllData.reduce((s,i)=>s+Number(i.water||0),0);
   }
 
-
-
-  /* =====================================================
-     APPLY FILTERS
-  ====================================================== */
-
-  function applyFilters() {
-
-    let data =
-      [...allData];
-
-
-    const province =
-      provinceFilter.value;
-
-
-    if (province) {
-
-      data =
-        data.filter(
-          item =>
-            item.province ===
-            province
-        );
-
-    }
-
-
-    /* ===================================================
-       QUICK RANGE
-    ==================================================== */
-
-    if (
-      currentRange ===
-      "today"
-    ) {
-
-      const today =
-        getTodayString();
-
-
-      data =
-        data.filter(
-          item =>
-            item.date ===
-            today
-        );
-
-    }
-
-
-    if (
-      currentRange ===
-      "7"
-    ) {
-
-      const today =
-        new Date();
-
-
-      today.setHours(
-        0,
-        0,
-        0,
-        0
-      );
-
-
-      const start =
-        new Date(
-          today
-        );
-
-
-      start.setDate(
-        start.getDate() - 6
-      );
-
-
-      data =
-        data.filter(
-          item => {
-
-            const d =
-              new Date(
-                item.date +
-                "T00:00:00"
-              );
-
-
-            return (
-              d >= start &&
-              d <= today
-            );
-
-          }
-        );
-
-    }
-
-
-    if (
-      currentRange ===
-      "30"
-    ) {
-
-      const today =
-        new Date();
-
-
-      today.setHours(
-        0,
-        0,
-        0,
-        0
-      );
-
-
-      const start =
-        new Date(
-          today
-        );
-
-
-      start.setDate(
-        start.getDate() - 29
-      );
-
-
-      data =
-        data.filter(
-          item => {
-
-            const d =
-              new Date(
-                item.date +
-                "T00:00:00"
-              );
-
-
-            return (
-              d >= start &&
-              d <= today
-            );
-
-          }
-        );
-
-    }
-
-
-    /* ===================================================
-       CUSTOM DATE
-    ==================================================== */
-
-    if (
-      startDate.value ||
-      endDate.value
-    ) {
-
-      const start =
-        startDate.value
-          ? new Date(
-              startDate.value +
-              "T00:00:00"
-            )
-          : null;
-
-
-      const end =
-        endDate.value
-          ? new Date(
-              endDate.value +
-              "T23:59:59"
-            )
-          : null;
-
-
-      data =
-        data.filter(
-          item => {
-
-            const d =
-              new Date(
-                item.date +
-                "T12:00:00"
-              );
-
-
-            if (
-              start &&
-              d < start
-            ) {
-
-              return false;
-
-            }
-
-
-            if (
-              end &&
-              d > end
-            ) {
-
-              return false;
-
-            }
-
-
-            return true;
-
-          }
-        );
-
-    }
-
-
-    currentData =
-      data;
-
-
-    renderDashboard(
-      data
-    );
-
-
-    updateFilterStatus(
-      data
-    );
-
+  bagsTotal.textContent = formatNumber(bagsValue);
+  bagsTotalSmall.textContent = formatNumber(bagsTotalValue);
+  waterTotal.textContent = formatNumber(waterValue);
+  waterTotalSmall.textContent = formatNumber(waterTotalValue);
+
+  if (!pageData.length) {
+    supportList.innerHTML = '<div class="empty">ไม่พบข้อมูลตามเงื่อนไขที่เลือก</div>';
+    updateFilterStatus(pageData);
+    return;
   }
 
-
-
-  /* =====================================================
-     RENDER DASHBOARD
-  ====================================================== */
-
-  function renderDashboard(
-    data
-  ) {
-
-
-    /* ===================================================
-       TOTAL
-    ==================================================== */
-
-    const totalBags =
-      data.reduce(
-        (
-          sum,
-          item
-        ) =>
-          sum +
-          Number(
-            item.bags || 0
-          ),
-        0
-      );
-
-
-    const totalWater =
-      data.reduce(
-        (
-          sum,
-          item
-        ) =>
-          sum +
-          Number(
-            item.water || 0
-          ),
-        0
-      );
-
-
-    bagsTotal.textContent =
-      formatNumber(
-        totalBags
-      );
-
-
-    bagsTotalSmall.textContent =
-      formatNumber(
-        totalBags
-      );
-
-
-    waterTotal.textContent =
-      formatNumber(
-        totalWater
-      );
-
-
-    waterTotalSmall.textContent =
-      formatNumber(
-        totalWater
-      );
-
-
-    /* ===================================================
-       EMPTY
-    ==================================================== */
-
-    if (
-      data.length === 0
-    ) {
-
-      supportList.innerHTML = `
-
-        <div class="empty">
-
-          ไม่พบข้อมูลตามเงื่อนไขที่เลือก
-
-        </div>
-
-      `;
-
-      return;
-
-    }
-
-
-    /* ===================================================
-       GROUP BY DATE
-    ==================================================== */
-
-    const groups = {};
-
-
-    data.forEach(
-      item => {
-
-        if (
-          !groups[item.date]
-        ) {
-
-          groups[item.date] =
-            [];
-
-        }
-
-
-        groups[item.date].push(
-          item
-        );
-
-      }
-    );
-
-
-    let html = "";
-
-
-    Object.keys(groups)
-
-      .sort()
-
-      .reverse()
-
-      .forEach(
-        date => {
-
-
-          html += `
-
-            <div class="date-group">
-
-              <div class="date-badge">
-
-                ${formatThaiDate(
-                  date
-                )}
-
-              </div>
-
-          `;
-
-
-          groups[date].forEach(
-            (
-              item,
-              index
-            ) => {
-
-
-              const images =
-                Array.isArray(
-                  item.images
-                )
-                  ? item.images
-                  : [];
-
-
-              html += `
-
-                <div class="support-item">
-
-
-                  <div class="item-title">
-
-                    ${index + 1}.
-
-                    ${escapeHtml(
-                      item.location
-                    )}
-
-                    จ.<strong>
-                      ${escapeHtml(
-                        item.province
-                      )}
-                    </strong>
-
-                  </div>
-
-
-                  <div class="item-amount">
-
-                    • ถุงยังชีพ
-                    <strong>
-                      ${formatNumber(
-                        item.bags
-                      )}
-                    </strong>
-                    ถุง
-
-                    &nbsp;&nbsp;•
-
-                    น้ำดื่ม
-                    <strong>
-                      ${formatNumber(
-                        item.water
-                      )}
-                    </strong>
-                    แพ็ก
-
-                  </div>
-
-
-                  ${
-                    images.length > 0
-                      ? `
-
-                        <div class="item-images">
-
-                          ${images
-                            .slice(
-                              0,
-                              3
-                            )
-                            .map(
-                              url => `
-
-                                <img
-                                  src="${escapeHtml(
-                                    url
-                                  )}"
-                                  alt="รูปภาพการสนับสนุน"
-                                  loading="lazy"
-                                  onclick="openImage('${escapeHtml(
-                                    url
-                                  )}')"
-                                >
-
-                              `
-                            )
-                            .join("")
-                          }
-
-                        </div>
-
-                      `
-                      : ""
-                  }
-
-
-                </div>
-
-              `;
-
-            }
-          );
-
-
-          html += `
-
+  const groups = {};
+  pageData.forEach(item => {
+    if (!groups[item.date]) groups[item.date] = [];
+    groups[item.date].push(item);
+  });
+
+  let html = "";
+  Object.keys(groups).sort().reverse().forEach(date => {
+    html += `<div class="date-group"><div class="date-badge">${formatThaiDate(date)}</div>`;
+
+    groups[date].forEach((item,index) => {
+      const images = Array.isArray(item.images) ? item.images : [];
+      const chip = item.status === "completed"
+        ? '<span class="status-chip completed">แจกแล้ว</span>'
+        : '<span class="status-chip planned">ยังไม่ได้แจก</span>';
+
+      html += `
+        <div class="support-item">
+          <div class="item-title">
+            ${index + 1}. ${escapeHtml(item.location)}
+            จ.<strong>${escapeHtml(item.province)}</strong>
+            ${currentPage === "all" ? chip : ""}
+          </div>
+          <div class="item-amount">
+            • ถุงยังชีพ <strong>${formatNumber(item.bags)}</strong> ถุง
+            &nbsp;&nbsp;• น้ำดื่ม <strong>${formatNumber(item.water)}</strong> แพ็ก
+          </div>
+          ${images.length ? `
+            <div class="item-images">
+              ${images.slice(0,3).map(url => `
+                <img src="${escapeHtml(url)}" alt="รูปภาพการสนับสนุน" loading="lazy"
+                     onclick="openImage('${escapeHtml(url)}')">
+              `).join("")}
             </div>
+          ` : ""}
+        </div>
+      `;
+    });
 
-          `;
+    html += "</div>";
+  });
 
-        }
-      );
+  supportList.innerHTML = html;
+  updateFilterStatus(pageData);
+}
 
+function updateFilterStatus(data) {
+  let text = currentPage === "planned"
+    ? "ข้อมูลที่ยังไม่ได้แจก"
+    : currentPage === "completed"
+      ? "ข้อมูลที่แจกแล้ว"
+      : "ข้อมูลทั้งหมด";
 
-    supportList.innerHTML =
-      html;
+  if (currentRange === "today") text += " • วันนี้";
+  else if (currentRange === "7") text += " • 7 วัน";
+  else if (currentRange === "30") text += " • 30 วัน";
+  if (startDate.value || endDate.value) text += " • ช่วงวันที่";
+  if (provinceFilter.value) text += " • จังหวัด " + provinceFilter.value;
+  text += ` • ${data.length} รายการ`;
+  filterStatus.textContent = text;
+}
 
+async function loadData() {
+  supportList.innerHTML = '<div class="loading">กำลังโหลดข้อมูล...</div>';
+
+  const {data,error} = await supabaseClient
+    .from("support_records")
+    .select("*")
+    .order("date",{ascending:false})
+    .order("id",{ascending:true});
+
+  if (error) {
+    console.error(error);
+    supportList.innerHTML = `<div class="empty">โหลดข้อมูลไม่สำเร็จ<br><br>${escapeHtml(error.message)}</div>`;
+    return;
   }
 
-
-
-  /* =====================================================
-     FILTER STATUS
-  ====================================================== */
-
-  function updateFilterStatus(
-    data
-  ) {
-
-    let text =
-      "";
-
-
-    if (
-      currentRange ===
-      "today"
-    ) {
-
-      text =
-        "ข้อมูลวันนี้";
-
-    }
-
-    else if (
-      currentRange ===
-      "7"
-    ) {
-
-      text =
-        "ข้อมูลย้อนหลัง 7 วัน";
-
-    }
-
-    else if (
-      currentRange ===
-      "30"
-    ) {
-
-      text =
-        "ข้อมูลย้อนหลัง 30 วัน";
-
-    }
-
-    else {
-
-      text =
-        "ข้อมูลทั้งหมด";
-
-    }
-
-
-    if (
-      startDate.value ||
-      endDate.value
-    ) {
-
-      text =
-        "ข้อมูลตามช่วงวันที่";
-
-    }
-
-
-    if (
-      provinceFilter.value
-    ) {
-
-      text +=
-        " • จังหวัด " +
-        provinceFilter.value;
-
-    }
-
-
-    text +=
-      ` • ${data.length} รายการ`;
-
-
-    filterStatus.textContent =
-      text;
-
-  }
-
-
-
-  /* =====================================================
-     QUICK BUTTONS
-  ====================================================== */
-
-  quickButtons.forEach(
-    button => {
-
-      button.addEventListener(
-        "click",
-        () => {
-
-
-          quickButtons.forEach(
-            btn =>
-              btn.classList.remove(
-                "active"
-              )
-          );
-
-
-          button.classList.add(
-            "active"
-          );
-
-
-          currentRange =
-            button.dataset.range;
-
-
-          startDate.value =
-            "";
-
-
-          endDate.value =
-            "";
-
-
-          applyFilters();
-
-        }
-      );
-
-    }
-  );
-
-
-
-  /* =====================================================
-     SEARCH
-  ====================================================== */
-
-  searchBtn.addEventListener(
-    "click",
-    () => {
-
-      quickButtons.forEach(
-        btn =>
-          btn.classList.remove(
-            "active"
-          )
-      );
-
-
-      currentRange =
-        "all";
-
-
-      applyFilters();
-
-    }
-  );
-
-
-
-  /* =====================================================
-     PROVINCE CHANGE
-  ====================================================== */
-
-  provinceFilter.addEventListener(
-    "change",
-    () => {
-
-      applyFilters();
-
-    }
-  );
-
-
-
-  /* =====================================================
-     CLEAR FILTER
-  ====================================================== */
-
-  clearBtn.addEventListener(
-    "click",
-    () => {
-
-
-      currentRange =
-        "all";
-
-
-      startDate.value =
-        "";
-
-
-      endDate.value =
-        "";
-
-
-      provinceFilter.value =
-        "";
-
-
-      quickButtons.forEach(
-        btn =>
-          btn.classList.remove(
-            "active"
-          )
-      );
-
-
-      document
-        .querySelector(
-          '[data-range="all"]'
-        )
-        .classList.add(
-          "active"
-        );
-
-
-      applyFilters();
-
-    }
-  );
-
-
-
-  /* =====================================================
-     IMAGE MODAL
-  ====================================================== */
-
-  window.openImage =
-    function(url) {
-
-      modalImage.src =
-        url;
-
-
-      imageModal.classList.add(
-        "show"
-      );
-
-    };
-
-
-
-  function closeImage() {
-
-    imageModal.classList.remove(
-      "show"
-    );
-
-
-    modalImage.src =
-      "";
-
-  }
-
-
-
-  imageModalClose.addEventListener(
-    "click",
-    closeImage
-  );
-
-
-  imageModal.addEventListener(
-    "click",
-    event => {
-
-      if (
-        event.target ===
-        imageModal
-      ) {
-
-        closeImage();
-
-      }
-
-    }
-  );
-
-
-  document.addEventListener(
-    "keydown",
-    event => {
-
-      if (
-        event.key ===
-        "Escape"
-      ) {
-
-        closeImage();
-
-      }
-
-    }
-  );
-
-
-
-  /* =====================================================
-     START
-  ====================================================== */
-
-  loadData();
-
-
+  allData = data || [];
+  applyFilters();
+}
+
+pageTabs.forEach(tab => {
+  tab.addEventListener("click", () => {
+    pageTabs.forEach(btn => btn.classList.remove("active"));
+    tab.classList.add("active");
+    currentPage = tab.dataset.page;
+    applyFilters();
+  });
+});
+
+quickButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    quickButtons.forEach(btn => btn.classList.remove("active"));
+    button.classList.add("active");
+    currentRange = button.dataset.range;
+    startDate.value = "";
+    endDate.value = "";
+    applyFilters();
+  });
+});
+
+searchBtn.addEventListener("click", () => {
+  quickButtons.forEach(btn => btn.classList.remove("active"));
+  currentRange = "all";
+  applyFilters();
+});
+
+provinceFilter.addEventListener("change", applyFilters);
+
+clearBtn.addEventListener("click", () => {
+  currentRange = "all";
+  startDate.value = "";
+  endDate.value = "";
+  provinceFilter.value = "";
+  quickButtons.forEach(btn => btn.classList.remove("active"));
+  document.querySelector('[data-range="all"]').classList.add("active");
+  applyFilters();
+});
+
+window.openImage = function(url) {
+  modalImage.src = url;
+  imageModal.classList.add("show");
+};
+
+function closeImage() {
+  imageModal.classList.remove("show");
+  modalImage.src = "";
+}
+
+imageModalClose.addEventListener("click", closeImage);
+imageModal.addEventListener("click", e => {
+  if (e.target === imageModal) closeImage();
+});
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") closeImage();
+});
+
+loadData();
 </script>
-
-
 </body>
-
 </html>
