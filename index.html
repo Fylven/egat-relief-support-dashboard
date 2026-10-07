@@ -424,85 +424,290 @@ function applyFilters() {
 }
 
 function renderDashboard(pageData, filteredAllData) {
+
   updatePageText();
 
-  const plannedData = filteredAllData.filter(item => item.status === "planned");
-  const completedData = filteredAllData.filter(item => item.status === "completed");
+  const plannedData =
+    filteredAllData.filter(
+      item => item.status === "planned"
+    );
 
-  let bagsValue, waterValue, bagsTotalValue, waterTotalValue;
+  const completedData =
+    filteredAllData.filter(
+      item => item.status === "completed"
+    );
+
+
+  let bagsValue = 0;
+  let waterValue = 0;
+
+  let bagsTotalValue = 0;
+  let waterTotalValue = 0;
+
+
+  /* =====================================================
+     PAGE 2 : ยังไม่ได้แจก
+  ====================================================== */
 
   if (currentPage === "planned") {
-    bagsValue = plannedData.reduce((s,i)=>s+Number(i.bags||0),0);
-    waterValue = plannedData.reduce((s,i)=>s+Number(i.water||0),0);
+
+    bagsValue =
+      plannedData.reduce(
+        (sum, item) =>
+          sum + Number(item.bags || 0),
+        0
+      );
+
+    waterValue =
+      plannedData.reduce(
+        (sum, item) =>
+          sum + Number(item.water || 0),
+        0
+      );
+
     bagsTotalValue = bagsValue;
     waterTotalValue = waterValue;
-  } else if (currentPage === "completed") {
-    bagsValue = completedData.reduce((s,i)=>s+Number(i.bags||0),0);
-    waterValue = completedData.reduce((s,i)=>s+Number(i.water||0),0);
-    bagsTotalValue = bagsValue;
-    waterTotalValue = waterValue;
-  } else {
-    bagsValue = plannedData.reduce((s,i)=>s+Number(i.bags||0),0);
-    waterValue = plannedData.reduce((s,i)=>s+Number(i.water||0),0);
-    bagsTotalValue = filteredAllData.reduce((s,i)=>s+Number(i.bags||0),0);
-    waterTotalValue = filteredAllData.reduce((s,i)=>s+Number(i.water||0),0);
+
   }
 
-  bagsTotal.textContent = formatNumber(bagsValue);
-  bagsTotalSmall.textContent = formatNumber(bagsTotalValue);
-  waterTotal.textContent = formatNumber(waterValue);
-  waterTotalSmall.textContent = formatNumber(waterTotalValue);
+
+  /* =====================================================
+     PAGE 1 : แจกไปแล้ว
+  ====================================================== */
+
+  else if (currentPage === "completed") {
+
+    bagsValue =
+      completedData.reduce(
+        (sum, item) =>
+          sum + Number(item.bags || 0),
+        0
+      );
+
+    waterValue =
+      completedData.reduce(
+        (sum, item) =>
+          sum + Number(item.water || 0),
+        0
+      );
+
+    bagsTotalValue = bagsValue;
+    waterTotalValue = waterValue;
+
+  }
+
+
+  /* =====================================================
+     PAGE 3 : ทั้งหมด
+
+     A = ยังไม่ได้แจกทั้งหมด
+     B = แจกแล้วทั้งหมด
+  ====================================================== */
+
+  else {
+
+    // ข้อมูล A
+    bagsValue =
+      plannedData.reduce(
+        (sum, item) =>
+          sum + Number(item.bags || 0),
+        0
+      );
+
+    waterValue =
+      plannedData.reduce(
+        (sum, item) =>
+          sum + Number(item.water || 0),
+        0
+      );
+
+
+    // ข้อมูล B
+    bagsTotalValue =
+      completedData.reduce(
+        (sum, item) =>
+          sum + Number(item.bags || 0),
+        0
+      );
+
+    waterTotalValue =
+      completedData.reduce(
+        (sum, item) =>
+          sum + Number(item.water || 0),
+        0
+      );
+
+  }
+
+
+  /* =====================================================
+     แสดงตัวเลข
+  ====================================================== */
+
+  bagsTotal.textContent =
+    formatNumber(bagsValue);
+
+  bagsTotalSmall.textContent =
+    formatNumber(bagsTotalValue);
+
+  waterTotal.textContent =
+    formatNumber(waterValue);
+
+  waterTotalSmall.textContent =
+    formatNumber(waterTotalValue);
+
+
+  /* =====================================================
+     รายการข้อมูล
+  ====================================================== */
 
   if (!pageData.length) {
-    supportList.innerHTML = '<div class="empty">ไม่พบข้อมูลตามเงื่อนไขที่เลือก</div>';
+
+    supportList.innerHTML =
+      '<div class="empty">ไม่พบข้อมูลตามเงื่อนไขที่เลือก</div>';
+
     updateFilterStatus(pageData);
+
     return;
   }
 
+
   const groups = {};
+
+
   pageData.forEach(item => {
-    if (!groups[item.date]) groups[item.date] = [];
+
+    if (!groups[item.date]) {
+      groups[item.date] = [];
+    }
+
     groups[item.date].push(item);
+
   });
+
 
   let html = "";
-  Object.keys(groups).sort().reverse().forEach(date => {
-    html += `<div class="date-group"><div class="date-badge">${formatThaiDate(date)}</div>`;
 
-    groups[date].forEach((item,index) => {
-      const images = Array.isArray(item.images) ? item.images : [];
-      const chip = item.status === "completed"
-        ? '<span class="status-chip completed">แจกแล้ว</span>'
-        : '<span class="status-chip planned">ยังไม่ได้แจก</span>';
+
+  Object.keys(groups)
+    .sort()
+    .reverse()
+    .forEach(date => {
 
       html += `
-        <div class="support-item">
-          <div class="item-title">
-            ${index + 1}. ${escapeHtml(item.location)}
-            จ.<strong>${escapeHtml(item.province)}</strong>
-            ${currentPage === "all" ? chip : ""}
+        <div class="date-group">
+
+          <div class="date-badge">
+            ${formatThaiDate(date)}
           </div>
-          <div class="item-amount">
-            • ถุงยังชีพ <strong>${formatNumber(item.bags)}</strong> ถุง
-            &nbsp;&nbsp;• น้ำดื่ม <strong>${formatNumber(item.water)}</strong> แพ็ก
-          </div>
-          ${images.length ? `
-            <div class="item-images">
-              ${images.slice(0,3).map(url => `
-                <img src="${escapeHtml(url)}" alt="รูปภาพการสนับสนุน" loading="lazy"
-                     onclick="openImage('${escapeHtml(url)}')">
-              `).join("")}
+      `;
+
+
+      groups[date].forEach(
+        (item, index) => {
+
+          const images =
+            Array.isArray(item.images)
+              ? item.images
+              : [];
+
+
+          const chip =
+            item.status === "completed"
+              ? '<span class="status-chip completed">แจกแล้ว</span>'
+              : '<span class="status-chip planned">ยังไม่ได้แจก</span>';
+
+
+          html += `
+
+            <div class="support-item">
+
+              <div class="item-title">
+
+                ${index + 1}.
+                ${escapeHtml(item.location)}
+
+                จ.<strong>
+                  ${escapeHtml(item.province)}
+                </strong>
+
+                ${
+                  currentPage === "all"
+                    ? chip
+                    : ""
+                }
+
+              </div>
+
+
+              <div class="item-amount">
+
+                • ถุงยังชีพ
+                <strong>
+                  ${formatNumber(item.bags)}
+                </strong>
+                ถุง
+
+                &nbsp;&nbsp;•
+
+                น้ำดื่ม
+                <strong>
+                  ${formatNumber(item.water)}
+                </strong>
+                แพ็ก
+
+              </div>
+
+
+              ${
+                images.length
+                  ? `
+
+                    <div class="item-images">
+
+                      ${
+                        images
+                          .slice(0, 3)
+                          .map(
+                            url => `
+
+                              <img
+                                src="${escapeHtml(url)}"
+                                alt="รูปภาพการสนับสนุน"
+                                loading="lazy"
+                                onclick="openImage('${escapeHtml(url)}')"
+                              >
+
+                            `
+                          )
+                          .join("")
+                      }
+
+                    </div>
+
+                  `
+                  : ""
+              }
+
             </div>
-          ` : ""}
+
+          `;
+
+        }
+      );
+
+
+      html += `
         </div>
       `;
+
     });
 
-    html += "</div>";
-  });
 
   supportList.innerHTML = html;
+
   updateFilterStatus(pageData);
+
 }
 
 function updateFilterStatus(data) {
