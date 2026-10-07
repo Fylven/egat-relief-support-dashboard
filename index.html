@@ -41,6 +41,7 @@
     body {
 
       margin: 0;
+      overflow-x: hidden;
 
       font-family:
         Arial,
@@ -803,7 +804,30 @@
 
 }
 
+/* =====================================================
+   MAIN GRID
+===================================================== */
 
+.main-grid {
+  margin: 0 26px 30px;
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  gap: 16px;
+  align-items: stretch;
+  width: auto;
+}
+
+.left-column {
+  min-width: 0;
+  width: 100%;
+}
+
+.support-card {
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+    
 /* =====================================================
    TABLET / หน้าจอไม่เกิน 1100px
 ===================================================== */
