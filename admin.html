@@ -1,261 +1,871 @@
 <!DOCTYPE html>
 <html lang="th">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>จัดการข้อมูล | EGAT Support Dashboard</title>
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    จัดการข้อมูล | EGAT Support Dashboard
+  </title>
+
+
+  <!-- =====================================================
+       SUPABASE
+  ====================================================== -->
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+
   <style>
+
     * {
       box-sizing: border-box;
     }
 
+
     body {
+
       margin: 0;
-      font-family: Arial, "Noto Sans Thai", sans-serif;
+
+      font-family:
+        Arial,
+        "Noto Sans Thai",
+        Tahoma,
+        sans-serif;
+
       background: #f5f7f9;
-      color: #222;
+
+      color: #123b70;
+
     }
+
+
+    /* =====================================================
+       HEADER
+    ===================================================== */
 
     .header {
-      background: #ffd400;
-      padding: 22px 30px;
-      box-shadow: 0 2px 8px rgba(0,0,0,.12);
+
+      margin: 14px 26px 18px;
+
+      padding: 22px 28px;
+
+      background: #ffc400;
+
+      border-radius: 18px;
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      box-shadow:
+        0 4px 12px rgba(0,0,0,.10);
+
     }
 
-    .header h1 {
-      margin: 0;
-      font-size: 26px;
+
+    .header-title {
+
+      font-size: 28px;
+
+      font-weight: 800;
+
     }
 
-    .header p {
-      margin: 6px 0 0;
+
+    .header-subtitle {
+
+      margin-top: 5px;
+
+      font-size: 16px;
+
       color: #444;
+
     }
+
+
+    .back-btn {
+
+      background: #ffffff;
+
+      color: #123b70;
+
+      text-decoration: none;
+
+      padding: 12px 20px;
+
+      border-radius: 10px;
+
+      font-weight: 700;
+
+      white-space: nowrap;
+
+    }
+
+
+    /* =====================================================
+       CONTAINER
+    ===================================================== */
 
     .container {
-      max-width: 1100px;
-      margin: 30px auto;
-      padding: 0 20px;
+
+      max-width: 1250px;
+
+      margin: 0 auto;
+
+      padding: 0 20px 40px;
+
     }
 
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 20px;
-    }
 
-    .topbar h2 {
-      margin: 0;
-    }
-
-    .btn {
-      border: 0;
-      border-radius: 8px;
-      padding: 10px 18px;
-      cursor: pointer;
-      font-size: 15px;
-      font-weight: 600;
-    }
-
-    .btn-primary {
-      background: #087f3e;
-      color: white;
-    }
-
-    .btn-secondary {
-      background: #eee;
-      color: #222;
-    }
-
-    .btn-danger {
-      background: #d62828;
-      color: white;
-    }
+    /* =====================================================
+       CARD
+    ===================================================== */
 
     .card {
-      background: white;
-      border-radius: 14px;
+
+      background: #ffffff;
+
+      border-radius: 18px;
+
       padding: 25px;
-      margin-bottom: 25px;
-      box-shadow: 0 3px 14px rgba(0,0,0,.08);
+
+      margin-bottom: 22px;
+
+      box-shadow:
+        0 3px 12px rgba(0,0,0,.07);
+
     }
+
+
+    .card-title {
+
+      margin: 0 0 22px;
+
+      font-size: 24px;
+
+      font-weight: 800;
+
+    }
+
+
+    /* =====================================================
+       FORM
+    ===================================================== */
 
     .form-grid {
+
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 20px;
+
     }
+
 
     .full {
+
       grid-column: 1 / -1;
+
     }
 
+
     label {
+
       display: block;
-      font-weight: 600;
-      margin-bottom: 7px;
+
+      margin-bottom: 8px;
+
+      font-size: 16px;
+
+      font-weight: 700;
+
+      color: #222;
+
     }
+
 
     input,
     select,
     textarea {
+
       width: 100%;
-      padding: 11px 12px;
-      border: 1px solid #d5d9dd;
-      border-radius: 8px;
-      font-size: 15px;
-      background: white;
+
+      border: 1px solid #d2d8df;
+
+      border-radius: 9px;
+
+      padding: 12px 14px;
+
+      font-size: 16px;
+
+      font-family: inherit;
+
+      background: #ffffff;
+
     }
+
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+
+      outline: none;
+
+      border-color: #14589d;
+
+      box-shadow:
+        0 0 0 2px rgba(20,88,157,.10);
+
+    }
+
 
     textarea {
-      min-height: 90px;
+
+      min-height: 110px;
+
       resize: vertical;
+
     }
+
+
+    /* =====================================================
+       IMAGE UPLOAD
+    ===================================================== */
+
+    .upload-box {
+
+      border: 2px dashed #cbd3dc;
+
+      border-radius: 12px;
+
+      padding: 20px;
+
+      background: #fafbfc;
+
+      text-align: center;
+
+      cursor: pointer;
+
+      transition: .2s;
+
+    }
+
+
+    .upload-box:hover {
+
+      border-color: #14589d;
+
+      background: #f3f7fc;
+
+    }
+
+
+    .upload-box input {
+
+      border: none;
+
+      box-shadow: none;
+
+      padding: 0;
+
+      cursor: pointer;
+
+    }
+
+
+    .upload-help {
+
+      margin-top: 8px;
+
+      color: #777;
+
+      font-size: 14px;
+
+    }
+
+
+    .image-preview {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 12px;
+
+      margin-top: 15px;
+
+    }
+
+
+    .preview-item {
+
+      position: relative;
+
+      border-radius: 10px;
+
+      overflow: hidden;
+
+      background: #eee;
+
+      border: 1px solid #ddd;
+
+    }
+
+
+    .preview-item img {
+
+      display: block;
+
+      width: 100%;
+
+      height: 160px;
+
+      object-fit: cover;
+
+    }
+
+
+    .remove-image-btn {
+
+      position: absolute;
+
+      top: 7px;
+
+      right: 7px;
+
+      width: 30px;
+
+      height: 30px;
+
+      border: none;
+
+      border-radius: 50%;
+
+      background: rgba(190,0,0,.90);
+
+      color: white;
+
+      cursor: pointer;
+
+      font-size: 17px;
+
+      font-weight: 700;
+
+    }
+
+
+    .image-count {
+
+      margin-top: 10px;
+
+      font-size: 14px;
+
+      font-weight: 700;
+
+      color: #555;
+
+    }
+
+
+    /* =====================================================
+       BUTTONS
+    ===================================================== */
 
     .form-actions {
+
       display: flex;
+
       gap: 10px;
-      margin-top: 20px;
+
+      margin-top: 22px;
+
     }
+
+
+    .btn {
+
+      border: none;
+
+      border-radius: 9px;
+
+      padding: 12px 20px;
+
+      font-size: 16px;
+
+      font-weight: 700;
+
+      cursor: pointer;
+
+    }
+
+
+    .btn-primary {
+
+      background: #087f3e;
+
+      color: white;
+
+    }
+
+
+    .btn-primary:hover {
+
+      background: #066b34;
+
+    }
+
+
+    .btn-secondary {
+
+      background: #eeeeee;
+
+      color: #222;
+
+    }
+
+
+    .btn-danger {
+
+      background: #ffe1e1;
+
+      color: #b42318;
+
+    }
+
+
+    .btn:disabled {
+
+      opacity: .6;
+
+      cursor: not-allowed;
+
+    }
+
+
+    /* =====================================================
+       STATUS
+    ===================================================== */
 
     .status {
-      margin-bottom: 15px;
-      padding: 12px 15px;
-      border-radius: 8px;
+
       display: none;
+
+      margin-bottom: 18px;
+
+      padding: 13px 16px;
+
+      border-radius: 9px;
+
+      font-weight: 700;
+
     }
+
 
     .status.success {
+
       display: block;
-      background: #e8f7ee;
+
+      background: #e7f7ed;
+
       color: #087f3e;
+
     }
+
 
     .status.error {
+
       display: block;
+
       background: #fdecec;
+
       color: #b42318;
+
     }
+
+
+    /* =====================================================
+       DATA LIST
+    ===================================================== */
 
     .date-group {
-      margin-bottom: 28px;
+
+      margin-bottom: 30px;
+
     }
+
 
     .date-title {
-      font-size: 18px;
-      font-weight: 700;
+
       padding: 10px 0;
-      border-bottom: 2px solid #ffd400;
-      margin-bottom: 10px;
+
+      border-bottom: 2px solid #ffc400;
+
+      margin-bottom: 12px;
+
+      font-size: 21px;
+
+      font-weight: 900;
+
     }
 
-    .item {
-      border: 1px solid #e1e5e8;
-      border-radius: 10px;
-      padding: 15px;
-      margin-bottom: 10px;
-      background: #fff;
+
+    .data-item {
+
+      border: 1px solid #dde2e7;
+
+      border-radius: 12px;
+
+      padding: 16px;
+
+      margin-bottom: 12px;
+
+      background: #ffffff;
+
     }
+
 
     .item-title {
-      font-size: 16px;
-      line-height: 1.6;
+
+      font-size: 17px;
+
+      line-height: 1.65;
+
+      font-weight: 700;
+
+      color: #123b70;
+
     }
+
 
     .item-info {
+
       margin-top: 7px;
-      color: #666;
-      font-size: 14px;
+
+      font-size: 15px;
+
+      color: #555;
+
     }
+
+
+    .item-images {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 10px;
+
+      margin-top: 12px;
+
+      max-width: 650px;
+
+    }
+
+
+    .item-images img {
+
+      width: 100%;
+
+      height: 120px;
+
+      object-fit: cover;
+
+      border-radius: 9px;
+
+      background: #eee;
+
+    }
+
 
     .item-actions {
+
       display: flex;
+
       gap: 8px;
-      margin-top: 12px;
+
+      margin-top: 13px;
+
     }
+
 
     .small-btn {
-      border: 0;
-      border-radius: 6px;
-      padding: 7px 13px;
+
+      border: none;
+
+      border-radius: 7px;
+
+      padding: 8px 14px;
+
       cursor: pointer;
-      font-size: 13px;
+
+      font-size: 14px;
+
+      font-weight: 700;
+
     }
+
 
     .edit-btn {
-      background: #eee;
+
+      background: #eeeeee;
+
+      color: #222;
+
     }
+
 
     .delete-btn {
+
       background: #ffe1e1;
+
       color: #b42318;
+
     }
+
 
     .empty {
+
       text-align: center;
-      padding: 35px;
+
+      padding: 50px;
+
       color: #777;
+
     }
 
-    @media (max-width: 700px) {
-      .form-grid {
-        grid-template-columns: 1fr;
+
+    .loading {
+
+      text-align: center;
+
+      padding: 50px;
+
+      color: #777;
+
+    }
+
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+
+    @media (max-width: 800px) {
+
+      .header {
+
+        margin: 10px;
+
+        padding: 18px;
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 15px;
+
       }
+
+
+      .header-title {
+
+        font-size: 22px;
+
+      }
+
+
+      .container {
+
+        padding: 0 10px 30px;
+
+      }
+
+
+      .form-grid {
+
+        grid-template-columns: 1fr;
+
+      }
+
 
       .full {
+
         grid-column: auto;
+
       }
 
-      .topbar {
-        align-items: flex-start;
-        flex-direction: column;
+
+      .image-preview {
+
+        grid-template-columns:
+          repeat(2, 1fr);
+
       }
+
+
+      .item-images {
+
+        grid-template-columns:
+          repeat(2, 1fr);
+
+      }
+
     }
+
+
+    @media (max-width: 500px) {
+
+      .card {
+
+        padding: 17px;
+
+      }
+
+
+      .image-preview {
+
+        grid-template-columns: 1fr 1fr;
+
+      }
+
+
+      .item-images {
+
+        grid-template-columns: 1fr;
+
+      }
+
+
+      .form-actions {
+
+        flex-direction: column;
+
+      }
+
+
+      .btn {
+
+        width: 100%;
+
+      }
+
+    }
+
   </style>
+
 </head>
+
 
 <body>
 
+
+  <!-- =====================================================
+       HEADER
+  ====================================================== -->
+
   <header class="header">
-    <h1>⚙️ จัดการข้อมูล</h1>
-    <p>EGAT Support Dashboard</p>
+
+    <div>
+
+      <div class="header-title">
+        เพิ่มข้อมูลสนับสนุน
+      </div>
+
+      <div class="header-subtitle">
+        EGAT Support Dashboard
+      </div>
+
+    </div>
+
+
+    <a
+      href="index.html"
+      class="back-btn"
+    >
+      ← กลับ Dashboard
+    </a>
+
   </header>
+
+
 
   <main class="container">
 
-    <div class="topbar">
-      <h2 id="formTitle">เพิ่มข้อมูลสนับสนุน</h2>
 
-      <a href="index.html">
-        <button class="btn btn-secondary">
-          ← กลับ Dashboard
-        </button>
-      </a>
-    </div>
+    <!-- ===================================================
+         STATUS
+    ==================================================== -->
 
-    <div id="status" class="status"></div>
+    <div
+      id="status"
+      class="status"
+    ></div>
 
-    <!-- FORM -->
+
+
+    <!-- ===================================================
+         FORM
+    ==================================================== -->
+
     <section class="card">
+
+      <h2
+        class="card-title"
+        id="formTitle"
+      >
+        เพิ่มข้อมูลสนับสนุน
+      </h2>
+
 
       <div class="form-grid">
 
+
+        <!-- DATE -->
+
         <div>
-          <label for="date">วันที่</label>
-          <input type="date" id="date">
+
+          <label for="date">
+            วันที่
+          </label>
+
+          <input
+            type="date"
+            id="date"
+          >
+
         </div>
 
-        <div>
-          <label for="province">จังหวัด</label>
 
-          <select id="province">
-            <option value="">-- เลือกจังหวัด --</option>
+
+        <!-- PROVINCE -->
+
+        <div>
+
+          <label for="province">
+            จังหวัด
+          </label>
+
+          <select
+            id="province"
+          >
+
+            <option value="">
+              -- เลือกจังหวัด --
+            </option>
+
             <option>พระนครศรีอยุธยา</option>
             <option>สิงห์บุรี</option>
             <option>สุพรรณบุรี</option>
@@ -270,61 +880,128 @@
             <option>จันทบุรี</option>
             <option>สระแก้ว</option>
             <option>ตราด</option>
+
           </select>
+
         </div>
 
+
+
+        <!-- LOCATION -->
+
         <div class="full">
-          <label for="location">สถานที่ / รายละเอียด</label>
+
+          <label for="location">
+            สถานที่ / รายละเอียด
+          </label>
 
           <textarea
             id="location"
             placeholder="เช่น วัดสุทธาราม ต.หอมหก อ.บางไทร"
           ></textarea>
+
         </div>
 
+
+
+        <!-- BAGS -->
+
         <div>
-          <label for="bags">ถุงยังชีพ (ถุง)</label>
+
+          <label for="bags">
+            ถุงยังชีพ (ถุง)
+          </label>
+
           <input
             type="number"
             id="bags"
             min="0"
             value="0"
           >
+
         </div>
 
+
+
+        <!-- WATER -->
+
         <div>
-          <label for="water">น้ำดื่ม (แพ็ก)</label>
+
+          <label for="water">
+            น้ำดื่ม (แพ็ก)
+          </label>
+
           <input
             type="number"
             id="water"
             min="0"
             value="0"
           >
+
         </div>
+
+
+
+        <!-- IMAGE UPLOAD -->
 
         <div class="full">
-          <label for="images">
-            ลิงก์รูปภาพ (ถ้ามี)
+
+          <label>
+            อัปโหลดรูปภาพ (สูงสุด 3 ภาพ)
           </label>
 
-          <textarea
-            id="images"
-            placeholder="ใส่ URL รูปภาพ คั่นด้วยเครื่องหมาย ,"
-          ></textarea>
+
+          <div class="upload-box">
+
+            <input
+              type="file"
+              id="imageFiles"
+              accept="image/*"
+              multiple
+            >
+
+            <div class="upload-help">
+              เลือกรูปภาพจากเครื่องได้ไม่เกิน 3 ภาพ
+            </div>
+
+          </div>
+
+
+          <div
+            id="imageCount"
+            class="image-count"
+          >
+            รูปภาพ 0 / 3
+          </div>
+
+
+          <div
+            id="imagePreview"
+            class="image-preview"
+          ></div>
+
         </div>
 
+
       </div>
+
+
+
+      <!-- ACTION -->
 
       <div class="form-actions">
 
         <button
+          type="button"
           class="btn btn-primary"
           id="saveBtn"
         >
           💾 บันทึกข้อมูล
         </button>
 
+
         <button
+          type="button"
           class="btn btn-secondary"
           id="cancelBtn"
           style="display:none;"
@@ -336,31 +1013,53 @@
 
     </section>
 
-    <!-- LIST -->
+
+
+    <!-- ===================================================
+         DATA LIST
+    ==================================================== -->
+
     <section class="card">
 
-      <h2>รายการข้อมูล</h2>
+      <h2 class="card-title">
+        รายการข้อมูล
+      </h2>
+
 
       <div id="records">
-        กำลังโหลดข้อมูล...
+
+        <div class="loading">
+          กำลังโหลดข้อมูล...
+        </div>
+
       </div>
 
     </section>
 
+
   </main>
+
 
 
 <script>
 
+
   /* =====================================================
      SUPABASE CONFIG
-     ===================================================== */
+  ====================================================== */
 
   const SUPABASE_URL =
-  "https://voaktlbvwzliyfhxksdz.supabase.co";
+    "https://voaktlbvwzliyfhxksdz.supabase.co";
+
+
+  /*
+    ใส่ Publishable Key ของฟิล์มตรงนี้
+    ต้องขึ้นต้นด้วย sb_publishable_
+  */
 
   const SUPABASE_KEY =
-  "sb_publishable_g_p2WWtAFq2GppJN-kLaWg_ccrxTkQ2";
+    "sb_publishable_g_p2WWtAFq2GppJN-kLaWg_ccrxTkQ2";
+
 
   const supabaseClient =
     window.supabase.createClient(
@@ -369,53 +1068,155 @@
     );
 
 
+
   /* =====================================================
-     ELEMENTS
-     ===================================================== */
+     DOM
+  ====================================================== */
 
-  const dateInput = document.getElementById("date");
-  const provinceInput = document.getElementById("province");
-  const locationInput = document.getElementById("location");
-  const bagsInput = document.getElementById("bags");
-  const waterInput = document.getElementById("water");
-  const imagesInput = document.getElementById("images");
+  const dateInput =
+    document.getElementById("date");
 
-  const saveBtn = document.getElementById("saveBtn");
-  const cancelBtn = document.getElementById("cancelBtn");
+  const provinceInput =
+    document.getElementById("province");
 
-  const recordsEl = document.getElementById("records");
-  const statusEl = document.getElementById("status");
-  const formTitle = document.getElementById("formTitle");
+  const locationInput =
+    document.getElementById("location");
+
+  const bagsInput =
+    document.getElementById("bags");
+
+  const waterInput =
+    document.getElementById("water");
+
+  const imageFilesInput =
+    document.getElementById("imageFiles");
+
+  const imagePreview =
+    document.getElementById("imagePreview");
+
+  const imageCount =
+    document.getElementById("imageCount");
+
+  const saveBtn =
+    document.getElementById("saveBtn");
+
+  const cancelBtn =
+    document.getElementById("cancelBtn");
+
+  const recordsEl =
+    document.getElementById("records");
+
+  const statusEl =
+    document.getElementById("status");
+
+  const formTitle =
+    document.getElementById("formTitle");
+
+
+
+  /* =====================================================
+     STATE
+  ====================================================== */
 
   let editingId = null;
 
 
+  /*
+    รูปใหม่ที่ผู้ใช้เลือก
+  */
+
+  let selectedImageFiles = [];
+
+
+  /*
+    URL รูปเดิมจาก Database
+  */
+
+  let existingImages = [];
+
+
+
   /* =====================================================
      STATUS
-     ===================================================== */
+  ====================================================== */
 
-  function showStatus(message, type = "success") {
+  function showStatus(
+    message,
+    type = "success"
+  ) {
 
-    statusEl.textContent = message;
+    statusEl.textContent =
+      message;
 
     statusEl.className =
       "status " + type;
 
-    setTimeout(() => {
-      statusEl.className = "status";
-    }, 3500);
+
+    setTimeout(
+      () => {
+
+        statusEl.className =
+          "status";
+
+      },
+      4000
+    );
+
   }
 
 
+
   /* =====================================================
-     FORMAT DATE
-     ===================================================== */
+     HTML ESCAPE
+  ====================================================== */
 
-  function formatThaiDate(dateString) {
+  function escapeHtml(value) {
 
-    const date = new Date(
-      dateString + "T00:00:00"
-    );
+    return String(value ?? "")
+
+      .replace(
+        /&/g,
+        "&amp;"
+      )
+
+      .replace(
+        /</g,
+        "&lt;"
+      )
+
+      .replace(
+        />/g,
+        "&gt;"
+      )
+
+      .replace(
+        /"/g,
+        "&quot;"
+      )
+
+      .replace(
+        /'/g,
+        "&#039;"
+      );
+
+  }
+
+
+
+  /* =====================================================
+     DATE FORMAT
+  ====================================================== */
+
+  function formatThaiDate(
+    dateString
+  ) {
+
+    const date =
+      new Date(
+        dateString +
+        "T00:00:00"
+      );
+
 
     return date.toLocaleDateString(
       "th-TH",
@@ -425,55 +1226,469 @@
         year: "2-digit"
       }
     );
+
   }
+
+
+
+  /* =====================================================
+     IMAGE COUNT
+  ====================================================== */
+
+  function updateImageCount() {
+
+    const total =
+      existingImages.length +
+      selectedImageFiles.length;
+
+
+    imageCount.textContent =
+      `รูปภาพ ${total} / 3`;
+
+  }
+
+
+
+  /* =====================================================
+     RENDER IMAGE PREVIEW
+  ====================================================== */
+
+  function renderImagePreview() {
+
+    imagePreview.innerHTML =
+      "";
+
+
+    /*
+      OLD IMAGES
+    */
+
+    existingImages.forEach(
+      (
+        url,
+        index
+      ) => {
+
+        const wrapper =
+          document.createElement(
+            "div"
+          );
+
+        wrapper.className =
+          "preview-item";
+
+
+        const img =
+          document.createElement(
+            "img"
+          );
+
+        img.src =
+          url;
+
+        img.alt =
+          "รูปภาพเดิม";
+
+
+        const removeBtn =
+          document.createElement(
+            "button"
+          );
+
+        removeBtn.type =
+          "button";
+
+        removeBtn.className =
+          "remove-image-btn";
+
+        removeBtn.textContent =
+          "×";
+
+        removeBtn.title =
+          "เอารูปนี้ออก";
+
+
+        removeBtn.addEventListener(
+          "click",
+          () => {
+
+            existingImages.splice(
+              index,
+              1
+            );
+
+            renderImagePreview();
+
+          }
+        );
+
+
+        wrapper.appendChild(
+          img
+        );
+
+        wrapper.appendChild(
+          removeBtn
+        );
+
+        imagePreview.appendChild(
+          wrapper
+        );
+
+      }
+    );
+
+
+
+    /*
+      NEW IMAGES
+    */
+
+    selectedImageFiles.forEach(
+      (
+        file,
+        index
+      ) => {
+
+        const wrapper =
+          document.createElement(
+            "div"
+          );
+
+        wrapper.className =
+          "preview-item";
+
+
+        const img =
+          document.createElement(
+            "img"
+          );
+
+
+        const removeBtn =
+          document.createElement(
+            "button"
+          );
+
+        removeBtn.type =
+          "button";
+
+        removeBtn.className =
+          "remove-image-btn";
+
+        removeBtn.textContent =
+          "×";
+
+        removeBtn.title =
+          "เอารูปนี้ออก";
+
+
+        removeBtn.addEventListener(
+          "click",
+          () => {
+
+            selectedImageFiles.splice(
+              index,
+              1
+            );
+
+            renderImagePreview();
+
+          }
+        );
+
+
+        wrapper.appendChild(
+          img
+        );
+
+        wrapper.appendChild(
+          removeBtn
+        );
+
+        imagePreview.appendChild(
+          wrapper
+        );
+
+
+        const reader =
+          new FileReader();
+
+
+        reader.onload =
+          event => {
+
+            img.src =
+              event.target.result;
+
+          };
+
+
+        reader.readAsDataURL(
+          file
+        );
+
+      }
+    );
+
+
+    updateImageCount();
+
+  }
+
+
+
+  /* =====================================================
+     SELECT IMAGES
+  ====================================================== */
+
+  imageFilesInput.addEventListener(
+    "change",
+    () => {
+
+      const files =
+        Array.from(
+          imageFilesInput.files
+        );
+
+
+      const total =
+        existingImages.length +
+        files.length;
+
+
+      if (total > 3) {
+
+        alert(
+          `รายการนี้มีรูปอยู่แล้ว ${existingImages.length} ภาพ\n` +
+          `สามารถเพิ่มได้อีกไม่เกิน ${3 - existingImages.length} ภาพ`
+        );
+
+
+        imageFilesInput.value =
+          "";
+
+        return;
+
+      }
+
+
+      selectedImageFiles =
+        files;
+
+
+      renderImagePreview();
+
+    }
+  );
+
+
+
+  /* =====================================================
+     UPLOAD IMAGES
+  ====================================================== */
+
+  async function uploadImages() {
+
+    const uploadedUrls = [];
+
+
+    for (
+      const file of selectedImageFiles
+    ) {
+
+
+      /*
+        ตรวจสอบไฟล์
+      */
+
+      if (
+        !file.type.startsWith(
+          "image/"
+        )
+      ) {
+
+        throw new Error(
+          "สามารถอัปโหลดได้เฉพาะไฟล์รูปภาพ"
+        );
+
+      }
+
+
+      /*
+        จำกัดขนาด 10 MB / รูป
+      */
+
+      if (
+        file.size >
+        10 * 1024 * 1024
+      ) {
+
+        throw new Error(
+          `รูป ${file.name} มีขนาดเกิน 10 MB`
+        );
+
+      }
+
+
+      const extension =
+        file.name
+          .split(".")
+          .pop()
+          .toLowerCase();
+
+
+      /*
+        สร้างชื่อไฟล์ไม่ซ้ำ
+      */
+
+      const uniqueName =
+        `${Date.now()}-${crypto.randomUUID()}.${extension}`;
+
+
+      const filePath =
+        `support/${uniqueName}`;
+
+
+      /*
+        Upload
+      */
+
+      const { error } =
+        await supabaseClient
+          .storage
+          .from("support-images")
+          .upload(
+            filePath,
+            file,
+            {
+              cacheControl:
+                "3600",
+
+              upsert:
+                false
+            }
+          );
+
+
+      if (error) {
+
+        console.error(
+          "Image upload error:",
+          error
+        );
+
+        throw error;
+
+      }
+
+
+      /*
+        Public URL
+      */
+
+      const { data } =
+        supabaseClient
+          .storage
+          .from("support-images")
+          .getPublicUrl(
+            filePath
+          );
+
+
+      uploadedUrls.push(
+        data.publicUrl
+      );
+
+    }
+
+
+    return uploadedUrls;
+
+  }
+
 
 
   /* =====================================================
      LOAD RECORDS
-     ===================================================== */
+  ====================================================== */
 
   async function loadRecords() {
 
-    recordsEl.innerHTML =
-      "กำลังโหลดข้อมูล...";
+    recordsEl.innerHTML = `
+      <div class="loading">
+        กำลังโหลดข้อมูล...
+      </div>
+    `;
+
 
     const { data, error } =
       await supabaseClient
-        .from("support_records")
+
+        .from(
+          "support_records"
+        )
+
         .select("*")
-        .order("date", {
-          ascending: false
-        })
-        .order("id", {
-          ascending: true
-        });
+
+        .order(
+          "date",
+          {
+            ascending: false
+          }
+        )
+
+        .order(
+          "id",
+          {
+            ascending: true
+          }
+        );
+
 
     if (error) {
 
       console.error(error);
 
-      recordsEl.innerHTML =
-        "ไม่สามารถโหลดข้อมูลได้";
+
+      recordsEl.innerHTML = `
+        <div class="empty">
+          โหลดข้อมูลไม่สำเร็จ
+        </div>
+      `;
+
 
       showStatus(
-        "โหลดข้อมูลไม่สำเร็จ",
+        "โหลดข้อมูลไม่สำเร็จ: " +
+        error.message,
         "error"
       );
 
+
       return;
+
     }
 
-    renderRecords(data || []);
+
+    renderRecords(
+      data || []
+    );
+
   }
+
 
 
   /* =====================================================
      RENDER RECORDS
-     ===================================================== */
+  ====================================================== */
 
-  function renderRecords(data) {
+  function renderRecords(
+    data
+  ) {
 
-    if (!data.length) {
+    if (
+      data.length === 0
+    ) {
 
       recordsEl.innerHTML = `
         <div class="empty">
@@ -482,168 +1697,230 @@
       `;
 
       return;
+
     }
+
 
     const groups = {};
 
-    data.forEach(item => {
 
-      if (!groups[item.date]) {
-        groups[item.date] = [];
+    data.forEach(
+      item => {
+
+        if (
+          !groups[item.date]
+        ) {
+
+          groups[item.date] =
+            [];
+
+        }
+
+
+        groups[item.date].push(
+          item
+        );
+
       }
-
-      groups[item.date].push(item);
-
-    });
+    );
 
 
     let html = "";
 
+
     Object.keys(groups)
+
       .sort()
+
       .reverse()
-      .forEach(date => {
 
-        html += `
-          <div class="date-group">
+      .forEach(
+        date => {
 
-            <div class="date-title">
-              ${formatThaiDate(date)}
-            </div>
-        `;
 
-        groups[date].forEach(
-          (item, index) => {
+          html += `
 
-            const images =
-              Array.isArray(item.images)
-                ? item.images.join(", ")
-                : "";
+            <div class="date-group">
 
-            html += `
-
-              <div class="item">
-
-                <div class="item-title">
-
-                  <strong>
-                    ${index + 1}.
-                  </strong>
-
-                  ${escapeHtml(item.location)}
-
-                  จ.<strong>
-                    ${escapeHtml(item.province)}
-                  </strong>
-
-                </div>
-
-                <div class="item-info">
-
-                  👜 ถุงยังชีพ:
-                  <strong>
-                    ${Number(item.bags).toLocaleString()}
-                  </strong>
-                  ถุง
-
-                  &nbsp;&nbsp;|&nbsp;&nbsp;
-
-                  💧 น้ำดื่ม:
-                  <strong>
-                    ${Number(item.water).toLocaleString()}
-                  </strong>
-                  แพ็ก
-
-                </div>
-
-                ${
-                  images
-                    ? `
-                      <div class="item-info">
-                        🖼️ ${escapeHtml(images)}
-                      </div>
-                    `
-                    : ""
-                }
-
-                <div class="item-actions">
-
-                  <button
-                    class="small-btn edit-btn"
-                    onclick="editRecord(${item.id})"
-                  >
-                    ✏️ แก้ไข
-                  </button>
-
-                  <button
-                    class="small-btn delete-btn"
-                    onclick="deleteRecord(${item.id})"
-                  >
-                    🗑️ ลบ
-                  </button>
-
-                </div>
-
+              <div class="date-title">
+                ${formatThaiDate(date)}
               </div>
 
-            `;
-          }
-        );
+          `;
 
-        html += `
-          </div>
-        `;
 
-      });
+          groups[date].forEach(
+            (
+              item,
+              index
+            ) => {
 
-    recordsEl.innerHTML = html;
+
+              const images =
+                Array.isArray(
+                  item.images
+                )
+                  ? item.images
+                  : [];
+
+
+              html += `
+
+                <div class="data-item">
+
+
+                  <div class="item-title">
+
+                    ${index + 1}.
+
+                    ${escapeHtml(
+                      item.location
+                    )}
+
+                    จ.<strong>
+                      ${escapeHtml(
+                        item.province
+                      )}
+                    </strong>
+
+                  </div>
+
+
+                  <div class="item-info">
+
+                    👜 ถุงยังชีพ:
+                    <strong>
+                      ${Number(
+                        item.bags || 0
+                      ).toLocaleString()}
+                    </strong>
+                    ถุง
+
+                    &nbsp;&nbsp;|&nbsp;&nbsp;
+
+                    💧 น้ำดื่ม:
+                    <strong>
+                      ${Number(
+                        item.water || 0
+                      ).toLocaleString()}
+                    </strong>
+                    แพ็ก
+
+                  </div>
+
+
+                  ${
+                    images.length
+                      ? `
+
+                        <div class="item-images">
+
+                          ${
+                            images
+                              .slice(
+                                0,
+                                3
+                              )
+                              .map(
+                                url => `
+
+                                  <img
+                                    src="${escapeHtml(url)}"
+                                    alt="รูปภาพการสนับสนุน"
+                                    loading="lazy"
+                                  >
+
+                                `
+                              )
+                              .join("")
+                          }
+
+                        </div>
+
+                      `
+                      : ""
+                  }
+
+
+                  <div class="item-actions">
+
+                    <button
+                      class="small-btn edit-btn"
+                      onclick="editRecord(${item.id})"
+                    >
+                      ✏️ แก้ไข
+                    </button>
+
+
+                    <button
+                      class="small-btn delete-btn"
+                      onclick="deleteRecord(${item.id})"
+                    >
+                      🗑️ ลบ
+                    </button>
+
+                  </div>
+
+
+                </div>
+
+              `;
+
+            }
+          );
+
+
+          html += `
+            </div>
+          `;
+
+        }
+      );
+
+
+    recordsEl.innerHTML =
+      html;
+
   }
 
-
-  /* =====================================================
-     ESCAPE HTML
-     ===================================================== */
-
-  function escapeHtml(value) {
-
-    return String(value ?? "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-  }
 
 
   /* =====================================================
      SAVE
-     ===================================================== */
+  ====================================================== */
 
   saveBtn.addEventListener(
     "click",
     async () => {
 
+
       const date =
         dateInput.value;
+
 
       const province =
         provinceInput.value;
 
+
       const location =
         locationInput.value.trim();
 
+
       const bags =
-        Number(bagsInput.value) || 0;
+        Number(
+          bagsInput.value
+        ) || 0;
+
 
       const water =
-        Number(waterInput.value) || 0;
+        Number(
+          waterInput.value
+        ) || 0;
 
-      const images =
-        imagesInput.value
-          .split(",")
-          .map(x => x.trim())
-          .filter(Boolean);
 
+      /*
+        VALIDATION
+      */
 
       if (!date) {
 
@@ -653,7 +1930,9 @@
         );
 
         return;
+
       }
+
 
       if (!province) {
 
@@ -663,7 +1942,9 @@
         );
 
         return;
+
       }
+
 
       if (!location) {
 
@@ -673,183 +1954,367 @@
         );
 
         return;
+
       }
 
 
-      saveBtn.disabled = true;
+      const totalImages =
+        existingImages.length +
+        selectedImageFiles.length;
+
+
+      if (
+        totalImages > 3
+      ) {
+
+        showStatus(
+          "สามารถมีรูปภาพได้ไม่เกิน 3 ภาพต่อรายการ",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      /*
+        DISABLE
+      */
+
+      saveBtn.disabled =
+        true;
+
 
       saveBtn.textContent =
         "กำลังบันทึก...";
 
 
-      const payload = {
-
-        date,
-        province,
-        location,
-        bags,
-        water,
-        images
-
-      };
+      try {
 
 
-      let result;
+        /*
+          UPLOAD NEW IMAGES
+        */
+
+        const newImages =
+          await uploadImages();
 
 
-      if (editingId) {
+        const images = [
 
-        result =
-          await supabaseClient
-            .from("support_records")
-            .update(payload)
-            .eq("id", editingId);
+          ...existingImages,
 
-      } else {
+          ...newImages
 
-        result =
-          await supabaseClient
-            .from("support_records")
-            .insert([payload]);
-
-      }
-
-
-      if (result.error) {
-
-        console.error(result.error);
-
-        showStatus(
-          "บันทึกข้อมูลไม่สำเร็จ: " +
-          result.error.message,
-          "error"
+        ].slice(
+          0,
+          3
         );
 
-      } else {
 
-        showStatus(
+        /*
+          PAYLOAD
+        */
+
+        const payload = {
+
+          date,
+
+          province,
+
+          location,
+
+          bags,
+
+          water,
+
+          images
+
+        };
+
+
+        let result;
+
+
+        /*
+          EDIT
+        */
+
+        if (
           editingId
+        ) {
+
+
+          result =
+            await supabaseClient
+
+              .from(
+                "support_records"
+              )
+
+              .update(
+                payload
+              )
+
+              .eq(
+                "id",
+                editingId
+              );
+
+        }
+
+
+        /*
+          INSERT
+        */
+
+        else {
+
+
+          result =
+            await supabaseClient
+
+              .from(
+                "support_records"
+              )
+
+              .insert([
+                payload
+              ]);
+
+        }
+
+
+        if (
+          result.error
+        ) {
+
+          throw result.error;
+
+        }
+
+
+        /*
+          SUCCESS
+        */
+
+        showStatus(
+
+          editingId
+
             ? "แก้ไขข้อมูลเรียบร้อยแล้ว 🎉"
+
             : "เพิ่มข้อมูลเรียบร้อยแล้ว 🎉"
+
         );
+
 
         resetForm();
 
+
         await loadRecords();
+
+
+      }
+
+      catch (
+        error
+      ) {
+
+
+        console.error(
+          error
+        );
+
+
+        showStatus(
+
+          "บันทึกข้อมูลไม่สำเร็จ: " +
+          error.message,
+
+          "error"
+
+        );
 
       }
 
 
-      saveBtn.disabled = false;
+      finally {
 
-      saveBtn.textContent =
-        "💾 บันทึกข้อมูล";
+
+        saveBtn.disabled =
+          false;
+
+
+        saveBtn.textContent =
+          "💾 บันทึกข้อมูล";
+
+      }
 
     }
   );
 
 
+
   /* =====================================================
-     EDIT
-     ===================================================== */
+     EDIT RECORD
+  ====================================================== */
 
   window.editRecord =
     async function(id) {
 
-      const { data, error } =
-        await supabaseClient
-          .from("support_records")
-          .select("*")
-          .eq("id", id)
-          .single();
+
+      const {
+        data,
+        error
+      } = await supabaseClient
+
+        .from(
+          "support_records"
+        )
+
+        .select("*")
+
+        .eq(
+          "id",
+          id
+        )
+
+        .single();
 
 
       if (error) {
 
         showStatus(
-          "โหลดข้อมูลสำหรับแก้ไขไม่สำเร็จ",
+          "โหลดข้อมูลไม่สำเร็จ: " +
+          error.message,
           "error"
         );
 
         return;
+
       }
 
 
-      editingId = id;
+      editingId =
+        id;
+
 
       dateInput.value =
-        data.date;
+        data.date || "";
+
 
       provinceInput.value =
-        data.province;
+        data.province || "";
+
 
       locationInput.value =
-        data.location;
+        data.location || "";
+
 
       bagsInput.value =
-        data.bags;
+        data.bags || 0;
+
 
       waterInput.value =
-        data.water;
+        data.water || 0;
 
-      imagesInput.value =
-        Array.isArray(data.images)
-          ? data.images.join(", ")
-          : "";
+
+      existingImages =
+        Array.isArray(
+          data.images
+        )
+          ? [
+              ...data.images
+            ].slice(
+              0,
+              3
+            )
+          : [];
+
+
+      selectedImageFiles =
+        [];
+
+
+      imageFilesInput.value =
+        "";
+
+
+      renderImagePreview();
 
 
       formTitle.textContent =
         "แก้ไขข้อมูล";
 
+
       saveBtn.textContent =
         "💾 บันทึกการแก้ไข";
+
 
       cancelBtn.style.display =
         "inline-block";
 
 
       window.scrollTo({
+
         top: 0,
+
         behavior: "smooth"
+
       });
 
     };
 
 
+
   /* =====================================================
-     DELETE
-     ===================================================== */
+     DELETE RECORD
+  ====================================================== */
 
   window.deleteRecord =
     async function(id) {
+
 
       const confirmed =
         confirm(
           "ต้องการลบรายการนี้ใช่หรือไม่?"
         );
 
+
       if (!confirmed) {
+
         return;
+
       }
 
 
-      const { error } =
-        await supabaseClient
-          .from("support_records")
-          .delete()
-          .eq("id", id);
+      const {
+        error
+      } = await supabaseClient
+
+        .from(
+          "support_records"
+        )
+
+        .delete()
+
+        .eq(
+          "id",
+          id
+        );
 
 
       if (error) {
 
-        console.error(error);
-
         showStatus(
-          "ลบข้อมูลไม่สำเร็จ",
+          "ลบข้อมูลไม่สำเร็จ: " +
+          error.message,
           "error"
         );
 
         return;
+
       }
 
 
@@ -857,41 +2322,81 @@
         "ลบข้อมูลเรียบร้อยแล้ว"
       );
 
+
       await loadRecords();
 
     };
 
 
+
   /* =====================================================
-     RESET
-     ===================================================== */
+     RESET FORM
+  ====================================================== */
 
   function resetForm() {
 
-    editingId = null;
 
-    dateInput.value = "";
+    editingId =
+      null;
 
-    provinceInput.value = "";
 
-    locationInput.value = "";
+    dateInput.value =
+      "";
 
-    bagsInput.value = 0;
 
-    waterInput.value = 0;
+    provinceInput.value =
+      "";
 
-    imagesInput.value = "";
+
+    locationInput.value =
+      "";
+
+
+    bagsInput.value =
+      "0";
+
+
+    waterInput.value =
+      "0";
+
+
+    imageFilesInput.value =
+      "";
+
+
+    selectedImageFiles =
+      [];
+
+
+    existingImages =
+      [];
+
+
+    imagePreview.innerHTML =
+      "";
+
+
+    updateImageCount();
+
 
     formTitle.textContent =
       "เพิ่มข้อมูลสนับสนุน";
 
+
     saveBtn.textContent =
       "💾 บันทึกข้อมูล";
 
+
     cancelBtn.style.display =
       "none";
+
   }
 
+
+
+  /* =====================================================
+     CANCEL
+  ====================================================== */
 
   cancelBtn.addEventListener(
     "click",
@@ -899,13 +2404,17 @@
   );
 
 
+
   /* =====================================================
      START
-     ===================================================== */
+  ====================================================== */
 
   loadRecords();
 
+
 </script>
 
+
 </body>
+
 </html>
