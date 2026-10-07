@@ -550,36 +550,77 @@
     }
 
 
-    /* =====================================================
-       DATE GROUP
-    ====================================================== */
+/* =====================================================
+   DATE GROUP
+====================================================== */
 
-    .date-group {
+.date-group {
 
-      margin-bottom: 18px;
+  position: relative;
 
-    }
+  margin-bottom: 14px;
+
+  padding: 14px 16px 12px 28px;
+
+  background: #fff9d9;
+
+  border: 1px solid #eee4b5;
+
+  border-radius: 12px;
+
+  box-sizing: border-box;
+
+}
 
 
-    .date-badge {
+/* จุดกลมด้านหน้าของแต่ละวัน */
 
-      display: inline-block;
+.date-group::before {
 
-      margin-bottom: 8px;
+  content: "";
 
-      padding: 8px 14px;
+  position: absolute;
 
-      border-radius: 10px;
+  left: 9px;
 
-      background: #ffc400;
+  top: 22px;
 
-      color: #0753a4;
+  width: 8px;
 
-      font-size: 20px;
+  height: 8px;
 
-      font-weight: 900;
+  background: #ffc400;
 
-    }
+  border: 2px solid #ffffff;
+
+  border-radius: 50%;
+
+  box-shadow: 0 0 0 1px #d9a900;
+
+}
+
+
+/* วันที่ */
+
+.date-badge {
+
+  display: inline-block;
+
+  margin-bottom: 10px;
+
+  padding: 5px 12px;
+
+  border-radius: 8px;
+
+  background: #ffc400;
+
+  color: #0753a4;
+
+  font-size: 18px;
+
+  font-weight: 900;
+
+}
 
 
     /* =====================================================
