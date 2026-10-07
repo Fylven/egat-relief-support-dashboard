@@ -72,6 +72,7 @@ body {
     background: white;
     border-radius: 12px;
     padding: 12px;
+
     box-shadow: 0 1px 4px rgba(0,0,0,.08);
 }
 
@@ -79,6 +80,7 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
+
     flex-wrap: nowrap;
     width: 100%;
 }
@@ -87,10 +89,13 @@ body {
     border: 1px solid #d9dee7;
     background: white;
     color: #34495e;
+
     border-radius: 9px;
     padding: 9px 18px;
+
     font-size: 15px;
     cursor: pointer;
+
     white-space: nowrap;
 }
 
@@ -146,6 +151,7 @@ select {
 
     cursor: pointer;
     font-weight: bold;
+
     white-space: nowrap;
 }
 
@@ -166,6 +172,7 @@ select {
 
     cursor: pointer;
     font-weight: bold;
+
     white-space: nowrap;
 }
 
@@ -202,6 +209,7 @@ select {
 .left-column {
     display: flex;
     flex-direction: column;
+
     gap: 14px;
 }
 
@@ -220,7 +228,9 @@ select {
 
 .summary-card {
     border-radius: 15px;
+
     padding: 18px;
+
     text-align: center;
 }
 
@@ -240,6 +250,7 @@ select {
 .summary-number {
     font-size: 34px;
     font-weight: bold;
+
     margin: 7px 0;
 }
 
@@ -255,6 +266,7 @@ select {
 
 .summary-total strong {
     display: block;
+
     font-size: 24px;
 }
 
@@ -267,6 +279,7 @@ select {
     background: white;
 
     border: 1px solid #e2e5e9;
+
     border-radius: 13px;
 
     height: 430px;
@@ -292,6 +305,7 @@ select {
     border-radius: 10px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
@@ -332,6 +346,7 @@ select {
 
 .list-header h2 {
     margin: 0;
+
     font-size: 20px;
 }
 
@@ -354,6 +369,7 @@ select {
 
 #supportList::-webkit-scrollbar-thumb {
     background: #c8c8c8;
+
     border-radius: 10px;
 }
 
@@ -367,7 +383,7 @@ select {
 ===================================================== */
 
 .date-group {
-    margin-bottom: 16px;
+    margin-bottom: 18px;
 }
 
 .date-title {
@@ -383,7 +399,7 @@ select {
 
     padding: 6px 10px;
 
-    margin-bottom: 4px;
+    margin-bottom: 3px;
 }
 
 
@@ -419,9 +435,13 @@ select {
 
     color: #183b70;
 
-    line-height: 1.5;
+    line-height: 1.6;
 
     flex: 1;
+}
+
+.item-title strong {
+    font-weight: 800;
 }
 
 .item-actions {
@@ -458,24 +478,6 @@ select {
 .edit-button:hover,
 .delete-button:hover {
     text-decoration: underline;
-}
-
-.item-province {
-    display: inline-block;
-
-    margin-top: 5px;
-
-    padding: 4px 8px;
-
-    border-radius: 6px;
-
-    background: #e5f0ff;
-
-    color: #174d91;
-
-    font-size: 13px;
-
-    font-weight: bold;
 }
 
 .item-info {
@@ -516,6 +518,7 @@ select {
 .item-image img {
     width: 100%;
     height: 100%;
+
     object-fit: cover;
 }
 
@@ -970,6 +973,8 @@ select {
     <div class="left-column">
 
 
+        <!-- SUMMARY -->
+
         <div class="summary-grid">
 
 
@@ -1029,6 +1034,8 @@ select {
 
 
 
+        <!-- MAP -->
+
         <div class="map-card">
 
             <div class="map-title">
@@ -1077,6 +1084,10 @@ select {
 </main>
 
 
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
 
 <footer class="footer">
 
@@ -1318,7 +1329,7 @@ let supportData = [
     {
         id: 1,
         date: "2026-10-07",
-        province: "พระนครศรีอยุธยา",
+        province: "ฉะเชิงเทรา",
         location: "วัดสุทธาราม ต.หอมหก อ.บางไทร",
         bags: 565,
         water: 565,
@@ -1328,7 +1339,7 @@ let supportData = [
     {
         id: 2,
         date: "2026-10-07",
-        province: "พระนครศรีอยุธยา",
+        province: "ฉะเชิงเทรา",
         location: "พื้นที่ช่วยเหลือผู้ประสบภัย อ.บางไทร",
         bags: 300,
         water: 300,
@@ -1349,7 +1360,7 @@ let supportData = [
         id: 4,
         date: "2026-10-06",
         province: "ฉะเชิงเทรา",
-        location: "หมู่บ้านหนองสีบู เฟส 2 ต.คลองหลวงแพ่ง",
+        location: "หมู่บ้านหนองสีบู เฟส 2 ต.คลองหลวงแพ่ง อ.เมือง",
         bags: 500,
         water: 500,
         images: []
@@ -1609,7 +1620,7 @@ function render(data) {
 
 
     /*
-       เรียงวันที่จากใหม่ไปเก่า
+       เรียงวันที่ใหม่ -> เก่า
     */
 
     const sortedData =
@@ -1639,12 +1650,12 @@ function render(data) {
     });
 
 
-    /*
-       สร้าง HTML
-    */
-
     let html = "";
 
+
+    /*
+       สร้างรายการแยกตามวัน
+    */
 
     Object.keys(groups)
     .sort((a, b) => b.localeCompare(a))
@@ -1667,12 +1678,19 @@ function render(data) {
         `;
 
 
+        /*
+           เลขรายการเริ่มใหม่ทุกวัน
+        */
+
         items.forEach((item, index) => {
 
             let images = "";
 
 
-            if (item.images && item.images.length > 0) {
+            if (
+                item.images &&
+                item.images.length > 0
+            ) {
 
                 images =
                     item.images.map(image => `
@@ -1688,7 +1706,9 @@ function render(data) {
 
                     `).join("");
 
-            } else {
+            }
+
+            else {
 
                 images = `
 
@@ -1717,6 +1737,7 @@ function render(data) {
 
                             ${index + 1}.
                             ${item.location}
+                            จ.<strong>${item.province}</strong>
 
                         </div>
 
@@ -1740,13 +1761,6 @@ function render(data) {
 
                         </div>
 
-
-                    </div>
-
-
-                    <div class="item-province">
-
-                        📍 ${item.province}
 
                     </div>
 
@@ -1799,7 +1813,7 @@ function render(data) {
 
 
 /* =====================================================
-   APPLY PROVINCE
+   PROVINCE FILTER
 ===================================================== */
 
 function applyProvinceFilter(data) {
@@ -1911,7 +1925,9 @@ function filterByRange(range) {
     applyProvinceFilter(filtered);
 
 
-    if (provinceFilter.value !== "all") {
+    if (
+        provinceFilter.value !== "all"
+    ) {
 
         reportDate.textContent +=
             ` | จังหวัด${provinceFilter.value}`;
@@ -1954,7 +1970,7 @@ document
 
 
 /* =====================================================
-   SEARCH CUSTOM DATE
+   CUSTOM DATE SEARCH
 ===================================================== */
 
 document
@@ -2045,11 +2061,6 @@ document
 provinceFilter.addEventListener(
     "change",
     () => {
-
-        /*
-           ถ้าเลือกจังหวัดโดยตรง
-           ให้ใช้ช่วงวันที่ที่กำลังเลือกอยู่
-        */
 
         const activeButton =
             document.querySelector(
@@ -2239,10 +2250,6 @@ document
         editingId = null;
 
 
-        /*
-           แสดงผลใหม่ตามตัวกรองปัจจุบัน
-        */
-
         refreshCurrentView();
 
     }
@@ -2341,7 +2348,7 @@ function refreshCurrentView() {
 
 
     /*
-       ถ้าเป็นการค้นหาวันที่เอง
+       ถ้าเป็นกำหนดวันที่เอง
     */
 
     if (
@@ -2395,7 +2402,7 @@ function refreshCurrentView() {
 
 
 /* =====================================================
-   CLOSE MODAL WHEN CLICK OUTSIDE
+   CLOSE MODAL OUTSIDE
 ===================================================== */
 
 editModal.addEventListener(
