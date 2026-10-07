@@ -942,6 +942,22 @@
 
 
 
+        <!-- STATUS -->
+
+        <div>
+
+          <label for="statusSelect">
+            สถานะ
+          </label>
+
+          <select id="statusSelect">
+            <option value="planned">ยังไม่ได้แจก</option>
+            <option value="completed">แจกแล้ว</option>
+          </select>
+
+        </div>
+
+
         <!-- IMAGE UPLOAD -->
 
         <div class="full">
@@ -1087,6 +1103,9 @@
 
   const waterInput =
     document.getElementById("water");
+
+  const statusInput =
+    document.getElementById("statusSelect");
 
   const imageFilesInput =
     document.getElementById("imageFiles");
@@ -1809,6 +1828,15 @@
                   </div>
 
 
+                  <div>
+                    ${
+                      item.status === "completed"
+                        ? `<span class="status-badge status-completed">✓ แจกแล้ว</span>`
+                        : `<span class="status-badge status-planned">🕐 ยังไม่ได้แจก</span>`
+                    }
+                  </div>
+
+
                   ${
                     images.length
                       ? `
@@ -1851,6 +1879,19 @@
                       ✏️ แก้ไข
                     </button>
 
+
+                    ${
+                      item.status !== "completed"
+                        ? `
+                          <button
+                            class="small-btn complete-btn"
+                            onclick="completeRecord(${item.id})"
+                          >
+                            ✓ เสร็จสิ้น
+                          </button>
+                        `
+                        : ""
+                    }
 
                     <button
                       class="small-btn delete-btn"
@@ -2028,6 +2069,9 @@
 
           water,
 
+          status:
+            statusInput.value || "planned",
+
           images
 
         };
@@ -2079,7 +2123,11 @@
               )
 
               .insert([
-                payload
+                {
+                  ...payload,
+                  status:
+                    payload.status || "planned"
+                }
               ]);
 
         }
@@ -2219,6 +2267,9 @@
       waterInput.value =
         data.water || 0;
 
+      statusInput.value =
+        data.status || "planned";
+
 
       existingImages =
         Array.isArray(
@@ -2263,6 +2314,69 @@
         behavior: "smooth"
 
       });
+
+    };
+
+
+
+  /* =====================================================
+     COMPLETE RECORD
+  ====================================================== */
+
+  window.completeRecord =
+    async function(id) {
+
+      const confirmed =
+        confirm(
+          "ยืนยันว่ารายการนี้แจกเสร็จสิ้นแล้วใช่หรือไม่?"
+        );
+
+      if (!confirmed) {
+
+        return;
+
+      }
+
+
+      const {
+        error
+      } = await supabaseClient
+
+        .from(
+          "support_records"
+        )
+
+        .update({
+          status: "completed"
+        })
+
+        .eq(
+          "id",
+          id
+        );
+
+
+      if (error) {
+
+        console.error(error);
+
+        showStatus(
+          "เปลี่ยนสถานะไม่สำเร็จ: " +
+          error.message,
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      showStatus(
+        "ย้ายรายการไปยัง "แจกแล้ว" เรียบร้อยแล้ว 🎉"
+      );
+
+
+      await loadRecords();
 
     };
 
@@ -2358,6 +2472,9 @@
 
     waterInput.value =
       "0";
+
+    statusInput.value =
+      "planned";
 
 
     imageFilesInput.value =
