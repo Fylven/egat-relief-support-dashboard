@@ -31,39 +31,41 @@ body{
 
 .filter-card{
   margin:0 26px 18px;
-  padding:14px 16px;
+  padding:9px 11px;
   background:#fff;
-  border-radius:18px;
-  box-shadow:0 3px 12px rgba(0,0,0,.07);
+  border:1px solid #edf0f4;
+  border-radius:13px;
+  box-shadow:0 2px 8px rgba(15,35,60,.04);
 }
-.filter-row{display:flex;align-items:center;gap:10px;flex-wrap:nowrap}
+.filter-row{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
 .quick-btn{
-  height:48px;padding:0 20px;border-radius:11px;border:1px solid #cfd8e3;
-  background:#fff;color:#123b70;font-size:16px;font-weight:700;cursor:pointer;white-space:nowrap
+  height:42px;padding:0 15px;border-radius:8px;border:1px solid #e0e5eb;
+  background:#fff;color:#123b70;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap
 }
-.quick-btn:hover{background:#f1f5f9}
+.quick-btn:hover{background:#f7f9fb}
 .quick-btn.active{background:#16599e;color:#fff;border-color:#16599e}
-.custom-label{font-size:16px;color:#666;white-space:nowrap}
+.custom-label{font-size:14px;color:#8a929c;white-space:nowrap}
 .date-input,.province-select{
-  height:48px;padding:0 13px;border:1px solid #cfd8e3;border-radius:10px;
-  font-size:16px;color:#222;background:#fff;flex-shrink:0
+  height:42px;padding:0 11px;border:1px solid #e0e5eb;border-radius:8px;
+  font-size:14px;color:#222;background:#fff;flex-shrink:0
 }
-.date-input{width:180px}.province-select{width:220px}
+.date-input{width:155px;max-width:100%}.province-select{width:205px;max-width:100%}
 .search-btn{
-  height:48px;padding:0 25px;border:none;border-radius:11px;background:#16599e;
-  color:#fff;font-size:16px;font-weight:800;cursor:pointer
+  height:42px;padding:0 18px;border:none;border-radius:8px;background:#16599e;
+  color:#fff;font-size:14px;font-weight:800;cursor:pointer
 }
 .clear-btn{
-  height:48px;padding:0 24px;border:1px solid #16599e;border-radius:11px;
-  background:#fff;color:#16599e;font-size:16px;font-weight:800;cursor:pointer
+  height:42px;padding:0 18px;border:1px solid #d7e0ea;border-radius:8px;
+  background:#fff;color:#16599e;font-size:14px;font-weight:700;cursor:pointer
 }
 
 .page-tabs{
-  margin:0 26px 18px;
+  margin:0 26px 12px;
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(4,1fr);
   gap:10px;
 }
+
 .page-tab{
   border:1px solid #d4dce5;
   background:#fff;
@@ -75,7 +77,7 @@ body{
   cursor:pointer;
   box-shadow:0 2px 8px rgba(0,0,0,.04);
 }
-.page-tab.active{background:#16599e;color:#fff;border-color:#16599e}
+.page-tab.active{background:#ffc400;color:#0753a4;border-color:#ffc400}
 
 .main-grid{
   margin:0 26px 30px;
@@ -109,6 +111,17 @@ body{
 .summary-total-label{font-size:15px}
 .summary-total-number{margin-top:3px;font-size:27px;font-weight:900}
 .summary-total-sub{font-size:13px;color:#777;margin-top:1px}
+body.page-completed .summary-total,
+body.page-planned .summary-total{display:none}
+body.page-completed .summary-card,
+body.page-planned .summary-card{
+  min-height:190px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+body.page-completed .summary-number,
+body.page-planned .summary-number{margin-top:14px}
 
 .map-card{
   background:#fff;border-radius:18px;padding:18px;min-height:500px;
@@ -125,7 +138,12 @@ body{
   box-shadow:0 3px 12px rgba(0,0,0,.06);display:flex;flex-direction:column
 }
 .support-title{margin:0 0 13px;font-size:27px;font-weight:900;color:#123b70}
-.support-list{height:590px;overflow-y:auto;padding-right:12px}
+.support-list{
+  flex:1;
+  min-height:0;
+  overflow-y:auto;
+  padding-right:12px;
+}
 .support-list::-webkit-scrollbar{width:8px}
 .support-list::-webkit-scrollbar-track{background:#eee;border-radius:10px}
 .support-list::-webkit-scrollbar-thumb{background:#b7bdc4;border-radius:10px}
@@ -156,23 +174,77 @@ body{
   cursor:pointer;transition:.2s
 }
 .item-images img:hover{transform:scale(1.015)}
+.province-summary{
+  width:100%;
+  overflow-x:auto;
+  border:1px solid #eadf9f;
+  border-radius:12px;
+  background:#fff9d9;
+}
+.province-table{
+  width:100%;
+  min-width:680px;
+  border-collapse:collapse;
+  font-size:14px;
+  color:#333;
+}
+.province-table th,
+.province-table td{
+  padding:9px 10px;
+  border-bottom:1px dashed #ddd4a7;
+}
+.province-table th{
+  font-weight:900;
+  color:#123b70;
+  background:#fff4bf;
+  text-align:center;
+  white-space:nowrap;
+}
+.province-table th:nth-child(4){background:#ffeaa0}
+.province-table th:nth-child(5){background:#d9f0f7}
+.province-table td:first-child{
+  width:44px;
+  text-align:center;
+  color:#777;
+}
+.province-table td:nth-child(2){
+  font-weight:800;
+  color:#123b70;
+}
+.province-table td:nth-child(3){text-align:center}
+.province-table td:nth-child(4),
+.province-table td:nth-child(5){
+  text-align:right;
+  font-weight:900;
+  color:#123b70;
+}
+.province-table tfoot td{
+  border-bottom:none;
+  background:#ffefad;
+  font-weight:900;
+  color:#123b70;
+}
+.province-table tfoot td:nth-child(3),
+.province-table tfoot td:nth-child(4),
+.province-table tfoot td:nth-child(5){text-align:right}
 .filter-status{
   margin-top:auto;
-  padding-top:18px;
-  border-top:1px solid #eee8bd;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:20px;
+  padding-top:12px;
+  border-top:1px solid #ddd6a7;
   font-size:13px;
   font-weight:400;
   color:#999;
-  text-align:left;
-  line-height:1.5;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  min-height:36px;
 }
-.filter-status .last-updated{
-  text-align:right;
-  white-space:nowrap;
+.filter-status-left{flex:1;text-align:left}
+.filter-status-right{flex:1;text-align:right}
+@media (max-width:600px){
+  .filter-status{align-items:flex-start;flex-direction:column;gap:4px}
+  .filter-status-left,.filter-status-right{text-align:left;width:100%}
 }
 .loading,.empty{
   min-height:250px;display:flex;align-items:center;justify-content:center;
@@ -194,6 +266,10 @@ body{
   .left-column,.support-card{width:100%}
   .support-list{height:600px}
 }
+@media (max-width:1100px){
+  .filter-row{align-items:center}
+  .custom-label{flex:0 0 auto}
+}
 @media (max-width:800px){
   .header{margin:10px;padding:18px;flex-direction:column;align-items:flex-start;gap:12px}
   .header-title{font-size:22px}.header-logo{font-size:28px}
@@ -206,22 +282,13 @@ body{
   .custom-label{width:100%}
 }
 @media (max-width:600px){
-  .page-tabs{grid-template-columns:1fr}
+  .page-tabs{grid-template-columns:1fr 1fr}
   .summary-grid{grid-template-columns:1fr}
   .summary-card{min-height:150px}
   .summary-number{font-size:38px}
   .support-card{padding:15px}
   .support-title{font-size:23px}
   .support-list{height:auto;max-height:700px}
-  .filter-status{
-    flex-direction:column;
-    align-items:flex-start;
-    gap:3px;
-  }
-  .filter-status .last-updated{
-    text-align:left;
-    white-space:normal;
-  }
   .item-images{gap:8px}
   .item-images img{width:calc(50% - 4px);height:auto;aspect-ratio:16/9}
 }
@@ -236,6 +303,13 @@ body{
   </div>
   <div class="header-logo">กฟผ.</div>
 </header>
+
+<nav class="page-tabs" aria-label="เมนูแผนงาน">
+  <button class="page-tab" data-page="all">ภาพรวมแผนงาน</button>
+  <button class="page-tab" data-page="completed">สนับสนุนแล้ว</button>
+  <button class="page-tab" data-page="planned">ยังไม่ได้สนับสนุน</button>
+  <button class="page-tab" data-page="province">สรุปรายจังหวัด</button>
+</nav>
 
 <section class="filter-card">
   <div class="filter-row">
@@ -259,12 +333,6 @@ body{
     <button id="clearBtn" class="clear-btn">ล้างตัวกรอง</button>
   </div>
 </section>
-
-<nav class="page-tabs" aria-label="ประเภทข้อมูล">
-  <button class="page-tab active" data-page="completed">แจกไปแล้ว</button>
-  <button class="page-tab" data-page="planned">ยังไม่ได้แจก</button>
-  <button class="page-tab" data-page="all">ทั้งหมด</button>
-</nav>
 
 <main class="main-grid">
   <section class="left-column">
@@ -309,9 +377,9 @@ body{
       <div class="loading">กำลังโหลดข้อมูล...</div>
     </div>
     <div id="filterStatus" class="filter-status">
-      <div id="filterStatusText">ข้อมูลที่แจกแล้ว • 0 รายการ</div>
-      <div id="lastUpdated" class="last-updated">อัปเดตล่าสุด ณ วันที่ -</div>
-    </div>
+  <span id="filterStatusLeft" class="filter-status-left">ข้อมูลทั้งหมด • 0 รายการ</span>
+  <span id="filterStatusRight" class="filter-status-right">อัปเดตล่าสุด ณ วันที่ -</span>
+</div>
   </section>
 </main>
 
@@ -344,8 +412,8 @@ const provinceFilter = document.getElementById("provinceFilter");
 const searchBtn = document.getElementById("searchBtn");
 const clearBtn = document.getElementById("clearBtn");
 const filterStatus = document.getElementById("filterStatus");
-const filterStatusText = document.getElementById("filterStatusText");
-const lastUpdated = document.getElementById("lastUpdated");
+const filterStatusLeft = document.getElementById("filterStatusLeft");
+const filterStatusRight = document.getElementById("filterStatusRight");
 const quickButtons = document.querySelectorAll(".quick-btn");
 const pageTabs = document.querySelectorAll(".page-tab");
 const imageModal = document.getElementById("imageModal");
@@ -354,7 +422,7 @@ const imageModalClose = document.getElementById("imageModalClose");
 
 let allData = [];
 let currentRange = "all";
-let currentPage = "completed";
+let currentPage = localStorage.getItem("egatDashboardPage") || "completed";
 
 function formatNumber(number) {
   return Number(number || 0).toLocaleString("th-TH");
@@ -383,33 +451,45 @@ function getPageData(data) {
 }
 
 function updatePageText() {
+  document.body.classList.remove("page-all","page-completed","page-planned","page-province");
+  document.body.classList.add("page-" + currentPage);
+
   if (currentPage === "planned") {
-    summarySectionTitle.textContent = "แผนการมอบ";
-    bagsTitle.textContent = "แผนการมอบถุงยังชีพ (ถุง)";
-    waterTitle.textContent = "แผนการมอบน้ำดื่ม (แพ็ก)";
+    summarySectionTitle.textContent = "ยังไม่ได้สนับสนุน";
+    bagsTitle.textContent = "ถุงยังชีพที่ยังไม่ได้สนับสนุน (ถุง)";
+    waterTitle.textContent = "น้ำดื่มที่ยังไม่ได้สนับสนุน (แพ็ก)";
     bagsTotalLabel.textContent = "ยอดวางแผนทั้งหมด";
     waterTotalLabel.textContent = "ยอดวางแผนทั้งหมด";
-    bagsTotalSub.textContent = "ยังไม่ได้แจก";
-    waterTotalSub.textContent = "ยังไม่ได้แจก";
-    supportTitle.textContent = "รายการที่ยังไม่ได้แจก";
+    bagsTotalSub.textContent = "ยังไม่ได้สนับสนุน";
+    waterTotalSub.textContent = "ยังไม่ได้สนับสนุน";
+    supportTitle.textContent = "รายการที่ยังไม่ได้สนับสนุน";
   } else if (currentPage === "completed") {
-    summarySectionTitle.textContent = "แจกไปแล้ว";
-    bagsTitle.textContent = "ถุงยังชีพที่แจกแล้ว (ถุง)";
-    waterTitle.textContent = "น้ำดื่มที่แจกแล้ว (แพ็ก)";
-    bagsTotalLabel.textContent = "ยอดแจกแล้วทั้งหมด";
-    waterTotalLabel.textContent = "ยอดแจกแล้วทั้งหมด";
-    bagsTotalSub.textContent = "แจกแล้ว";
-    waterTotalSub.textContent = "แจกแล้ว";
-    supportTitle.textContent = "รายการที่แจกไปแล้ว";
+    summarySectionTitle.textContent = "สนับสนุนแล้ว";
+    bagsTitle.textContent = "ถุงยังชีพที่สนับสนุนแล้ว (ถุง)";
+    waterTitle.textContent = "น้ำดื่มที่สนับสนุนแล้ว (แพ็ก)";
+    bagsTotalLabel.textContent = "ยอดสนับสนุนแล้วทั้งหมด";
+    waterTotalLabel.textContent = "ยอดสนับสนุนแล้วทั้งหมด";
+    bagsTotalSub.textContent = "สนับสนุนแล้ว";
+    waterTotalSub.textContent = "สนับสนุนแล้ว";
+    supportTitle.textContent = "รายการที่สนับสนุนแล้ว";
+  } else if (currentPage === "province") {
+    summarySectionTitle.textContent = "สรุปรายจังหวัด";
+    bagsTitle.textContent = "ถุงยังชีพที่สนับสนุนทั้งหมด (ถุง)";
+    waterTitle.textContent = "น้ำดื่มที่สนับสนุนทั้งหมด (แพ็ก)";
+    bagsTotalLabel.textContent = "ยอดรวมทุกจังหวัด";
+    waterTotalLabel.textContent = "ยอดรวมทุกจังหวัด";
+    bagsTotalSub.textContent = "ภาพรวม";
+    waterTotalSub.textContent = "ภาพรวม";
+    supportTitle.textContent = "สรุปข้อมูลรายจังหวัด";
   } else {
-    summarySectionTitle.textContent = "แผนการมอบ";
-    bagsTitle.textContent = "แผนการมอบถุงยังชีพ (ถุง)";
-    waterTitle.textContent = "แผนการมอบน้ำดื่ม (แพ็ก)";
+    summarySectionTitle.textContent = "ภาพรวมแผนงาน";
+    bagsTitle.textContent = "ถุงยังชีพตามแผนงาน (ถุง)";
+    waterTitle.textContent = "น้ำดื่มตามแผนงาน (แพ็ก)";
     bagsTotalLabel.textContent = "ยอดสนับสนุนรวม";
     waterTotalLabel.textContent = "ยอดสนับสนุนรวม";
-    bagsTotalSub.textContent = "ปัจจุบัน";
-    waterTotalSub.textContent = "ปัจจุบัน";
-    supportTitle.textContent = "รายการสนับสนุนทั้งหมด";
+    bagsTotalSub.textContent = "ทั้งหมด";
+    waterTotalSub.textContent = "ทั้งหมด";
+    supportTitle.textContent = "ภาพรวมการสนับสนุน";
   }
 }
 
@@ -457,7 +537,7 @@ function renderDashboard(pageData, filteredAllData) {
   const plannedData = filteredAllData.filter(item => item.status === "planned");
   const completedData = filteredAllData.filter(item => item.status === "completed");
 
-  let bagsValue, waterValue, bagsTotalValue, waterTotalValue;
+  let bagsValue = 0, waterValue = 0, bagsTotalValue = 0, waterTotalValue = 0;
 
   if (currentPage === "planned") {
     bagsValue = plannedData.reduce((s,i)=>s+Number(i.bags||0),0);
@@ -470,16 +550,79 @@ function renderDashboard(pageData, filteredAllData) {
     bagsTotalValue = bagsValue;
     waterTotalValue = waterValue;
   } else {
-    bagsValue = plannedData.reduce((s,i)=>s+Number(i.bags||0),0);
-    waterValue = plannedData.reduce((s,i)=>s+Number(i.water||0),0);
-    bagsTotalValue = filteredAllData.reduce((s,i)=>s+Number(i.bags||0),0);
-    waterTotalValue = filteredAllData.reduce((s,i)=>s+Number(i.water||0),0);
+    bagsValue = filteredAllData.reduce((s,i)=>s+Number(i.bags||0),0);
+    waterValue = filteredAllData.reduce((s,i)=>s+Number(i.water||0),0);
+    bagsTotalValue = bagsValue;
+    waterTotalValue = waterValue;
   }
 
   bagsTotal.textContent = formatNumber(bagsValue);
   bagsTotalSmall.textContent = formatNumber(bagsTotalValue);
   waterTotal.textContent = formatNumber(waterValue);
   waterTotalSmall.textContent = formatNumber(waterTotalValue);
+
+  if (currentPage === "province") {
+    if (!filteredAllData.length) {
+      supportList.innerHTML = '<div class="empty">ไม่พบข้อมูลตามเงื่อนไขที่เลือก</div>';
+      updateFilterStatus(filteredAllData);
+      return;
+    }
+
+    const provinceMap = {};
+    filteredAllData.forEach(item => {
+      if (!provinceMap[item.province]) {
+        provinceMap[item.province] = {bags:0, water:0, locations:0};
+      }
+      provinceMap[item.province].bags += Number(item.bags || 0);
+      provinceMap[item.province].water += Number(item.water || 0);
+      provinceMap[item.province].locations += 1;
+    });
+
+    const provinces = Object.keys(provinceMap).sort((a,b)=>a.localeCompare(b,"th"));
+    const totalLocations = filteredAllData.length;
+    const totalBags = filteredAllData.reduce((s,i)=>s+Number(i.bags||0),0);
+    const totalWater = filteredAllData.reduce((s,i)=>s+Number(i.water||0),0);
+
+    supportList.innerHTML = `
+      <div class="province-summary">
+        <table class="province-table">
+          <thead>
+            <tr>
+              <th>ที่</th>
+              <th>จังหวัด</th>
+              <th>จุดสนับสนุน</th>
+              <th>ถุงยังชีพ (ถุง)</th>
+              <th>น้ำดื่ม (แพ็ก)</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${provinces.map((province,index) => {
+              const p = provinceMap[province];
+              return `
+                <tr>
+                  <td>${index + 1}</td>
+                  <td>จ.${escapeHtml(province)}</td>
+                  <td>${formatNumber(p.locations)}</td>
+                  <td>${formatNumber(p.bags)}</td>
+                  <td>${formatNumber(p.water)}</td>
+                </tr>
+              `;
+            }).join("")}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="2">รวมทั้งหมด</td>
+              <td>${formatNumber(totalLocations)}</td>
+              <td>${formatNumber(totalBags)}</td>
+              <td>${formatNumber(totalWater)}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    `;
+    updateFilterStatus(filteredAllData);
+    return;
+  }
 
   if (!pageData.length) {
     supportList.innerHTML = '<div class="empty">ไม่พบข้อมูลตามเงื่อนไขที่เลือก</div>';
@@ -500,8 +643,8 @@ function renderDashboard(pageData, filteredAllData) {
     groups[date].forEach((item,index) => {
       const images = Array.isArray(item.images) ? item.images : [];
       const chip = item.status === "completed"
-        ? '<span class="status-chip completed">แจกแล้ว</span>'
-        : '<span class="status-chip planned">ยังไม่ได้แจก</span>';
+        ? '<span class="status-chip completed">สนับสนุนแล้ว</span>'
+        : '<span class="status-chip planned">ยังไม่ได้สนับสนุน</span>';
 
       html += `
         <div class="support-item">
@@ -535,59 +678,51 @@ function renderDashboard(pageData, filteredAllData) {
 
 function updateFilterStatus(data) {
   let text = currentPage === "planned"
-    ? "ข้อมูลที่ยังไม่ได้แจก"
+    ? "ข้อมูลที่ยังไม่ได้สนับสนุน"
     : currentPage === "completed"
-      ? "ข้อมูลที่แจกแล้ว"
-      : "ข้อมูลทั้งหมด";
+      ? "ข้อมูลที่สนับสนุนแล้ว"
+      : currentPage === "province"
+        ? "ข้อมูลสรุปรายจังหวัด"
+        : "ข้อมูลทั้งหมด";
 
   if (currentRange === "today") text += " • วันนี้";
   else if (currentRange === "7") text += " • 7 วัน";
   else if (currentRange === "30") text += " • 30 วัน";
-
-  if (startDate.value || endDate.value) {
-    text += " • ช่วงวันที่";
-  }
-
-  if (provinceFilter.value) {
-    text += " • จังหวัด " + provinceFilter.value;
-  }
-
+  if (startDate.value || endDate.value) text += " • ช่วงวันที่";
+  if (provinceFilter.value) text += " • จังหวัด " + provinceFilter.value;
   text += ` • ${data.length} รายการ`;
 
-  filterStatusText.textContent = text;
-  lastUpdated.textContent =
-    `อัปเดตล่าสุด ณ วันที่ ${getLatestUpdatedDate()}`;
+  filterStatusLeft.textContent = text;
+
+  const source = allData.length ? allData : data;
+  if (!source.length) {
+    filterStatusRight.textContent = "อัปเดตล่าสุด ณ วันที่ -";
+    return;
+  }
+
+  const latest = source.reduce((latestItem,item) => {
+    const latestTime = latestItem?.created_at ? new Date(latestItem.created_at).getTime() : -Infinity;
+    const itemTime = item?.created_at ? new Date(item.created_at).getTime() : -Infinity;
+    if (itemTime > latestTime) return item;
+    return latestItem;
+  }, source[0]);
+
+  const dateValue = latest?.created_at
+    ? latest.created_at.slice(0,10)
+    : latest?.date;
+
+  filterStatusRight.textContent = `อัปเดตล่าสุด ณ วันที่ ${formatThaiLongDate(dateValue)}`;
 }
 
-function getLatestUpdatedDate() {
-  if (!allData.length) return "-";
-
-  const latest = [...allData]
-    .filter(item => item.updated_at || item.created_at || item.date)
-    .sort((a, b) => {
-      const aTime = new Date(
-        a.updated_at || a.created_at || (a.date + "T00:00:00")
-      ).getTime();
-      const bTime = new Date(
-        b.updated_at || b.created_at || (b.date + "T00:00:00")
-      ).getTime();
-      return bTime - aTime;
-    })[0];
-
-  if (!latest) return "-";
-
-  const rawDate =
-    latest.updated_at ||
-    latest.created_at ||
-    (latest.date + "T00:00:00");
-
-  const date = new Date(rawDate);
-
-  return date.toLocaleDateString("th-TH", {
-    day: "numeric",
-    month: "long",
-    year: "2-digit"
-  });
+function formatThaiLongDate(dateString) {
+  if (!dateString) return "-";
+  const [y,m,d] = dateString.split("-").map(Number);
+  const months = [
+    "มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน",
+    "กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"
+  ];
+  const buddhistYear = y + 543;
+  return `${d} ${months[m-1]} ${String(buddhistYear).slice(-2)}`;
 }
 
 async function loadData() {
@@ -614,6 +749,7 @@ pageTabs.forEach(tab => {
     pageTabs.forEach(btn => btn.classList.remove("active"));
     tab.classList.add("active");
     currentPage = tab.dataset.page;
+    localStorage.setItem("egatDashboardPage", currentPage);
     applyFilters();
   });
 });
@@ -663,6 +799,10 @@ imageModal.addEventListener("click", e => {
 });
 document.addEventListener("keydown", e => {
   if (e.key === "Escape") closeImage();
+});
+
+pageTabs.forEach(btn => {
+  btn.classList.toggle("active", btn.dataset.page === currentPage);
 });
 
 loadData();
