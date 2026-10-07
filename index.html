@@ -1,2447 +1,1858 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>รายการสนับสนุนถุงยังชีพและน้ำดื่ม กฟผ.</title>
+  <title>รายการสนับสนุนถุงยังชีพและน้ำดื่ม กฟผ.</title>
 
-<style>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-/* =====================================================
-   BASIC
-===================================================== */
-
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    font-family: "Tahoma", "Noto Sans Thai", sans-serif;
-    background: #f7f8fa;
-    color: #183b70;
-}
-
-.container {
-    max-width: 1500px;
-    margin: auto;
-    padding: 12px;
-}
-
-
-/* =====================================================
-   HEADER
-===================================================== */
-
-.header {
-    background: #ffc800;
-    border-radius: 14px;
-    min-height: 74px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 12px 22px;
-
-    box-shadow: 0 2px 5px rgba(0,0,0,.08);
-}
-
-.header-title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #123d78;
-    line-height: 1.4;
-}
-
-.logo {
-    font-size: 36px;
-    font-weight: 900;
-    color: #174a8b;
-    white-space: nowrap;
-}
-
-
-/* =====================================================
-   FILTER
-===================================================== */
-
-.filter-area {
-    margin-top: 14px;
-    background: white;
-    border-radius: 12px;
-    padding: 12px;
-
-    box-shadow: 0 1px 4px rgba(0,0,0,.08);
-}
-
-.filter-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    flex-wrap: nowrap;
-    width: 100%;
-}
-
-.filter-button {
-    border: 1px solid #d9dee7;
-    background: white;
-    color: #34495e;
-
-    border-radius: 9px;
-    padding: 9px 18px;
-
-    font-size: 15px;
-    cursor: pointer;
-
-    white-space: nowrap;
-}
-
-.filter-button:hover {
-    background: #eef5ff;
-}
-
-.filter-button.active {
-    background: #164d91;
-    color: white;
-    border-color: #164d91;
-}
-
-.filter-label {
-    font-size: 14px;
-    color: #666;
-    white-space: nowrap;
-}
-
-input[type="date"],
-select {
-    height: 40px;
-
-    border: 1px solid #d6dce5;
-    border-radius: 8px;
-
-    padding: 8px 10px;
-
-    font-size: 14px;
-    color: #333;
-    background: white;
-}
-
-input[type="date"] {
-    width: 145px;
-}
-
-select {
-    width: 190px;
-    cursor: pointer;
-}
-
-.search-button {
-    height: 40px;
-
-    background: #174d91;
-    color: white;
-
-    border: none;
-    border-radius: 8px;
-
-    padding: 0 18px;
-
-    cursor: pointer;
-    font-weight: bold;
-
-    white-space: nowrap;
-}
-
-.search-button:hover {
-    background: #103b70;
-}
-
-.clear-button {
-    height: 40px;
-
-    background: white;
-    color: #174d91;
-
-    border: 1px solid #174d91;
-    border-radius: 8px;
-
-    padding: 0 16px;
-
-    cursor: pointer;
-    font-weight: bold;
-
-    white-space: nowrap;
-}
-
-.clear-button:hover {
-    background: #eef5ff;
-}
-
-.report-date {
-    margin-top: 10px;
-
-    font-weight: bold;
-    font-size: 16px;
-
-    color: #183b70;
-}
-
-
-/* =====================================================
-   MAIN
-===================================================== */
-
-.main-grid {
-    display: grid;
-
-    grid-template-columns: 440px 1fr;
-
-    gap: 14px;
-
-    margin-top: 14px;
-
-    align-items: start;
-}
-
-.left-column {
-    display: flex;
-    flex-direction: column;
-
-    gap: 14px;
-}
-
-
-/* =====================================================
-   SUMMARY
-===================================================== */
-
-.summary-grid {
-    display: grid;
-
-    grid-template-columns: 1fr 1fr;
-
-    gap: 12px;
-}
-
-.summary-card {
-    border-radius: 15px;
-
-    padding: 18px;
-
-    text-align: center;
-}
-
-.bag-card {
-    background: #fff0b9;
-}
-
-.water-card {
-    background: #a8dcf8;
-}
-
-.summary-title {
-    font-size: 17px;
-    font-weight: bold;
-}
-
-.summary-number {
-    font-size: 34px;
-    font-weight: bold;
-
-    margin: 7px 0;
-}
-
-.summary-total {
-    background: rgba(0,0,0,.08);
-
-    border-radius: 13px;
-
-    padding: 5px;
-
-    font-size: 14px;
-}
-
-.summary-total strong {
-    display: block;
-
-    font-size: 24px;
-}
-
-
-/* =====================================================
-   MAP
-===================================================== */
-
-.map-card {
-    background: white;
-
-    border: 1px solid #e2e5e9;
-
-    border-radius: 13px;
-
-    height: 430px;
-
-    padding: 18px;
-
-    display: flex;
-    flex-direction: column;
-}
-
-.map-title {
-    font-weight: bold;
-    margin-bottom: 8px;
-}
-
-.map-placeholder {
-    flex: 1;
-
-    min-height: 330px;
-
-    background: #f0f1f2;
-
-    border-radius: 10px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    text-align: center;
-
-    color: #777;
-
-    font-size: 20px;
-}
-
-
-/* =====================================================
-   SUPPORT LIST
-===================================================== */
-
-.list-card {
-    background: #fff9dc;
-
-    border-radius: 15px;
-
-    padding: 18px;
-
-    height: 600px;
-
-    overflow: hidden;
-}
-
-.list-header {
-    display: flex;
-
-    justify-content: space-between;
-    align-items: center;
-
-    height: 32px;
-
-    margin-bottom: 12px;
-}
-
-.list-header h2 {
-    margin: 0;
-
-    font-size: 20px;
-}
-
-
-/* =====================================================
-   SCROLL
-===================================================== */
-
-#supportList {
-    height: calc(100% - 44px);
-
-    overflow-y: auto;
-
-    padding-right: 8px;
-}
-
-#supportList::-webkit-scrollbar {
-    width: 7px;
-}
-
-#supportList::-webkit-scrollbar-thumb {
-    background: #c8c8c8;
-
-    border-radius: 10px;
-}
-
-#supportList::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-
-/* =====================================================
-   DATE GROUP
-===================================================== */
-
-.date-group {
-    margin-bottom: 18px;
-}
-
-.date-title {
-    display: inline-block;
-
-    background: #ffcf00;
-
-    color: #183b70;
-
-    font-weight: bold;
-
-    border-radius: 7px;
-
-    padding: 6px 10px;
-
-    margin-bottom: 3px;
-}
-
-
-/* =====================================================
-   ITEM
-===================================================== */
-
-.item {
-    position: relative;
-
-    padding: 10px 0 15px;
-
-    border-bottom: 1px dashed #d9d0aa;
-}
-
-.item:last-child {
-    border-bottom: none;
-}
-
-.item-top {
-    display: flex;
-
-    justify-content: space-between;
-    align-items: flex-start;
-
-    gap: 10px;
-}
-
-.item-title {
-    font-weight: bold;
-
-    font-size: 16px;
-
-    color: #183b70;
-
-    line-height: 1.6;
-
-    flex: 1;
-}
-
-.item-title strong {
-    font-weight: 800;
-}
-
-.item-actions {
-    display: flex;
-
-    gap: 8px;
-
-    flex-shrink: 0;
-
-    white-space: nowrap;
-}
-
-.edit-button,
-.delete-button {
-    border: none;
-
-    background: transparent;
-
-    font-size: 13px;
-
-    cursor: pointer;
-
-    padding: 2px 0;
-}
-
-.edit-button {
-    color: #174d91;
-}
-
-.delete-button {
-    color: #b43a32;
-}
-
-.edit-button:hover,
-.delete-button:hover {
-    text-decoration: underline;
-}
-
-.item-info {
-    margin: 7px 0;
-
-    color: #333;
-
-    line-height: 1.5;
-}
-
-.item-images {
-    display: grid;
-
-    grid-template-columns: 1fr 1fr;
-
-    gap: 8px;
-
-    max-width: 550px;
-}
-
-.item-image {
-    height: 90px;
-
-    border-radius: 8px;
-
-    background: #d9d9d9;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    color: #777;
-
-    overflow: hidden;
-}
-
-.item-image img {
-    width: 100%;
-    height: 100%;
-
-    object-fit: cover;
-}
-
-.empty {
-    text-align: center;
-
-    padding: 50px 20px;
-
-    color: #777;
-}
-
-
-/* =====================================================
-   MODAL
-===================================================== */
-
-.modal {
-    position: fixed;
-
-    inset: 0;
-
-    background: rgba(0,0,0,.45);
-
-    display: none;
-
-    align-items: center;
-    justify-content: center;
-
-    padding: 20px;
-
-    z-index: 9999;
-}
-
-.modal.show {
-    display: flex;
-}
-
-.modal-box {
-    width: min(560px, 100%);
-
-    background: white;
-
-    border-radius: 16px;
-
-    padding: 22px;
-
-    box-shadow: 0 10px 40px rgba(0,0,0,.2);
-}
-
-.modal-title {
-    margin: 0 0 18px;
-
-    color: #183b70;
-
-    font-size: 21px;
-}
-
-.form-group {
-    margin-bottom: 13px;
-}
-
-.form-group label {
-    display: block;
-
-    margin-bottom: 5px;
-
-    font-size: 14px;
-
-    font-weight: bold;
-
-    color: #555;
-}
-
-.form-group input,
-.form-group select {
-    width: 100%;
-    height: 42px;
-}
-
-.modal-actions {
-    display: flex;
-
-    justify-content: flex-end;
-
-    gap: 8px;
-
-    margin-top: 20px;
-}
-
-.modal-cancel {
-    background: white;
-
-    border: 1px solid #ccc;
-
-    color: #555;
-
-    border-radius: 8px;
-
-    padding: 9px 18px;
-
-    cursor: pointer;
-}
-
-.modal-save {
-    background: #174d91;
-
-    border: none;
-
-    color: white;
-
-    border-radius: 8px;
-
-    padding: 9px 20px;
-
-    cursor: pointer;
-
-    font-weight: bold;
-}
-
-.modal-delete {
-    background: #b43a32;
-
-    border: none;
-
-    color: white;
-
-    border-radius: 8px;
-
-    padding: 9px 20px;
-
-    cursor: pointer;
-
-    font-weight: bold;
-}
-
-
-/* =====================================================
-   FOOTER
-===================================================== */
-
-.footer {
-    margin-top: 12px;
-
-    display: flex;
-
-    justify-content: space-between;
-
-    color: #777;
-
-    font-size: 13px;
-
-    padding: 5px;
-}
-
-
-/* =====================================================
-   RESPONSIVE
-===================================================== */
-
-@media (max-width: 1250px) {
-
-    .filter-row {
-        flex-wrap: wrap;
+  <style>
+    * {
+      box-sizing: border-box;
     }
 
-}
+    body {
+      margin: 0;
+      font-family:
+        Arial,
+        "Noto Sans Thai",
+        "Tahoma",
+        sans-serif;
 
-@media (max-width: 900px) {
-
-    .main-grid {
-        grid-template-columns: 1fr;
+      background: #f5f7f9;
+      color: #123b70;
     }
 
-    .header-title {
-        font-size: 18px;
-    }
-
-    .logo {
-        font-size: 26px;
-    }
-
-    .list-card {
-        height: auto;
-        overflow: visible;
-    }
-
-    #supportList {
-        height: auto;
-        overflow-y: visible;
-        padding-right: 0;
-    }
-
-}
-
-@media (max-width: 600px) {
+    /* =====================================================
+       HEADER
+    ===================================================== */
 
     .header {
-        padding: 14px;
+      margin: 14px 26px 16px;
+      padding: 20px 28px;
+
+      background: #ffc400;
+
+      border-radius: 18px;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.10);
     }
 
     .header-title {
-        font-size: 16px;
+      font-size: 29px;
+      line-height: 1.45;
+      font-weight: 800;
+      color: #0752a0;
     }
 
-    .logo {
-        font-size: 22px;
+    .header-logo {
+      font-size: 40px;
+      font-weight: 900;
+      color: #0752a0;
+      white-space: nowrap;
     }
 
-    .summary-grid {
-        grid-template-columns: 1fr;
+
+    /* =====================================================
+       FILTER AREA
+    ===================================================== */
+
+    .filter-card {
+      margin: 0 26px 18px;
+
+      background: #ffffff;
+
+      border-radius: 16px;
+
+      padding: 14px;
+
+      box-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.08);
     }
 
     .filter-row {
-        flex-direction: column;
-        align-items: stretch;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
     }
 
-    .filter-button,
-    input[type="date"],
-    select,
-    .search-button,
-    .clear-button {
-        width: 100%;
+    .quick-btn {
+      background: #ffffff;
+
+      border: 1px solid #d5dce5;
+
+      color: #123b70;
+
+      border-radius: 10px;
+
+      padding: 12px 22px;
+
+      font-size: 16px;
+
+      cursor: pointer;
+
+      transition: 0.2s;
+    }
+
+    .quick-btn:hover {
+      background: #eef5ff;
+    }
+
+    .quick-btn.active {
+      background: #14589d;
+      color: #ffffff;
+      border-color: #14589d;
+      font-weight: 700;
     }
 
     .filter-label {
-        margin-top: 4px;
+      font-size: 15px;
+      color: #777;
+      margin-left: 2px;
     }
 
-    .item-top {
-        flex-direction: column;
+    .date-input {
+      height: 48px;
+
+      border: 1px solid #d5dce5;
+
+      border-radius: 9px;
+
+      padding: 0 12px;
+
+      font-size: 15px;
+
+      color: #333;
+
+      min-width: 175px;
     }
 
-    .item-actions {
-        align-self: flex-end;
+    .province-select {
+      height: 48px;
+
+      border: 1px solid #d5dce5;
+
+      border-radius: 9px;
+
+      padding: 0 12px;
+
+      font-size: 15px;
+
+      min-width: 230px;
+
+      color: #333;
+
+      background: #ffffff;
     }
 
-    .item-images {
+    .search-btn {
+      height: 48px;
+
+      background: #14589d;
+
+      color: white;
+
+      border: none;
+
+      border-radius: 9px;
+
+      padding: 0 22px;
+
+      font-size: 16px;
+
+      font-weight: 700;
+
+      cursor: pointer;
+    }
+
+    .clear-btn {
+      height: 48px;
+
+      background: #ffffff;
+
+      color: #14589d;
+
+      border: 1px solid #14589d;
+
+      border-radius: 9px;
+
+      padding: 0 20px;
+
+      font-size: 16px;
+
+      cursor: pointer;
+    }
+
+    .admin-btn {
+      margin-left: auto;
+
+      height: 48px;
+
+      background: #087f3e;
+
+      color: white;
+
+      border: none;
+
+      border-radius: 9px;
+
+      padding: 0 20px;
+
+      font-size: 15px;
+
+      font-weight: 700;
+
+      cursor: pointer;
+
+      text-decoration: none;
+
+      display: inline-flex;
+
+      align-items: center;
+
+      justify-content: center;
+    }
+
+    .report-text {
+      margin-top: 10px;
+
+      font-size: 16px;
+
+      font-weight: 700;
+
+      color: #123b70;
+    }
+
+
+    /* =====================================================
+       MAIN GRID
+    ===================================================== */
+
+    .main-grid {
+      margin: 0 26px 25px;
+
+      display: grid;
+
+      grid-template-columns:
+        30% 70%;
+
+      gap: 14px;
+
+      align-items: start;
+    }
+
+
+    /* =====================================================
+       LEFT COLUMN
+    ===================================================== */
+
+    .left-column {
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 16px;
+    }
+
+    .summary-grid {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 14px;
+    }
+
+    .summary-card {
+      border-radius: 18px;
+
+      padding: 20px 15px;
+
+      text-align: center;
+
+      min-height: 200px;
+
+      display: flex;
+
+      flex-direction: column;
+
+      justify-content: center;
+
+      box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .bags-card {
+      background: #ffedab;
+    }
+
+    .water-card {
+      background: #a9ddf8;
+    }
+
+    .summary-title {
+      font-size: 19px;
+
+      margin-bottom: 12px;
+
+      font-weight: 700;
+    }
+
+    .summary-number {
+      font-size: 40px;
+
+      font-weight: 900;
+
+      line-height: 1.1;
+
+      margin-bottom: 12px;
+    }
+
+    .summary-total {
+      background: rgba(255,255,255,0.35);
+
+      border-radius: 16px;
+
+      padding: 8px;
+
+      font-size: 17px;
+    }
+
+    .summary-total strong {
+      display: block;
+
+      font-size: 28px;
+
+      margin-top: 2px;
+    }
+
+
+    /* =====================================================
+       MAP
+    ===================================================== */
+
+    .map-card {
+      background: white;
+
+      border-radius: 18px;
+
+      padding: 14px;
+
+      min-height: 600px;
+
+      box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .map-title {
+      font-size: 18px;
+
+      font-weight: 800;
+
+      margin: 6px 8px 12px;
+    }
+
+    .map-placeholder {
+      min-height: 530px;
+
+      background: #f0f1f3;
+
+      border-radius: 14px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      text-align: center;
+
+      color: #777;
+
+      font-size: 18px;
+
+      padding: 20px;
+    }
+
+
+    /* =====================================================
+       RIGHT LIST
+    ===================================================== */
+
+    .list-card {
+      background: #fffbe0;
+
+      border-radius: 18px;
+
+      padding: 20px;
+
+      box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.05);
+
+      min-height: 820px;
+    }
+
+    .list-title {
+      font-size: 26px;
+
+      font-weight: 900;
+
+      margin-bottom: 15px;
+    }
+
+    .list-scroll {
+      height: 730px;
+
+      overflow-y: auto;
+
+      padding-right: 8px;
+    }
+
+    .date-group {
+      margin-bottom: 18px;
+    }
+
+    .date-header {
+      display: inline-block;
+
+      background: #ffc400;
+
+      color: #0752a0;
+
+      font-size: 19px;
+
+      font-weight: 900;
+
+      border-radius: 10px;
+
+      padding: 7px 13px;
+
+      margin-bottom: 10px;
+    }
+
+    .support-item {
+      padding: 13px 0 17px;
+
+      border-bottom: 1px dashed #d9d4a7;
+    }
+
+    .item-title {
+      font-size: 17px;
+
+      font-weight: 700;
+
+      line-height: 1.6;
+
+      color: #123b70;
+    }
+
+    .item-number {
+      font-weight: 900;
+    }
+
+    .item-info {
+      margin-top: 6px;
+
+      color: #333;
+
+      font-size: 15px;
+
+      font-weight: 600;
+    }
+
+    .item-info span {
+      margin-right: 15px;
+    }
+
+    .province-bold {
+      font-weight: 900;
+    }
+
+    .image-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+      gap: 10px;
+
+      margin-top: 10px;
+
+      max-width: 680px;
+    }
+
+    .support-image {
+      width: 100%;
+
+      height: 108px;
+
+      object-fit: cover;
+
+      border-radius: 10px;
+
+      background: #ddd;
+
+      display: block;
+    }
+
+    .empty-state {
+      text-align: center;
+
+      padding: 70px 20px;
+
+      color: #777;
+
+      font-size: 18px;
+    }
+
+    .loading-state {
+      text-align: center;
+
+      padding: 60px 20px;
+
+      color: #777;
+
+      font-size: 18px;
+    }
+
+    .error-state {
+      text-align: center;
+
+      padding: 50px 20px;
+
+      color: #b42318;
+
+      font-size: 17px;
+
+      background: #fff0f0;
+
+      border-radius: 12px;
+    }
+
+
+    /* =====================================================
+       SCROLLBAR
+    ===================================================== */
+
+    .list-scroll::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .list-scroll::-webkit-scrollbar-track {
+      background: #eee;
+      border-radius: 10px;
+    }
+
+    .list-scroll::-webkit-scrollbar-thumb {
+      background: #b8b8b8;
+      border-radius: 10px;
+    }
+
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+
+    @media (max-width: 1100px) {
+
+      .main-grid {
         grid-template-columns: 1fr;
+      }
+
+      .list-card {
+        min-height: auto;
+      }
+
+      .list-scroll {
+        height: 600px;
+      }
+
+      .map-card {
+        min-height: auto;
+      }
+
+      .map-placeholder {
+        min-height: 350px;
+      }
+
     }
 
-    .footer {
+
+    @media (max-width: 800px) {
+
+      .header {
+        margin: 10px;
+
+        padding: 16px;
+
         flex-direction: column;
-        gap: 5px;
+
+        align-items: flex-start;
+
+        gap: 10px;
+      }
+
+      .header-title {
+        font-size: 21px;
+      }
+
+      .header-logo {
+        font-size: 30px;
+      }
+
+      .filter-card {
+        margin: 0 10px 15px;
+      }
+
+      .filter-row {
+        flex-direction: column;
+
+        align-items: stretch;
+      }
+
+      .quick-btn,
+      .date-input,
+      .province-select,
+      .search-btn,
+      .clear-btn,
+      .admin-btn {
+        width: 100%;
+      }
+
+      .admin-btn {
+        margin-left: 0;
+      }
+
+      .main-grid {
+        margin: 0 10px 20px;
+      }
+
+      .summary-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .list-scroll {
+        height: auto;
+
+        max-height: none;
+
+        overflow: visible;
+      }
+
+      .list-card {
+        padding: 15px;
+      }
+
+      .image-grid {
+        grid-template-columns: 1fr;
+      }
+
     }
 
-}
 
-</style>
+    @media (max-width: 500px) {
+
+      .item-title {
+        font-size: 15px;
+      }
+
+      .item-info {
+        font-size: 14px;
+      }
+
+      .date-header {
+        font-size: 17px;
+      }
+
+    }
+
+  </style>
 </head>
 
 
 <body>
 
-<div class="container">
 
+  <!-- =====================================================
+       HEADER
+  ===================================================== -->
 
-<!-- =====================================================
-     HEADER
-===================================================== -->
-
-<header class="header">
+  <header class="header">
 
     <div class="header-title">
-
-        รายการสนับสนุนถุงยังชีพและน้ำดื่ม กฟผ.<br>
-
-        ผู้ประสบอุทกภัย พื้นที่ อปก. ปี 2569
-
+      รายการสนับสนุนถุงยังชีพและน้ำดื่ม กฟผ.<br>
+      ผู้ประสบอุทกภัย พื้นที่ อปก. ปี 2569
     </div>
 
-    <div class="logo">
-        กฟผ.
+    <div class="header-logo">
+      กฟผ.
     </div>
 
-</header>
+  </header>
 
 
+  <!-- =====================================================
+       FILTER
+  ===================================================== -->
 
-<!-- =====================================================
-     FILTER
-===================================================== -->
-
-<section class="filter-area">
+  <section class="filter-card">
 
     <div class="filter-row">
 
+      <button
+        class="quick-btn"
+        data-range="today"
+      >
+        วันนี้
+      </button>
 
-        <button
-            class="filter-button"
-            data-range="today"
-        >
-            วันนี้
-        </button>
+      <button
+        class="quick-btn"
+        data-range="7"
+      >
+        7 วัน
+      </button>
 
+      <button
+        class="quick-btn"
+        data-range="30"
+      >
+        30 วัน
+      </button>
 
-        <button
-            class="filter-button"
-            data-range="7"
-        >
-            7 วัน
-        </button>
+      <button
+        class="quick-btn active"
+        data-range="all"
+      >
+        ทั้งหมด
+      </button>
 
-
-        <button
-            class="filter-button"
-            data-range="30"
-        >
-            30 วัน
-        </button>
-
-
-        <button
-            class="filter-button active"
-            data-range="all"
-        >
-            ทั้งหมด
-        </button>
-
-
-        <span class="filter-label">
-            หรือกำหนดเอง
-        </span>
+      <span class="filter-label">
+        หรือกำหนดเอง
+      </span>
 
 
-        <input
-            type="date"
-            id="startDate"
-        >
+      <input
+        type="date"
+        id="startDate"
+        class="date-input"
+      >
+
+      <span class="filter-label">
+        ถึง
+      </span>
+
+      <input
+        type="date"
+        id="endDate"
+        class="date-input"
+      >
 
 
-        <span>
-            ถึง
-        </span>
+      <span class="filter-label">
+        จังหวัด
+      </span>
+
+      <select
+        id="provinceFilter"
+        class="province-select"
+      >
+
+        <option value="">
+          ทุกจังหวัด
+        </option>
+
+        <option>พระนครศรีอยุธยา</option>
+        <option>สิงห์บุรี</option>
+        <option>สุพรรณบุรี</option>
+        <option>ลพบุรี</option>
+        <option>อ่างทอง</option>
+        <option>ระยอง</option>
+        <option>ชลบุรี</option>
+        <option>สระบุรี</option>
+        <option>นครนายก</option>
+        <option>ฉะเชิงเทรา</option>
+        <option>ปราจีนบุรี</option>
+        <option>จันทบุรี</option>
+        <option>สระแก้ว</option>
+        <option>ตราด</option>
+
+      </select>
 
 
-        <input
-            type="date"
-            id="endDate"
-        >
+      <button
+        class="search-btn"
+        id="searchBtn"
+      >
+        ค้นหา
+      </button>
 
 
-        <span class="filter-label">
-            จังหวัด
-        </span>
+      <button
+        class="clear-btn"
+        id="clearBtn"
+      >
+        ล้างตัวกรอง
+      </button>
 
 
-        <select id="provinceFilter">
-
-            <option value="all">
-                ทุกจังหวัด
-            </option>
-
-            <option value="พระนครศรีอยุธยา">
-                พระนครศรีอยุธยา
-            </option>
-
-            <option value="สิงห์บุรี">
-                สิงห์บุรี
-            </option>
-
-            <option value="สุพรรณบุรี">
-                สุพรรณบุรี
-            </option>
-
-            <option value="ลพบุรี">
-                ลพบุรี
-            </option>
-
-            <option value="อ่างทอง">
-                อ่างทอง
-            </option>
-
-            <option value="ระยอง">
-                ระยอง
-            </option>
-
-            <option value="ชลบุรี">
-                ชลบุรี
-            </option>
-
-            <option value="สระบุรี">
-                สระบุรี
-            </option>
-
-            <option value="นครนายก">
-                นครนายก
-            </option>
-
-            <option value="ฉะเชิงเทรา">
-                ฉะเชิงเทรา
-            </option>
-
-            <option value="ปราจีนบุรี">
-                ปราจีนบุรี
-            </option>
-
-            <option value="จันทบุรี">
-                จันทบุรี
-            </option>
-
-            <option value="สระแก้ว">
-                สระแก้ว
-            </option>
-
-            <option value="ตราด">
-                ตราด
-            </option>
-
-        </select>
-
-
-        <button
-            class="search-button"
-            id="searchButton"
-        >
-            ค้นหา
-        </button>
-
-
-        <button
-            class="clear-button"
-            id="clearButton"
-        >
-            ล้างตัวกรอง
-        </button>
-
+      <a
+        href="admin.html"
+        class="admin-btn"
+      >
+        ⚙️ จัดการข้อมูล
+      </a>
 
     </div>
 
 
     <div
-        class="report-date"
-        id="reportDate"
+      id="reportText"
+      class="report-text"
     >
-        รายงานข้อมูลทั้งหมด
+      รายงานข้อมูลทั้งหมด
     </div>
 
-</section>
+  </section>
 
 
+  <!-- =====================================================
+       MAIN
+  ===================================================== -->
 
-<!-- =====================================================
-     MAIN
-===================================================== -->
-
-<main class="main-grid">
-
-
-    <!-- LEFT -->
-
-    <div class="left-column">
+  <main class="main-grid">
 
 
-        <!-- SUMMARY -->
+    <!-- ===================================================
+         LEFT
+    =================================================== -->
 
-        <div class="summary-grid">
-
-
-            <div class="summary-card bag-card">
-
-                <div class="summary-title">
-                    ถุงยังชีพ (ถุง)
-                </div>
-
-                <div
-                    class="summary-number"
-                    id="bagNumber"
-                >
-                    0
-                </div>
-
-                <div class="summary-total">
-
-                    ยอดสนับสนุนรวม
-
-                    <strong id="bagTotal">
-                        0
-                    </strong>
-
-                </div>
-
-            </div>
+    <section class="left-column">
 
 
-            <div class="summary-card water-card">
+      <!-- SUMMARY -->
 
-                <div class="summary-title">
-                    น้ำดื่ม (แพ็ก)
-                </div>
+      <div class="summary-grid">
 
-                <div
-                    class="summary-number"
-                    id="waterNumber"
-                >
-                    0
-                </div>
+        <div class="summary-card bags-card">
 
-                <div class="summary-total">
+          <div class="summary-title">
+            ถุงยังชีพ (ถุง)
+          </div>
 
-                    ยอดสนับสนุนรวม
+          <div
+            class="summary-number"
+            id="bagsTotal"
+          >
+            0
+          </div>
 
-                    <strong id="waterTotal">
-                        0
-                    </strong>
+          <div class="summary-total">
+            ยอดสนับสนุนรวม
 
-                </div>
-
-            </div>
-
+            <strong id="bagsTotalSmall">
+              0
+            </strong>
+          </div>
 
         </div>
 
 
+        <div class="summary-card water-card">
 
-        <!-- MAP -->
+          <div class="summary-title">
+            น้ำดื่ม (แพ็ก)
+          </div>
 
-        <div class="map-card">
+          <div
+            class="summary-number"
+            id="waterTotal"
+          >
+            0
+          </div>
 
-            <div class="map-title">
-                🗺️ พื้นที่ดำเนินการ
-            </div>
+          <div class="summary-total">
+            ยอดสนับสนุนรวม
 
-            <div class="map-placeholder">
-
-                แผนที่ประเทศไทย
-
-                <br>
-
-                <small>
-                    จะเพิ่มแผนที่จริงในขั้นต่อไป
-                </small>
-
-            </div>
-
-        </div>
-
-
-    </div>
-
-
-
-    <!-- RIGHT -->
-
-    <div class="list-card">
-
-
-        <div class="list-header">
-
-            <h2>
-                รายการสนับสนุน
-            </h2>
+            <strong id="waterTotalSmall">
+              0
+            </strong>
+          </div>
 
         </div>
 
-
-        <div id="supportList"></div>
-
-
-    </div>
+      </div>
 
 
-</main>
+      <!-- MAP -->
 
+      <div class="map-card">
 
-
-<!-- =====================================================
-     FOOTER
-===================================================== -->
-
-<footer class="footer">
-
-    <span>
-        ฝ่ายปฏิบัติการภาคกลาง
-    </span>
-
-    <span>
-        ระบบ Dashboard สนับสนุนผู้ประสบอุทกภัย
-    </span>
-
-</footer>
-
-
-</div>
-
-
-
-<!-- =====================================================
-     EDIT MODAL
-===================================================== -->
-
-<div
-    class="modal"
-    id="editModal"
->
-
-    <div class="modal-box">
-
-        <h2 class="modal-title">
-            แก้ไขรายการสนับสนุน
-        </h2>
-
-
-        <div class="form-group">
-
-            <label>
-                วันที่
-            </label>
-
-            <input
-                type="date"
-                id="editDate"
-            >
-
+        <div class="map-title">
+          🗺️ พื้นที่ดำเนินการ
         </div>
 
-
-        <div class="form-group">
-
-            <label>
-                จังหวัด
-            </label>
-
-            <select id="editProvince">
-
-                <option value="พระนครศรีอยุธยา">
-                    พระนครศรีอยุธยา
-                </option>
-
-                <option value="สิงห์บุรี">
-                    สิงห์บุรี
-                </option>
-
-                <option value="สุพรรณบุรี">
-                    สุพรรณบุรี
-                </option>
-
-                <option value="ลพบุรี">
-                    ลพบุรี
-                </option>
-
-                <option value="อ่างทอง">
-                    อ่างทอง
-                </option>
-
-                <option value="ระยอง">
-                    ระยอง
-                </option>
-
-                <option value="ชลบุรี">
-                    ชลบุรี
-                </option>
-
-                <option value="สระบุรี">
-                    สระบุรี
-                </option>
-
-                <option value="นครนายก">
-                    นครนายก
-                </option>
-
-                <option value="ฉะเชิงเทรา">
-                    ฉะเชิงเทรา
-                </option>
-
-                <option value="ปราจีนบุรี">
-                    ปราจีนบุรี
-                </option>
-
-                <option value="จันทบุรี">
-                    จันทบุรี
-                </option>
-
-                <option value="สระแก้ว">
-                    สระแก้ว
-                </option>
-
-                <option value="ตราด">
-                    ตราด
-                </option>
-
-            </select>
-
+        <div class="map-placeholder">
+          แผนที่ประเทศไทยจะเพิ่มแผนที่จริงในขั้นต่อไป
         </div>
 
+      </div>
 
-        <div class="form-group">
+    </section>
 
-            <label>
-                สถานที่ / รายละเอียด
-            </label>
 
-            <input
-                type="text"
-                id="editLocation"
-            >
 
+    <!-- ===================================================
+         RIGHT
+    =================================================== -->
+
+    <section class="list-card">
+
+      <div class="list-title">
+        รายการสนับสนุน
+      </div>
+
+      <div
+        id="supportList"
+        class="list-scroll"
+      >
+
+        <div class="loading-state">
+          กำลังโหลดข้อมูล...
         </div>
 
+      </div>
 
-        <div class="form-group">
+    </section>
 
-            <label>
-                จำนวนถุงยังชีพ
-            </label>
-
-            <input
-                type="number"
-                id="editBags"
-                min="0"
-            >
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>
-                จำนวนน้ำดื่ม
-            </label>
-
-            <input
-                type="number"
-                id="editWater"
-                min="0"
-            >
-
-        </div>
-
-
-        <div class="modal-actions">
-
-            <button
-                class="modal-cancel"
-                id="cancelEdit"
-            >
-                ยกเลิก
-            </button>
-
-            <button
-                class="modal-save"
-                id="saveEdit"
-            >
-                บันทึก
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-
-<!-- =====================================================
-     DELETE MODAL
-===================================================== -->
-
-<div
-    class="modal"
-    id="deleteModal"
->
-
-    <div class="modal-box">
-
-        <h2 class="modal-title">
-            ยืนยันการลบ
-        </h2>
-
-
-        <p id="deleteMessage">
-            ต้องการลบรายการนี้หรือไม่?
-        </p>
-
-
-        <div class="modal-actions">
-
-            <button
-                class="modal-cancel"
-                id="cancelDelete"
-            >
-                ยกเลิก
-            </button>
-
-            <button
-                class="modal-delete"
-                id="confirmDelete"
-            >
-                ลบรายการ
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
+  </main>
 
 
 
 <script>
 
-/* =====================================================
-   DATA
-===================================================== */
+  /* =====================================================
+     SUPABASE CONFIG
+  ===================================================== */
 
-let supportData = [
+  const SUPABASE_URL =
+    "https://voaktlbvwzliyfhxksdz.supabase.co";
 
-    {
-        id: 1,
-        date: "2026-10-07",
-        province: "ฉะเชิงเทรา",
-        location: "วัดสุทธาราม ต.หอมหก อ.บางไทร",
-        bags: 565,
-        water: 565,
-        images: []
-    },
-
-    {
-        id: 2,
-        date: "2026-10-07",
-        province: "ฉะเชิงเทรา",
-        location: "พื้นที่ช่วยเหลือผู้ประสบภัย อ.บางไทร",
-        bags: 300,
-        water: 300,
-        images: []
-    },
-
-    {
-        id: 3,
-        date: "2026-10-07",
-        province: "พระนครศรีอยุธยา",
-        location: "ศูนย์ช่วยเหลือผู้ประสบภัย จังหวัดพระนครศรีอยุธยา",
-        bags: 250,
-        water: 250,
-        images: []
-    },
-
-    {
-        id: 4,
-        date: "2026-10-06",
-        province: "ฉะเชิงเทรา",
-        location: "หมู่บ้านหนองสีบู เฟส 2 ต.คลองหลวงแพ่ง อ.เมือง",
-        bags: 500,
-        water: 500,
-        images: []
-    },
-
-    {
-        id: 5,
-        date: "2026-10-06",
-        province: "พระนครศรีอยุธยา",
-        location: "วัดป้อมแก้ว ต.บ้านกลึง อ.บางไทร",
-        bags: 700,
-        water: 700,
-        images: []
-    },
-
-    {
-        id: 6,
-        date: "2026-10-06",
-        province: "สระบุรี",
-        location: "ศูนย์ช่วยเหลือผู้ประสบภัย จังหวัดสระบุรี",
-        bags: 400,
-        water: 450,
-        images: []
-    },
-
-    {
-        id: 7,
-        date: "2026-10-05",
-        province: "สุพรรณบุรี",
-        location: "พื้นที่ชุมชน จังหวัดสุพรรณบุรี",
-        bags: 300,
-        water: 350,
-        images: []
-    },
-
-    {
-        id: 8,
-        date: "2026-10-05",
-        province: "นครนายก",
-        location: "ศูนย์ช่วยเหลือผู้ประสบภัย จังหวัดนครนายก",
-        bags: 250,
-        water: 300,
-        images: []
-    },
-
-    {
-        id: 9,
-        date: "2026-10-04",
-        province: "ปราจีนบุรี",
-        location: "พื้นที่ชุมชน จังหวัดปราจีนบุรี",
-        bags: 450,
-        water: 400,
-        images: []
-    },
-
-    {
-        id: 10,
-        date: "2026-10-03",
-        province: "ลพบุรี",
-        location: "ศูนย์ช่วยเหลือผู้ประสบภัย จังหวัดลพบุรี",
-        bags: 350,
-        water: 300,
-        images: []
-    },
-
-    {
-        id: 11,
-        date: "2026-10-02",
-        province: "อ่างทอง",
-        location: "พื้นที่ชุมชน จังหวัดอ่างทอง",
-        bags: 280,
-        water: 250,
-        images: []
-    },
-
-    {
-        id: 12,
-        date: "2026-10-01",
-        province: "สิงห์บุรี",
-        location: "พื้นที่ชุมชน จังหวัดสิงห์บุรี",
-        bags: 320,
-        water: 350,
-        images: []
-    },
-
-    {
-        id: 13,
-        date: "2026-09-30",
-        province: "ชลบุรี",
-        location: "ศูนย์ช่วยเหลือผู้ประสบภัย จังหวัดชลบุรี",
-        bags: 200,
-        water: 250,
-        images: []
-    },
-
-    {
-        id: 14,
-        date: "2026-09-29",
-        province: "ระยอง",
-        location: "พื้นที่ชุมชน จังหวัดระยอง",
-        bags: 180,
-        water: 200,
-        images: []
-    },
-
-    {
-        id: 15,
-        date: "2026-09-28",
-        province: "จันทบุรี",
-        location: "พื้นที่ชุมชน จังหวัดจันทบุรี",
-        bags: 220,
-        water: 250,
-        images: []
-    },
-
-    {
-        id: 16,
-        date: "2026-09-27",
-        province: "สระแก้ว",
-        location: "ศูนย์ช่วยเหลือผู้ประสบภัย จังหวัดสระแก้ว",
-        bags: 190,
-        water: 210,
-        images: []
-    },
-
-    {
-        id: 17,
-        date: "2026-09-26",
-        province: "ตราด",
-        location: "พื้นที่ชุมชน จังหวัดตราด",
-        bags: 160,
-        water: 180,
-        images: []
-    }
-
-];
+  const SUPABASE_KEY =
+    "sb_publishable_g_p2WWtAFq2GppJN-kLaWg_ccrxTkQ2";
 
 
-/* =====================================================
-   ELEMENTS
-===================================================== */
-
-const bagNumber =
-    document.getElementById("bagNumber");
-
-const bagTotal =
-    document.getElementById("bagTotal");
-
-const waterNumber =
-    document.getElementById("waterNumber");
-
-const waterTotal =
-    document.getElementById("waterTotal");
-
-const supportList =
-    document.getElementById("supportList");
-
-const reportDate =
-    document.getElementById("reportDate");
-
-const startDate =
-    document.getElementById("startDate");
-
-const endDate =
-    document.getElementById("endDate");
-
-const provinceFilter =
-    document.getElementById("provinceFilter");
-
-const editModal =
-    document.getElementById("editModal");
-
-const deleteModal =
-    document.getElementById("deleteModal");
-
-let editingId = null;
-let deletingId = null;
-
-
-/* =====================================================
-   FORMAT NUMBER
-===================================================== */
-
-function formatNumber(number) {
-
-    return Number(number).toLocaleString("th-TH");
-
-}
-
-
-/* =====================================================
-   FORMAT DATE
-===================================================== */
-
-function formatThaiDate(dateString) {
-
-    const date =
-        new Date(dateString + "T00:00:00");
-
-    return date.toLocaleDateString(
-        "th-TH",
-        {
-            day: "numeric",
-            month: "short",
-            year: "numeric"
-        }
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
     );
 
-}
+
+  /* =====================================================
+     DATA
+  ===================================================== */
+
+  let supportData = [];
+
+  let filteredData = [];
+
+  let currentQuickRange = "all";
 
 
-/* =====================================================
-   RENDER
-===================================================== */
+  /* =====================================================
+     DOM
+  ===================================================== */
 
-function render(data) {
+  const bagsTotal =
+    document.getElementById("bagsTotal");
 
-    let bags = 0;
-    let water = 0;
+  const bagsTotalSmall =
+    document.getElementById("bagsTotalSmall");
+
+  const waterTotal =
+    document.getElementById("waterTotal");
+
+  const waterTotalSmall =
+    document.getElementById("waterTotalSmall");
+
+  const supportList =
+    document.getElementById("supportList");
+
+  const reportText =
+    document.getElementById("reportText");
+
+  const startDate =
+    document.getElementById("startDate");
+
+  const endDate =
+    document.getElementById("endDate");
+
+  const provinceFilter =
+    document.getElementById("provinceFilter");
+
+  const searchBtn =
+    document.getElementById("searchBtn");
+
+  const clearBtn =
+    document.getElementById("clearBtn");
 
 
-    data.forEach(item => {
+  /* =====================================================
+     NUMBER FORMAT
+  ===================================================== */
 
-        bags += Number(item.bags);
-        water += Number(item.water);
+  function formatNumber(number) {
 
-    });
+    return Number(number || 0)
+      .toLocaleString("th-TH");
 
-
-    bagNumber.textContent =
-        formatNumber(bags);
-
-    bagTotal.textContent =
-        formatNumber(bags);
-
-    waterNumber.textContent =
-        formatNumber(water);
-
-    waterTotal.textContent =
-        formatNumber(water);
+  }
 
 
-    if (data.length === 0) {
+  /* =====================================================
+     THAI DATE
+  ===================================================== */
 
-        supportList.innerHTML = `
+  function formatThaiDate(dateString) {
 
-            <div class="empty">
+    if (!dateString) {
+      return "";
+    }
 
-                ไม่พบข้อมูลตามตัวกรองที่เลือก
+    const date =
+      new Date(
+        dateString + "T00:00:00"
+      );
 
-            </div>
+    return date.toLocaleDateString(
+      "th-TH",
+      {
+        day: "numeric",
+        month: "short",
+        year: "2-digit"
+      }
+    );
 
-        `;
+  }
 
-        return;
+
+  /* =====================================================
+     HTML ESCAPE
+  ===================================================== */
+
+  function escapeHtml(value) {
+
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+  /* =====================================================
+     LOAD DATA FROM SUPABASE
+  ===================================================== */
+
+  async function loadSupportData() {
+
+    supportList.innerHTML = `
+      <div class="loading-state">
+        กำลังโหลดข้อมูล...
+      </div>
+    `;
+
+
+    const { data, error } =
+      await supabaseClient
+        .from("support_records")
+        .select("*")
+        .order("date", {
+          ascending: false
+        })
+        .order("id", {
+          ascending: true
+        });
+
+
+    if (error) {
+
+      console.error(
+        "Supabase error:",
+        error
+      );
+
+
+      supportList.innerHTML = `
+        <div class="error-state">
+          ไม่สามารถโหลดข้อมูลจากฐานข้อมูลได้<br><br>
+          ${escapeHtml(error.message)}
+        </div>
+      `;
+
+      return;
+    }
+
+
+    supportData =
+      (data || []).map(item => ({
+
+        id: item.id,
+
+        date: item.date,
+
+        province: item.province,
+
+        location: item.location,
+
+        bags: Number(item.bags || 0),
+
+        water: Number(item.water || 0),
+
+        images:
+          Array.isArray(item.images)
+            ? item.images
+            : []
+
+      }));
+
+
+    filteredData =
+      [...supportData];
+
+
+    applyCurrentFilter();
+
+  }
+
+
+  /* =====================================================
+     GET LOCAL TODAY
+  ===================================================== */
+
+  function getTodayString() {
+
+    const now =
+      new Date();
+
+    const year =
+      now.getFullYear();
+
+    const month =
+      String(
+        now.getMonth() + 1
+      ).padStart(2, "0");
+
+    const day =
+      String(
+        now.getDate()
+      ).padStart(2, "0");
+
+
+    return `${year}-${month}-${day}`;
+
+  }
+
+
+  /* =====================================================
+     ADD DAYS
+  ===================================================== */
+
+  function addDays(
+    dateString,
+    days
+  ) {
+
+    const date =
+      new Date(
+        dateString + "T00:00:00"
+      );
+
+    date.setDate(
+      date.getDate() + days
+    );
+
+
+    const year =
+      date.getFullYear();
+
+    const month =
+      String(
+        date.getMonth() + 1
+      ).padStart(2, "0");
+
+    const day =
+      String(
+        date.getDate()
+      ).padStart(2, "0");
+
+
+    return `${year}-${month}-${day}`;
+
+  }
+
+
+  /* =====================================================
+     FILTER DATA
+  ===================================================== */
+
+  function applyCurrentFilter() {
+
+    let data =
+      [...supportData];
+
+
+    /*
+      QUICK DATE
+    */
+
+    if (
+      currentQuickRange ===
+      "today"
+    ) {
+
+      const today =
+        getTodayString();
+
+      data =
+        data.filter(
+          item =>
+            item.date === today
+        );
+
+    }
+
+
+    else if (
+      currentQuickRange === "7"
+    ) {
+
+      const today =
+        getTodayString();
+
+      const start =
+        addDays(today, -6);
+
+
+      data =
+        data.filter(
+          item =>
+            item.date >= start &&
+            item.date <= today
+        );
+
+    }
+
+
+    else if (
+      currentQuickRange === "30"
+    ) {
+
+      const today =
+        getTodayString();
+
+      const start =
+        addDays(today, -29);
+
+
+      data =
+        data.filter(
+          item =>
+            item.date >= start &&
+            item.date <= today
+        );
+
     }
 
 
     /*
-       เรียงวันที่ใหม่ -> เก่า
+      CUSTOM DATE
     */
 
-    const sortedData =
-        [...data].sort(
-            (a, b) =>
-                b.date.localeCompare(a.date)
-        );
+    if (
+      currentQuickRange ===
+      "custom"
+    ) {
+
+      const start =
+        startDate.value;
+
+      const end =
+        endDate.value;
+
+
+      if (start) {
+
+        data =
+          data.filter(
+            item =>
+              item.date >= start
+          );
+
+      }
+
+
+      if (end) {
+
+        data =
+          data.filter(
+            item =>
+              item.date <= end
+          );
+
+      }
+
+    }
 
 
     /*
-       แยกข้อมูลตามวันที่
+      PROVINCE
+    */
+
+    const province =
+      provinceFilter.value;
+
+
+    if (province) {
+
+      data =
+        data.filter(
+          item =>
+            item.province === province
+        );
+
+    }
+
+
+    /*
+      SAVE
+    */
+
+    filteredData =
+      data;
+
+
+    renderDashboard(
+      filteredData
+    );
+
+  }
+
+
+  /* =====================================================
+     RENDER DASHBOARD
+  ===================================================== */
+
+  function renderDashboard(
+    data
+  ) {
+
+    /*
+      TOTAL
+    */
+
+    const totalBags =
+      data.reduce(
+        (
+          sum,
+          item
+        ) =>
+          sum +
+          Number(item.bags || 0),
+        0
+      );
+
+
+    const totalWater =
+      data.reduce(
+        (
+          sum,
+          item
+        ) =>
+          sum +
+          Number(item.water || 0),
+        0
+      );
+
+
+    bagsTotal.textContent =
+      formatNumber(totalBags);
+
+    bagsTotalSmall.textContent =
+      formatNumber(totalBags);
+
+    waterTotal.textContent =
+      formatNumber(totalWater);
+
+    waterTotalSmall.textContent =
+      formatNumber(totalWater);
+
+
+    /*
+      REPORT TEXT
+    */
+
+    let report =
+      `รายงานข้อมูล ${data.length} รายการ`;
+
+
+    if (
+      currentQuickRange ===
+      "today"
+    ) {
+
+      report =
+        "รายงานข้อมูลวันนี้";
+
+    }
+
+    else if (
+      currentQuickRange === "7"
+    ) {
+
+      report =
+        "รายงานข้อมูลย้อนหลัง 7 วัน";
+
+    }
+
+    else if (
+      currentQuickRange === "30"
+    ) {
+
+      report =
+        "รายงานข้อมูลย้อนหลัง 30 วัน";
+
+    }
+
+    else if (
+      currentQuickRange === "custom"
+    ) {
+
+      report =
+        "รายงานข้อมูลตามช่วงวันที่";
+
+    }
+
+    else if (
+      currentQuickRange === "all"
+    ) {
+
+      report =
+        "รายงานข้อมูลทั้งหมด";
+
+    }
+
+
+    if (
+      provinceFilter.value
+    ) {
+
+      report +=
+        ` จังหวัด${provinceFilter.value}`;
+
+    }
+
+
+    reportText.textContent =
+      report;
+
+
+    /*
+      LIST
+    */
+
+    renderList(data);
+
+  }
+
+
+  /* =====================================================
+     RENDER LIST
+  ===================================================== */
+
+  function renderList(
+    data
+  ) {
+
+    if (!data.length) {
+
+      supportList.innerHTML = `
+        <div class="empty-state">
+          ไม่พบข้อมูลตามเงื่อนไขที่เลือก
+        </div>
+      `;
+
+      return;
+    }
+
+
+    /*
+      GROUP BY DATE
     */
 
     const groups = {};
 
 
-    sortedData.forEach(item => {
+    data.forEach(
+      item => {
 
         if (!groups[item.date]) {
 
-            groups[item.date] = [];
+          groups[item.date] = [];
 
         }
 
-        groups[item.date].push(item);
+        groups[item.date].push(
+          item
+        );
 
-    });
+      }
+    );
 
 
     let html = "";
 
 
-    /*
-       สร้างรายการแยกตามวัน
-    */
-
     Object.keys(groups)
-    .sort((a, b) => b.localeCompare(a))
-    .forEach(date => {
+      .sort()
+      .reverse()
+      .forEach(
+        date => {
 
-        const items =
-            groups[date];
-
-
-        html += `
-
+          html += `
             <div class="date-group">
 
-                <div class="date-title">
+              <div class="date-header">
+                ${formatThaiDate(date)}
+              </div>
+          `;
 
-                    ${formatThaiDate(date)}
+
+          groups[date].forEach(
+            (
+              item,
+              index
+            ) => {
+
+              html += `
+                <div class="support-item">
+
+                  <div class="item-title">
+
+                    <span class="item-number">
+                      ${index + 1}.
+                    </span>
+
+                    ${escapeHtml(
+                      item.location
+                    )}
+
+                    จ.<span class="province-bold">
+                      ${escapeHtml(
+                        item.province
+                      )}
+                    </span>
+
+                  </div>
+
+
+                  <div class="item-info">
+
+                    <span>
+                      • ถุงยังชีพ
+                      <strong>
+                        ${formatNumber(
+                          item.bags
+                        )}
+                      </strong>
+                      ถุง
+                    </span>
+
+                    <span>
+                      • น้ำดื่ม
+                      <strong>
+                        ${formatNumber(
+                          item.water
+                        )}
+                      </strong>
+                      แพ็ก
+                    </span>
+
+                  </div>
+
+
+                  ${
+                    renderImages(
+                      item.images
+                    )
+                  }
 
                 </div>
-
-        `;
-
-
-        /*
-           เลขรายการเริ่มใหม่ทุกวัน
-        */
-
-        items.forEach((item, index) => {
-
-            let images = "";
-
-
-            if (
-                item.images &&
-                item.images.length > 0
-            ) {
-
-                images =
-                    item.images.map(image => `
-
-                        <div class="item-image">
-
-                            <img
-                                src="${image}"
-                                alt="ภาพกิจกรรม"
-                            >
-
-                        </div>
-
-                    `).join("");
+              `;
 
             }
-
-            else {
-
-                images = `
-
-                    <div class="item-image">
-                        รูปภาพ
-                    </div>
-
-                    <div class="item-image">
-                        รูปภาพ
-                    </div>
-
-                `;
-
-            }
+          );
 
 
-            html += `
-
-                <article class="item">
-
-
-                    <div class="item-top">
-
-
-                        <div class="item-title">
-
-                            ${index + 1}.
-                            ${item.location}
-                            จ.<strong>${item.province}</strong>
-
-                        </div>
-
-
-                        <div class="item-actions">
-
-                            <button
-                                class="edit-button"
-                                onclick="openEdit(${item.id})"
-                            >
-                                แก้ไข
-                            </button>
-
-
-                            <button
-                                class="delete-button"
-                                onclick="openDelete(${item.id})"
-                            >
-                                ลบ
-                            </button>
-
-                        </div>
-
-
-                    </div>
-
-
-                    <div class="item-info">
-
-                        • ถุงยังชีพ
-                        <strong>
-                            ${formatNumber(item.bags)}
-                        </strong>
-                        ถุง
-
-                        &nbsp;&nbsp;
-
-                        • น้ำดื่ม
-                        <strong>
-                            ${formatNumber(item.water)}
-                        </strong>
-                        แพ็ก
-
-                    </div>
-
-
-                    <div class="item-images">
-
-                        ${images}
-
-                    </div>
-
-
-                </article>
-
-            `;
-
-        });
-
-
-        html += `
-
+          html += `
             </div>
-
-        `;
-
-    });
-
-
-    supportList.innerHTML = html;
-
-}
-
-
-/* =====================================================
-   PROVINCE FILTER
-===================================================== */
-
-function applyProvinceFilter(data) {
-
-    const province =
-        provinceFilter.value;
-
-
-    if (province === "all") {
-
-        render(data);
-
-        return;
-
-    }
-
-
-    const filtered =
-        data.filter(item =>
-            item.province === province
-        );
-
-
-    render(filtered);
-
-}
-
-
-/* =====================================================
-   QUICK DATE FILTER
-===================================================== */
-
-function filterByRange(range) {
-
-    const today =
-        new Date("2026-10-07T00:00:00");
-
-
-    let filtered = [];
-
-
-    if (range === "all") {
-
-        filtered =
-            [...supportData];
-
-        reportDate.textContent =
-            "รายงานข้อมูลทั้งหมด";
-
-    }
-
-
-    else if (range === "today") {
-
-        const todayString =
-            today.toISOString().split("T")[0];
-
-
-        filtered =
-            supportData.filter(item =>
-                item.date === todayString
-            );
-
-
-        reportDate.textContent =
-            "รายงานประจำวันที่ 7 ต.ค. 69";
-
-    }
-
-
-    else {
-
-        const days =
-            Number(range);
-
-
-        const start =
-            new Date(today);
-
-
-        start.setDate(
-            start.getDate() - days + 1
-        );
-
-
-        filtered =
-            supportData.filter(item => {
-
-                const itemDate =
-                    new Date(
-                        item.date + "T00:00:00"
-                    );
-
-
-                return (
-                    itemDate >= start &&
-                    itemDate <= today
-                );
-
-            });
-
-
-        reportDate.textContent =
-            `รายงานย้อนหลัง ${days} วัน`;
-
-    }
-
-
-    applyProvinceFilter(filtered);
-
-
-    if (
-        provinceFilter.value !== "all"
-    ) {
-
-        reportDate.textContent +=
-            ` | จังหวัด${provinceFilter.value}`;
-
-    }
-
-}
-
-
-/* =====================================================
-   QUICK BUTTONS
-===================================================== */
-
-document
-.querySelectorAll(".filter-button")
-.forEach(button => {
-
-    button.addEventListener(
-        "click",
-        () => {
-
-            document
-            .querySelectorAll(".filter-button")
-            .forEach(btn =>
-                btn.classList.remove("active")
-            );
-
-
-            button.classList.add("active");
-
-
-            filterByRange(
-                button.dataset.range
-            );
+          `;
 
         }
+      );
+
+
+    supportList.innerHTML =
+      html;
+
+  }
+
+
+  /* =====================================================
+     RENDER IMAGES
+  ===================================================== */
+
+  function renderImages(
+    images
+  ) {
+
+    if (
+      !Array.isArray(images) ||
+      images.length === 0
+    ) {
+
+      return "";
+
+    }
+
+
+    const validImages =
+      images.filter(
+        url =>
+          typeof url === "string" &&
+          url.trim() !== ""
+      );
+
+
+    if (!validImages.length) {
+
+      return "";
+
+    }
+
+
+    return `
+      <div class="image-grid">
+
+        ${
+          validImages
+            .map(
+              url => `
+                <img
+                  class="support-image"
+                  src="${escapeHtml(url)}"
+                  alt="รูปภาพการสนับสนุน"
+                  loading="lazy"
+                  onerror="this.style.display='none';"
+                >
+              `
+            )
+            .join("")
+        }
+
+      </div>
+    `;
+
+  }
+
+
+  /* =====================================================
+     QUICK FILTER
+  ===================================================== */
+
+  document
+    .querySelectorAll(".quick-btn")
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            document
+              .querySelectorAll(
+                ".quick-btn"
+              )
+              .forEach(
+                btn =>
+                  btn.classList.remove(
+                    "active"
+                  )
+              );
+
+
+            button.classList.add(
+              "active"
+            );
+
+
+            currentQuickRange =
+              button.dataset.range;
+
+
+            /*
+              CLEAR CUSTOM DATE
+            */
+
+            startDate.value = "";
+
+            endDate.value = "";
+
+
+            applyCurrentFilter();
+
+          }
+        );
+
+      }
     );
 
-});
+
+  /* =====================================================
+     CUSTOM DATE
+  ===================================================== */
+
+  function useCustomDateFilter() {
+
+    currentQuickRange =
+      "custom";
 
 
-/* =====================================================
-   CUSTOM DATE SEARCH
-===================================================== */
+    document
+      .querySelectorAll(
+        ".quick-btn"
+      )
+      .forEach(
+        btn =>
+          btn.classList.remove(
+            "active"
+          )
+      );
 
-document
-.getElementById("searchButton")
-.addEventListener(
+  }
+
+
+  startDate.addEventListener(
+    "change",
+    useCustomDateFilter
+  );
+
+  endDate.addEventListener(
+    "change",
+    useCustomDateFilter
+  );
+
+
+  /* =====================================================
+     SEARCH
+  ===================================================== */
+
+  searchBtn.addEventListener(
     "click",
     () => {
 
-        const startValue =
-            startDate.value;
+      /*
+        If no custom date
+        and no quick filter,
+        use current selected range.
+      */
 
-        const endValue =
-            endDate.value;
-
-
-        if (!startValue || !endValue) {
-
-            alert(
-                "กรุณาเลือกวันที่เริ่มต้นและวันที่สิ้นสุด"
-            );
-
-            return;
-
-        }
-
-
-        if (startValue > endValue) {
-
-            alert(
-                "วันที่เริ่มต้นต้องไม่มากกว่าวันที่สิ้นสุด"
-            );
-
-            return;
-
-        }
-
-
-        document
-        .querySelectorAll(".filter-button")
-        .forEach(btn =>
-            btn.classList.remove("active")
-        );
-
-
-        let filtered =
-            supportData.filter(item =>
-                item.date >= startValue &&
-                item.date <= endValue
-            );
-
-
-        const province =
-            provinceFilter.value;
-
-
-        if (province !== "all") {
-
-            filtered =
-                filtered.filter(item =>
-                    item.province === province
-                );
-
-        }
-
-
-        reportDate.textContent =
-            `แสดงข้อมูล ${formatThaiDate(startValue)} ถึง ${formatThaiDate(endValue)}`;
-
-
-        if (province !== "all") {
-
-            reportDate.textContent +=
-                ` | จังหวัด${province}`;
-
-        }
-
-
-        render(filtered);
+      applyCurrentFilter();
 
     }
-);
+  );
 
 
-/* =====================================================
-   PROVINCE CHANGE
-===================================================== */
+  /* =====================================================
+     PROVINCE CHANGE
+  ===================================================== */
 
-provinceFilter.addEventListener(
+  provinceFilter.addEventListener(
     "change",
     () => {
 
-        const activeButton =
-            document.querySelector(
-                ".filter-button.active"
-            );
+      applyCurrentFilter();
+
+    }
+  );
 
 
-        if (activeButton) {
+  /* =====================================================
+     CLEAR
+  ===================================================== */
 
-            filterByRange(
-                activeButton.dataset.range
-            );
+  clearBtn.addEventListener(
+    "click",
+    () => {
 
-            return;
+      currentQuickRange =
+        "all";
 
-        }
+
+      startDate.value =
+        "";
+
+      endDate.value =
+        "";
+
+      provinceFilter.value =
+        "";
 
 
-        render(
-            supportData.filter(item =>
-                provinceFilter.value === "all" ||
-                item.province === provinceFilter.value
+      document
+        .querySelectorAll(
+          ".quick-btn"
+        )
+        .forEach(
+          btn =>
+            btn.classList.remove(
+              "active"
             )
         );
 
-    }
-);
 
-
-/* =====================================================
-   CLEAR FILTER
-===================================================== */
-
-document
-.getElementById("clearButton")
-.addEventListener(
-    "click",
-    () => {
-
-        startDate.value = "";
-
-        endDate.value = "";
-
-        provinceFilter.value = "all";
-
-
-        document
-        .querySelectorAll(".filter-button")
-        .forEach(btn =>
-            btn.classList.remove("active")
+      document
+        .querySelector(
+          '.quick-btn[data-range="all"]'
+        )
+        .classList.add(
+          "active"
         );
 
 
-        const allButton =
-            document.querySelector(
-                '[data-range="all"]'
-            );
-
-
-        allButton.classList.add("active");
-
-
-        filterByRange("all");
+      applyCurrentFilter();
 
     }
-);
+  );
 
 
-/* =====================================================
-   OPEN EDIT
-===================================================== */
+  /* =====================================================
+     INITIAL LOAD
+  ===================================================== */
 
-function openEdit(id) {
-
-    const item =
-        supportData.find(
-            data => data.id === id
-        );
-
-
-    if (!item) {
-        return;
-    }
-
-
-    editingId = id;
-
-
-    document.getElementById("editDate").value =
-        item.date;
-
-    document.getElementById("editProvince").value =
-        item.province;
-
-    document.getElementById("editLocation").value =
-        item.location;
-
-    document.getElementById("editBags").value =
-        item.bags;
-
-    document.getElementById("editWater").value =
-        item.water;
-
-
-    editModal.classList.add("show");
-
-}
-
-
-/* =====================================================
-   CLOSE EDIT
-===================================================== */
-
-document
-.getElementById("cancelEdit")
-.addEventListener(
-    "click",
-    () => {
-
-        editModal.classList.remove("show");
-
-        editingId = null;
-
-    }
-);
-
-
-/* =====================================================
-   SAVE EDIT
-===================================================== */
-
-document
-.getElementById("saveEdit")
-.addEventListener(
-    "click",
-    () => {
-
-        if (editingId === null) {
-            return;
-        }
-
-
-        const item =
-            supportData.find(
-                data => data.id === editingId
-            );
-
-
-        if (!item) {
-            return;
-        }
-
-
-        item.date =
-            document.getElementById("editDate").value;
-
-        item.province =
-            document.getElementById("editProvince").value;
-
-        item.location =
-            document.getElementById("editLocation").value.trim();
-
-        item.bags =
-            Number(
-                document.getElementById("editBags").value
-            );
-
-        item.water =
-            Number(
-                document.getElementById("editWater").value
-            );
-
-
-        if (!item.date || !item.location) {
-
-            alert(
-                "กรุณากรอกวันที่และสถานที่"
-            );
-
-            return;
-
-        }
-
-
-        editModal.classList.remove("show");
-
-        editingId = null;
-
-
-        refreshCurrentView();
-
-    }
-);
-
-
-/* =====================================================
-   OPEN DELETE
-===================================================== */
-
-function openDelete(id) {
-
-    const item =
-        supportData.find(
-            data => data.id === id
-        );
-
-
-    if (!item) {
-        return;
-    }
-
-
-    deletingId = id;
-
-
-    document.getElementById("deleteMessage").textContent =
-        `ต้องการลบรายการ "${item.location}" หรือไม่?`;
-
-
-    deleteModal.classList.add("show");
-
-}
-
-
-/* =====================================================
-   CANCEL DELETE
-===================================================== */
-
-document
-.getElementById("cancelDelete")
-.addEventListener(
-    "click",
-    () => {
-
-        deleteModal.classList.remove("show");
-
-        deletingId = null;
-
-    }
-);
-
-
-/* =====================================================
-   CONFIRM DELETE
-===================================================== */
-
-document
-.getElementById("confirmDelete")
-.addEventListener(
-    "click",
-    () => {
-
-        if (deletingId === null) {
-            return;
-        }
-
-
-        supportData =
-            supportData.filter(
-                item => item.id !== deletingId
-            );
-
-
-        deleteModal.classList.remove("show");
-
-        deletingId = null;
-
-
-        refreshCurrentView();
-
-    }
-);
-
-
-/* =====================================================
-   REFRESH CURRENT VIEW
-===================================================== */
-
-function refreshCurrentView() {
-
-    const activeButton =
-        document.querySelector(
-            ".filter-button.active"
-        );
-
-
-    /*
-       ถ้าเป็นกำหนดวันที่เอง
-    */
-
-    if (
-        !activeButton &&
-        startDate.value &&
-        endDate.value
-    ) {
-
-        let filtered =
-            supportData.filter(item =>
-                item.date >= startDate.value &&
-                item.date <= endDate.value
-            );
-
-
-        if (provinceFilter.value !== "all") {
-
-            filtered =
-                filtered.filter(item =>
-                    item.province === provinceFilter.value
-                );
-
-        }
-
-
-        render(filtered);
-
-        return;
-
-    }
-
-
-    /*
-       ถ้ามีปุ่มช่วงเวลา
-    */
-
-    if (activeButton) {
-
-        filterByRange(
-            activeButton.dataset.range
-        );
-
-        return;
-
-    }
-
-
-    render(supportData);
-
-}
-
-
-/* =====================================================
-   CLOSE MODAL OUTSIDE
-===================================================== */
-
-editModal.addEventListener(
-    "click",
-    event => {
-
-        if (event.target === editModal) {
-
-            editModal.classList.remove("show");
-
-            editingId = null;
-
-        }
-
-    }
-);
-
-
-deleteModal.addEventListener(
-    "click",
-    event => {
-
-        if (event.target === deleteModal) {
-
-            deleteModal.classList.remove("show");
-
-            deletingId = null;
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   INITIAL LOAD
-===================================================== */
-
-render(supportData);
+  loadSupportData();
 
 </script>
 
