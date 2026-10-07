@@ -157,8 +157,18 @@ body{
 }
 .item-images img:hover{transform:scale(1.015)}
 .filter-status{
-  margin-top:12px;padding-top:12px;border-top:1px solid #eee8bd;
-  font-size:13px;font-weight:400;color:#999;text-align:left
+  margin-top:28px;
+  padding-top:18px;
+  border-top:1px solid #eee8bd;
+  font-size:13px;
+  font-weight:400;
+  color:#999;
+  text-align:center;
+  line-height:1.8
+}
+.filter-status .last-updated{
+  display:block;
+  margin-top:2px;
 }
 .loading,.empty{
   min-height:250px;display:flex;align-items:center;justify-content:center;
@@ -291,7 +301,10 @@ body{
     <div id="supportList" class="support-list">
       <div class="loading">กำลังโหลดข้อมูล...</div>
     </div>
-    <div id="filterStatus" class="filter-status">ข้อมูลทั้งหมด • 0 รายการ</div>
+    <div id="filterStatus" class="filter-status">
+      <div id="filterStatusText">ข้อมูลทั้งหมด • 0 รายการ</div>
+      <div id="lastUpdated" class="last-updated">อัปเดตล่าสุด ณ วันที่ -</div>
+    </div>
   </section>
 </main>
 
@@ -324,6 +337,8 @@ const provinceFilter = document.getElementById("provinceFilter");
 const searchBtn = document.getElementById("searchBtn");
 const clearBtn = document.getElementById("clearBtn");
 const filterStatus = document.getElementById("filterStatus");
+const filterStatusText = document.getElementById("filterStatusText");
+const lastUpdated = document.getElementById("lastUpdated");
 const quickButtons = document.querySelectorAll(".quick-btn");
 const pageTabs = document.querySelectorAll(".page-tab");
 const imageModal = document.getElementById("imageModal");
@@ -731,10 +746,52 @@ function updateFilterStatus(data) {
   if (currentRange === "today") text += " • วันนี้";
   else if (currentRange === "7") text += " • 7 วัน";
   else if (currentRange === "30") text += " • 30 วัน";
-  if (startDate.value || endDate.value) text += " • ช่วงวันที่";
-  if (provinceFilter.value) text += " • จังหวัด " + provinceFilter.value;
+
+  if (startDate.value || endDate.value) {
+    text += " • ช่วงวันที่";
+  }
+
+  if (provinceFilter.value) {
+    text += " • จังหวัด " + provinceFilter.value;
+  }
+
   text += ` • ${data.length} รายการ`;
-  filterStatus.textContent = text;
+
+  filterStatusText.textContent = text;
+  lastUpdated.textContent =
+    `อัปเดตล่าสุด ณ วันที่ ${getLatestUpdateDate()}`;
+}
+
+function getLatestUpdateDate() {
+  if (!allData.length) {
+    return "-";
+  }
+
+  const dates = allData
+    .map(item => item.date)
+    .filter(Boolean)
+    .sort();
+
+  if (!dates.length) {
+    return "-";
+  }
+
+  const latestDate = dates[dates.length - 1];
+
+  return formatThaiDateLong(latestDate);
+}
+
+function formatThaiDateLong(dateString) {
+  const date = new Date(dateString + "T00:00:00");
+
+  return date.toLocaleDateString(
+    "th-TH",
+    {
+      day: "numeric",
+      month: "long",
+      year: "2-digit"
+    }
+  );
 }
 
 async function loadData() {
