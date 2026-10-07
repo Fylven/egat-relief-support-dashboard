@@ -7,331 +7,389 @@
 <title>รายการสนับสนุนถุงยังชีพและน้ำดื่ม กฟผ.</title>
 
 <style>
-    * {
-        box-sizing: border-box;
-    }
+* {
+    box-sizing: border-box;
+}
 
-    body {
-        margin: 0;
-        font-family: "Tahoma", "Noto Sans Thai", sans-serif;
-        background: #f7f8fa;
-        color: #183b70;
-    }
+body {
+    margin: 0;
+    font-family: "Tahoma", "Noto Sans Thai", sans-serif;
+    background: #f7f8fa;
+    color: #183b70;
+}
 
-    .container {
-        max-width: 1500px;
-        margin: auto;
-        padding: 12px;
-    }
+.container {
+    max-width: 1500px;
+    margin: auto;
+    padding: 12px;
+}
 
-    /* HEADER */
-    .header {
-        background: #ffc800;
-        border-radius: 14px;
-        min-height: 74px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 12px 22px;
-        box-shadow: 0 2px 5px rgba(0,0,0,.08);
+/* ================= HEADER ================= */
+
+.header {
+    background: #ffc800;
+    border-radius: 14px;
+    min-height: 74px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 22px;
+    box-shadow: 0 2px 5px rgba(0,0,0,.08);
+}
+
+.header-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #123d78;
+    line-height: 1.45;
+}
+
+.logo {
+    font-size: 36px;
+    font-weight: 900;
+    color: #174a8b;
+    white-space: nowrap;
+}
+
+/* ================= FILTER ================= */
+
+.filter-area {
+    margin-top: 14px;
+    background: white;
+    border-radius: 12px;
+    padding: 14px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.08);
+}
+
+.quick-filter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.filter-button {
+    border: 1px solid #d9dee7;
+    background: white;
+    color: #34495e;
+    border-radius: 9px;
+    padding: 9px 18px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.filter-button:hover {
+    background: #eef5ff;
+}
+
+.filter-button.active {
+    background: #164d91;
+    color: white;
+    border-color: #164d91;
+}
+
+/* CUSTOM FILTER */
+
+.custom-filter {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.filter-label {
+    font-size: 14px;
+    color: #666;
+}
+
+input[type="date"],
+select {
+    border: 1px solid #d6dce5;
+    border-radius: 8px;
+    padding: 9px 10px;
+    font-size: 14px;
+    color: #333;
+    background: white;
+}
+
+select {
+    min-width: 190px;
+    cursor: pointer;
+}
+
+.search-button {
+    background: #174d91;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 18px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.search-button:hover {
+    background: #103b70;
+}
+
+.clear-button {
+    background: white;
+    color: #174d91;
+    border: 1px solid #174d91;
+    border-radius: 8px;
+    padding: 9px 17px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.clear-button:hover {
+    background: #eef5ff;
+}
+
+.report-date {
+    margin-top: 12px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #183b70;
+}
+
+/* ================= MAIN ================= */
+
+.main-grid {
+    display: grid;
+    grid-template-columns: 440px 1fr;
+    gap: 14px;
+    margin-top: 14px;
+}
+
+.left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* ================= SUMMARY ================= */
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.summary-card {
+    border-radius: 15px;
+    padding: 18px;
+    text-align: center;
+}
+
+.bag-card {
+    background: #fff0b9;
+}
+
+.water-card {
+    background: #a8dcf8;
+}
+
+.summary-title {
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.summary-number {
+    font-size: 34px;
+    font-weight: bold;
+    margin: 7px 0;
+}
+
+.summary-total {
+    background: rgba(0,0,0,.08);
+    border-radius: 13px;
+    padding: 5px;
+    font-size: 14px;
+}
+
+.summary-total strong {
+    display: block;
+    font-size: 24px;
+}
+
+/* ================= MAP ================= */
+
+.map-card {
+    background: white;
+    border: 1px solid #e2e5e9;
+    border-radius: 13px;
+    min-height: 430px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+.map-title {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.map-placeholder {
+    flex: 1;
+    min-height: 330px;
+    background: #f0f1f2;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #777;
+    font-size: 20px;
+}
+
+/* ================= LIST ================= */
+
+.list-card {
+    background: #fff9dc;
+    border-radius: 15px;
+    padding: 18px;
+}
+
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.list-header h2 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.item {
+    padding: 10px 0 14px;
+    border-bottom: 1px dashed #d9d0aa;
+}
+
+.item:last-child {
+    border-bottom: none;
+}
+
+.item-date {
+    display: inline-block;
+    background: #ffcf00;
+    border-radius: 7px;
+    padding: 5px 9px;
+    font-weight: bold;
+    color: #183b70;
+    margin-bottom: 7px;
+}
+
+.item-title {
+    font-weight: bold;
+    font-size: 16px;
+    color: #183b70;
+}
+
+.item-province {
+    display: inline-block;
+    margin-top: 5px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: #e5f0ff;
+    color: #174d91;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.item-info {
+    margin: 7px 0;
+    color: #333;
+}
+
+.item-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    max-width: 550px;
+}
+
+.item-image {
+    height: 90px;
+    border-radius: 8px;
+    background: #d9d9d9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #777;
+    overflow: hidden;
+}
+
+.item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.empty {
+    text-align: center;
+    padding: 50px 20px;
+    color: #777;
+}
+
+/* ================= FOOTER ================= */
+
+.footer {
+    margin-top: 12px;
+    display: flex;
+    justify-content: space-between;
+    color: #777;
+    font-size: 13px;
+    padding: 5px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 900px) {
+
+    .main-grid {
+        grid-template-columns: 1fr;
     }
 
     .header-title {
-        font-size: 24px;
-        font-weight: bold;
-        color: #123d78;
+        font-size: 18px;
     }
 
     .logo {
-        font-size: 36px;
-        font-weight: 900;
-        color: #174a8b;
-        white-space: nowrap;
+        font-size: 26px;
     }
+}
 
-    /* FILTER */
-    .filter-area {
-        margin-top: 14px;
-        background: white;
-        border-radius: 12px;
-        padding: 12px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        flex-wrap: wrap;
-        box-shadow: 0 1px 4px rgba(0,0,0,.08);
-    }
-
-    .filter-button {
-        border: 1px solid #d9dee7;
-        background: white;
-        color: #34495e;
-        border-radius: 9px;
-        padding: 9px 18px;
-        font-size: 15px;
-        cursor: pointer;
-        transition: .2s;
-    }
-
-    .filter-button:hover {
-        background: #eef5ff;
-    }
-
-    .filter-button.active {
-        background: #164d91;
-        color: white;
-        border-color: #164d91;
-    }
-
-    .date-box {
-        display: flex;
-        align-items: center;
-        gap: 7px;
-        margin-left: 5px;
-    }
-
-    .date-box label {
-        color: #666;
-        font-size: 14px;
-    }
-
-    input[type="date"] {
-        border: 1px solid #d6dce5;
-        border-radius: 8px;
-        padding: 9px 10px;
-        font-size: 14px;
-        color: #333;
-    }
-
-    .search-button {
-        background: #174d91;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        padding: 10px 18px;
-        cursor: pointer;
-        font-weight: bold;
-    }
-
-    .report-date {
-        margin-left: auto;
-        font-weight: bold;
-        font-size: 16px;
-    }
-
-    /* MAIN GRID */
-    .main-grid {
-        display: grid;
-        grid-template-columns: 440px 1fr;
-        gap: 14px;
-        margin-top: 14px;
-    }
-
-    /* LEFT */
-    .left-column {
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-    }
+@media (max-width: 600px) {
 
     .summary-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
+        grid-template-columns: 1fr;
     }
 
-    .summary-card {
-        border-radius: 15px;
-        padding: 18px;
-        text-align: center;
-    }
-
-    .bag-card {
-        background: #fff0b9;
-    }
-
-    .water-card {
-        background: #a8dcf8;
-    }
-
-    .summary-title {
-        font-size: 17px;
-        font-weight: bold;
-    }
-
-    .summary-number {
-        font-size: 34px;
-        font-weight: bold;
-        margin: 7px 0;
-    }
-
-    .summary-total {
-        background: rgba(0,0,0,.08);
-        border-radius: 13px;
-        padding: 5px;
-        font-size: 14px;
-    }
-
-    .summary-total strong {
-        display: block;
-        font-size: 24px;
-    }
-
-    /* MAP */
-    .map-card {
-        background: white;
-        border: 1px solid #e2e5e9;
-        border-radius: 13px;
-        min-height: 430px;
-        padding: 18px;
-        display: flex;
+    .custom-filter {
+        align-items: stretch;
         flex-direction: column;
     }
 
-    .map-title {
-        font-weight: bold;
-        margin-bottom: 8px;
-    }
-
-    .map-placeholder {
-        flex: 1;
-        min-height: 330px;
-        background: #f0f1f2;
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        color: #777;
-        font-size: 20px;
-    }
-
-    /* RIGHT */
-    .list-card {
-        background: #fff9dc;
-        border-radius: 15px;
-        padding: 18px;
-    }
-
-    .list-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 12px;
-    }
-
-    .list-header h2 {
-        margin: 0;
-        font-size: 20px;
-    }
-
-    .item {
-        padding: 10px 0 14px;
-        border-bottom: 1px dashed #d9d0aa;
-    }
-
-    .item:last-child {
-        border-bottom: none;
-    }
-
-    .item-date {
-        display: inline-block;
-        background: #ffcf00;
-        border-radius: 7px;
-        padding: 5px 9px;
-        font-weight: bold;
-        color: #183b70;
-        margin-bottom: 7px;
-    }
-
-    .item-title {
-        font-weight: bold;
-        font-size: 16px;
-        color: #183b70;
-    }
-
-    .item-info {
-        margin: 6px 0;
-        color: #333;
+    input[type="date"],
+    select,
+    .search-button,
+    .clear-button {
+        width: 100%;
     }
 
     .item-images {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
-        max-width: 550px;
+        grid-template-columns: 1fr;
     }
 
-    .item-image {
-        height: 90px;
-        border-radius: 8px;
-        background: #d9d9d9;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #777;
-        overflow: hidden;
-    }
-
-    .item-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .empty {
-        text-align: center;
-        padding: 50px 20px;
-        color: #777;
-    }
-
-    /* FOOTER */
     .footer {
-        margin-top: 12px;
-        display: flex;
-        justify-content: space-between;
-        color: #777;
-        font-size: 13px;
-        padding: 5px;
+        flex-direction: column;
+        gap: 5px;
     }
-
-    @media (max-width: 900px) {
-        .main-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .report-date {
-            width: 100%;
-            margin-left: 0;
-        }
-
-        .header-title {
-            font-size: 18px;
-        }
-
-        .logo {
-            font-size: 26px;
-        }
-    }
-
-    @media (max-width: 600px) {
-        .summary-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .date-box {
-            width: 100%;
-            flex-wrap: wrap;
-        }
-
-        input[type="date"] {
-            flex: 1;
-        }
-
-        .item-images {
-            grid-template-columns: 1fr;
-        }
-    }
+}
 </style>
 </head>
 
@@ -339,20 +397,27 @@
 
 <div class="container">
 
-    <!-- HEADER -->
-    <header class="header">
-        <div class="header-title">
-            รายการสนับสนุนถุงยังชีพและน้ำดื่ม กฟผ.<br>
-            ผู้ประสบอุทกภัย พื้นที่ อปก. ปี 2569
-        </div>
+<!-- ================= HEADER ================= -->
 
-        <div class="logo">
-            กฟผ.
-        </div>
-    </header>
+<header class="header">
 
-    <!-- FILTER -->
-    <section class="filter-area">
+    <div class="header-title">
+        รายการสนับสนุนถุงยังชีพและน้ำดื่ม กฟผ.<br>
+        ผู้ประสบอุทกภัย พื้นที่ อปก. ปี 2569
+    </div>
+
+    <div class="logo">
+        กฟผ.
+    </div>
+
+</header>
+
+
+<!-- ================= FILTER ================= -->
+
+<section class="filter-area">
+
+    <div class="quick-filter">
 
         <button class="filter-button" data-range="today">
             วันนี้
@@ -370,109 +435,267 @@
             ทั้งหมด
         </button>
 
-        <div class="date-box">
-            <label>หรือกำหนดเอง</label>
+    </div>
 
-            <input type="date" id="startDate">
 
-            <span>ถึง</span>
+    <div class="custom-filter">
 
-            <input type="date" id="endDate">
+        <span class="filter-label">
+            หรือกำหนดเอง
+        </span>
 
-            <button class="search-button" id="searchButton">
-                ค้นหา
-            </button>
-        </div>
+        <input
+            type="date"
+            id="startDate"
+        >
 
-        <div class="report-date" id="reportDate">
-            รายงานข้อมูลทั้งหมด
-        </div>
+        <span>
+            ถึง
+        </span>
 
-    </section>
+        <input
+            type="date"
+            id="endDate"
+        >
 
-    <!-- MAIN -->
-    <main class="main-grid">
 
-        <!-- LEFT -->
-        <div class="left-column">
+        <span class="filter-label">
+            จังหวัด
+        </span>
 
-            <div class="summary-grid">
+        <select id="provinceFilter">
 
-                <div class="summary-card bag-card">
-                    <div class="summary-title">
-                        ถุงยังชีพ (ถุง)
-                    </div>
+            <option value="all">
+                ทุกจังหวัด
+            </option>
 
-                    <div class="summary-number" id="bagNumber">
-                        0
-                    </div>
+            <option value="พระนครศรีอยุธยา">
+                พระนครศรีอยุธยา
+            </option>
 
-                    <div class="summary-total">
-                        ยอดสนับสนุนรวม
-                        <strong id="bagTotal">0</strong>
-                    </div>
-                </div>
+            <option value="สิงห์บุรี">
+                สิงห์บุรี
+            </option>
 
-                <div class="summary-card water-card">
-                    <div class="summary-title">
-                        น้ำดื่ม (แพ็ก)
-                    </div>
+            <option value="สุพรรณบุรี">
+                สุพรรณบุรี
+            </option>
 
-                    <div class="summary-number" id="waterNumber">
-                        0
-                    </div>
+            <option value="ลพบุรี">
+                ลพบุรี
+            </option>
 
-                    <div class="summary-total">
-                        ยอดสนับสนุนรวม
-                        <strong id="waterTotal">0</strong>
-                    </div>
-                </div>
+            <option value="อ่างทอง">
+                อ่างทอง
+            </option>
+
+            <option value="ระยอง">
+                ระยอง
+            </option>
+
+            <option value="ชลบุรี">
+                ชลบุรี
+            </option>
+
+            <option value="สระบุรี">
+                สระบุรี
+            </option>
+
+            <option value="นครนายก">
+                นครนายก
+            </option>
+
+            <option value="ฉะเชิงเทรา">
+                ฉะเชิงเทรา
+            </option>
+
+            <option value="ปราจีนบุรี">
+                ปราจีนบุรี
+            </option>
+
+            <option value="จันทบุรี">
+                จันทบุรี
+            </option>
+
+            <option value="สระแก้ว">
+                สระแก้ว
+            </option>
+
+            <option value="ตราด">
+                ตราด
+            </option>
+
+        </select>
+
+
+        <button
+            class="search-button"
+            id="searchButton"
+        >
+            ค้นหา
+        </button>
+
+
+        <button
+            class="clear-button"
+            id="clearButton"
+        >
+            ล้างตัวกรอง
+        </button>
+
+    </div>
+
+
+    <div
+        class="report-date"
+        id="reportDate"
+    >
+        รายงานข้อมูลทั้งหมด
+    </div>
+
+</section>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main-grid">
+
+
+<!-- LEFT COLUMN -->
+
+<div class="left-column">
+
+
+    <!-- SUMMARY -->
+
+    <div class="summary-grid">
+
+
+        <div class="summary-card bag-card">
+
+            <div class="summary-title">
+                ถุงยังชีพ (ถุง)
+            </div>
+
+            <div
+                class="summary-number"
+                id="bagNumber"
+            >
+                0
+            </div>
+
+            <div class="summary-total">
+
+                ยอดสนับสนุนรวม
+
+                <strong id="bagTotal">
+                    0
+                </strong>
 
             </div>
 
-            <div class="map-card">
+        </div>
 
-                <div class="map-title">
-                    🗺️ พื้นที่ดำเนินการ
-                </div>
 
-                <div class="map-placeholder">
-                    แผนที่ประเทศไทย<br>
-                    <small>จะเพิ่มแผนที่จริงในขั้นต่อไป</small>
-                </div>
+        <div class="summary-card water-card">
+
+            <div class="summary-title">
+                น้ำดื่ม (แพ็ก)
+            </div>
+
+            <div
+                class="summary-number"
+                id="waterNumber"
+            >
+                0
+            </div>
+
+            <div class="summary-total">
+
+                ยอดสนับสนุนรวม
+
+                <strong id="waterTotal">
+                    0
+                </strong>
 
             </div>
 
         </div>
 
-        <!-- RIGHT -->
-        <div class="list-card">
+    </div>
 
-            <div class="list-header">
-                <h2>รายการสนับสนุน</h2>
-            </div>
 
-            <div id="supportList"></div>
+    <!-- MAP -->
+
+    <div class="map-card">
+
+        <div class="map-title">
+            🗺️ พื้นที่ดำเนินการ
+        </div>
+
+        <div class="map-placeholder">
+
+            แผนที่ประเทศไทย
+
+            <br>
+
+            <small>
+                จะเพิ่มแผนที่จริงในขั้นต่อไป
+            </small>
 
         </div>
 
-    </main>
+    </div>
 
-    <footer class="footer">
-        <span>ฝ่ายปฏิบัติการภาคกลาง</span>
-        <span>ระบบ Dashboard สนับสนุนผู้ประสบอุทกภัย</span>
-    </footer>
+</div>
+
+
+<!-- RIGHT COLUMN -->
+
+<div class="list-card">
+
+    <div class="list-header">
+
+        <h2>
+            รายการสนับสนุน
+        </h2>
+
+    </div>
+
+    <div id="supportList"></div>
+
+</div>
+
+</main>
+
+
+<footer class="footer">
+
+    <span>
+        ฝ่ายปฏิบัติการภาคกลาง
+    </span>
+
+    <span>
+        ระบบ Dashboard สนับสนุนผู้ประสบอุทกภัย
+    </span>
+
+</footer>
 
 </div>
 
 
 <script>
 
+/* =====================================================
+   ข้อมูลตัวอย่าง
+===================================================== */
+
 const supportData = [
 
     {
         date: "2026-10-07",
-        location: "วัดสุทธาราม ต.หอมหก อ.บางไทร จ.พระนครศรีอยุธยา",
+        province: "พระนครศรีอยุธยา",
+        location: "วัดสุทธาราม ต.หอมหก อ.บางไทร",
         bags: 565,
         water: 565,
         images: []
@@ -480,7 +703,8 @@ const supportData = [
 
     {
         date: "2026-10-06",
-        location: "หมู่บ้านหนองสีบู เฟส 2 ต.คลองหลวงแพ่ง จ.ฉะเชิงเทรา",
+        province: "ฉะเชิงเทรา",
+        location: "หมู่บ้านหนองสีบู เฟส 2 ต.คลองหลวงแพ่ง",
         bags: 500,
         water: 500,
         images: []
@@ -488,7 +712,8 @@ const supportData = [
 
     {
         date: "2026-10-06",
-        location: "วัดป้อมแก้ว ต.บ้านกลึง อ.บางไทร จ.พระนครศรีอยุธยา",
+        province: "พระนครศรีอยุธยา",
+        location: "วัดป้อมแก้ว ต.บ้านกลึง อ.บางไทร",
         bags: 700,
         water: 700,
         images: []
@@ -496,234 +721,604 @@ const supportData = [
 
     {
         date: "2026-10-05",
-        location: "ศูนย์ช่วยเหลือผู้ประสบภัย จังหวัดพระนครศรีอยุธยา",
+        province: "สระบุรี",
+        location: "ศูนย์ช่วยเหลือผู้ประสบภัย จังหวัดสระบุรี",
         bags: 400,
         water: 450,
         images: []
     },
 
     {
-        date: "2026-10-03",
-        location: "พื้นที่ชุมชน จังหวัดฉะเชิงเทรา",
+        date: "2026-10-04",
+        province: "สุพรรณบุรี",
+        location: "พื้นที่ชุมชน จังหวัดสุพรรณบุรี",
         bags: 300,
         water: 350,
+        images: []
+    },
+
+    {
+        date: "2026-10-03",
+        province: "นครนายก",
+        location: "ศูนย์ช่วยเหลือผู้ประสบภัย จังหวัดนครนายก",
+        bags: 250,
+        water: 300,
+        images: []
+    },
+
+    {
+        date: "2026-10-02",
+        province: "ปราจีนบุรี",
+        location: "พื้นที่ชุมชน จังหวัดปราจีนบุรี",
+        bags: 450,
+        water: 400,
+        images: []
+    },
+
+    {
+        date: "2026-10-01",
+        province: "ลพบุรี",
+        location: "ศูนย์ช่วยเหลือผู้ประสบภัย จังหวัดลพบุรี",
+        bags: 350,
+        water: 300,
+        images: []
+    },
+
+    {
+        date: "2026-09-30",
+        province: "อ่างทอง",
+        location: "พื้นที่ชุมชน จังหวัดอ่างทอง",
+        bags: 280,
+        water: 250,
+        images: []
+    },
+
+    {
+        date: "2026-09-29",
+        province: "สิงห์บุรี",
+        location: "พื้นที่ชุมชน จังหวัดสิงห์บุรี",
+        bags: 320,
+        water: 350,
+        images: []
+    },
+
+    {
+        date: "2026-09-28",
+        province: "ชลบุรี",
+        location: "ศูนย์ช่วยเหลือผู้ประสบภัย จังหวัดชลบุรี",
+        bags: 200,
+        water: 250,
+        images: []
+    },
+
+    {
+        date: "2026-09-27",
+        province: "ระยอง",
+        location: "พื้นที่ชุมชน จังหวัดระยอง",
+        bags: 180,
+        water: 200,
+        images: []
+    },
+
+    {
+        date: "2026-09-26",
+        province: "จันทบุรี",
+        location: "พื้นที่ชุมชน จังหวัดจันทบุรี",
+        bags: 220,
+        water: 250,
+        images: []
+    },
+
+    {
+        date: "2026-09-25",
+        province: "สระแก้ว",
+        location: "ศูนย์ช่วยเหลือผู้ประสบภัย จังหวัดสระแก้ว",
+        bags: 190,
+        water: 210,
+        images: []
+    },
+
+    {
+        date: "2026-09-24",
+        province: "ตราด",
+        location: "พื้นที่ชุมชน จังหวัดตราด",
+        bags: 160,
+        water: 180,
         images: []
     }
 
 ];
 
-let currentData = [...supportData];
 
-const bagNumber = document.getElementById("bagNumber");
-const bagTotal = document.getElementById("bagTotal");
-const waterNumber = document.getElementById("waterNumber");
-const waterTotal = document.getElementById("waterTotal");
-const supportList = document.getElementById("supportList");
-const reportDate = document.getElementById("reportDate");
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const bagNumber =
+    document.getElementById("bagNumber");
+
+const bagTotal =
+    document.getElementById("bagTotal");
+
+const waterNumber =
+    document.getElementById("waterNumber");
+
+const waterTotal =
+    document.getElementById("waterTotal");
+
+const supportList =
+    document.getElementById("supportList");
+
+const reportDate =
+    document.getElementById("reportDate");
+
+const startDate =
+    document.getElementById("startDate");
+
+const endDate =
+    document.getElementById("endDate");
+
+const provinceFilter =
+    document.getElementById("provinceFilter");
+
+
+/* =====================================================
+   FORMAT NUMBER
+===================================================== */
 
 function formatNumber(number) {
+
     return number.toLocaleString("th-TH");
+
 }
+
+
+/* =====================================================
+   FORMAT DATE
+===================================================== */
 
 function formatThaiDate(dateString) {
 
-    const date = new Date(dateString + "T00:00:00");
+    const date =
+        new Date(dateString + "T00:00:00");
 
-    return date.toLocaleDateString("th-TH", {
-        day: "numeric",
-        month: "short",
-        year: "numeric"
-    });
+    return date.toLocaleDateString(
+        "th-TH",
+        {
+            day: "numeric",
+            month: "short",
+            year: "numeric"
+        }
+    );
 
 }
 
-function render(data) {
 
-    currentData = data;
+/* =====================================================
+   RENDER
+===================================================== */
+
+function render(data) {
 
     let bags = 0;
     let water = 0;
 
+
     data.forEach(item => {
+
         bags += item.bags;
         water += item.water;
+
     });
 
-    bagNumber.textContent = formatNumber(bags);
-    bagTotal.textContent = formatNumber(bags);
 
-    waterNumber.textContent = formatNumber(water);
-    waterTotal.textContent = formatNumber(water);
+    bagNumber.textContent =
+        formatNumber(bags);
+
+    bagTotal.textContent =
+        formatNumber(bags);
+
+    waterNumber.textContent =
+        formatNumber(water);
+
+    waterTotal.textContent =
+        formatNumber(water);
+
 
     if (data.length === 0) {
 
         supportList.innerHTML = `
             <div class="empty">
-                ไม่พบข้อมูลในช่วงวันที่เลือก
+                ไม่พบข้อมูลตามตัวกรองที่เลือก
             </div>
         `;
 
         return;
     }
 
-    supportList.innerHTML = data.map((item, index) => {
 
-        let images = "";
+    supportList.innerHTML =
+        data.map((item, index) => {
 
-        if (item.images.length > 0) {
+            let images = "";
 
-            images = item.images.map(image => `
-                <div class="item-image">
-                    <img src="${image}" alt="ภาพกิจกรรม">
-                </div>
-            `).join("");
 
-        } else {
+            if (item.images.length > 0) {
 
-            images = `
-                <div class="item-image">รูปภาพ</div>
-                <div class="item-image">รูปภาพ</div>
+                images =
+                    item.images.map(image => `
+
+                        <div class="item-image">
+
+                            <img
+                                src="${image}"
+                                alt="ภาพกิจกรรม"
+                            >
+
+                        </div>
+
+                    `).join("");
+
+            } else {
+
+                images = `
+
+                    <div class="item-image">
+                        รูปภาพ
+                    </div>
+
+                    <div class="item-image">
+                        รูปภาพ
+                    </div>
+
+                `;
+
+            }
+
+
+            return `
+
+                <article class="item">
+
+                    <div class="item-date">
+                        ${formatThaiDate(item.date)}
+                    </div>
+
+                    <div class="item-title">
+
+                        ${index + 1}.
+                        ${item.location}
+
+                    </div>
+
+                    <div class="item-province">
+
+                        📍 ${item.province}
+
+                    </div>
+
+                    <div class="item-info">
+
+                        • ถุงยังชีพ
+                        <strong>
+                            ${formatNumber(item.bags)}
+                        </strong>
+                        ถุง
+
+                        &nbsp;&nbsp;
+
+                        • น้ำดื่ม
+                        <strong>
+                            ${formatNumber(item.water)}
+                        </strong>
+                        แพ็ก
+
+                    </div>
+
+                    <div class="item-images">
+
+                        ${images}
+
+                    </div>
+
+                </article>
+
             `;
 
-        }
-
-        return `
-            <article class="item">
-
-                <div class="item-date">
-                    ${formatThaiDate(item.date)}
-                </div>
-
-                <div class="item-title">
-                    ${index + 1}. ${item.location}
-                </div>
-
-                <div class="item-info">
-                    • ถุงยังชีพ จำนวน
-                    <strong>${formatNumber(item.bags)}</strong> ถุง
-                    &nbsp;&nbsp;
-                    • น้ำดื่ม จำนวน
-                    <strong>${formatNumber(item.water)}</strong> แพ็ก
-                </div>
-
-                <div class="item-images">
-                    ${images}
-                </div>
-
-            </article>
-        `;
-
-    }).join("");
+        }).join("");
 
 }
 
+
+/* =====================================================
+   QUICK FILTER
+===================================================== */
+
 function filterByRange(range) {
 
-    const today = new Date("2026-10-07T00:00:00");
+    const today =
+        new Date("2026-10-07T00:00:00");
+
 
     let filtered = [];
 
+
     if (range === "all") {
 
-        filtered = [...supportData];
+        filtered =
+            [...supportData];
 
-        reportDate.textContent = "รายงานข้อมูลทั้งหมด";
+        reportDate.textContent =
+            "รายงานข้อมูลทั้งหมด";
 
     }
+
 
     else if (range === "today") {
 
-        const todayString = today.toISOString().split("T")[0];
+        const todayString =
+            today.toISOString().split("T")[0];
 
-        filtered = supportData.filter(item =>
-            item.date === todayString
-        );
 
-        reportDate.textContent = "รายงานประจำวันที่ 7 ต.ค. 69";
+        filtered =
+            supportData.filter(item =>
+                item.date === todayString
+            );
+
+
+        reportDate.textContent =
+            "รายงานประจำวันที่ 7 ต.ค. 69";
 
     }
 
+
     else {
 
-        const days = Number(range);
+        const days =
+            Number(range);
 
-        const start = new Date(today);
 
-        start.setDate(start.getDate() - days + 1);
+        const start =
+            new Date(today);
 
-        filtered = supportData.filter(item => {
 
-            const itemDate = new Date(item.date + "T00:00:00");
+        start.setDate(
+            start.getDate() - days + 1
+        );
 
-            return itemDate >= start && itemDate <= today;
 
-        });
+        filtered =
+            supportData.filter(item => {
+
+                const itemDate =
+                    new Date(
+                        item.date + "T00:00:00"
+                    );
+
+
+                return (
+                    itemDate >= start &&
+                    itemDate <= today
+                );
+
+            });
+
 
         reportDate.textContent =
             `รายงานย้อนหลัง ${days} วัน`;
 
     }
 
-    render(filtered);
+
+    applyProvinceFilter(filtered);
 
 }
 
-document.querySelectorAll(".filter-button").forEach(button => {
 
-    button.addEventListener("click", () => {
+/* =====================================================
+   PROVINCE FILTER
+===================================================== */
 
-        document.querySelectorAll(".filter-button")
-            .forEach(btn => btn.classList.remove("active"));
+function applyProvinceFilter(data) {
 
-        button.classList.add("active");
+    const province =
+        provinceFilter.value;
 
-        filterByRange(button.dataset.range);
 
-    });
+    if (province === "all") {
+
+        render(data);
+
+        return;
+
+    }
+
+
+    const filtered =
+        data.filter(item =>
+            item.province === province
+        );
+
+
+    render(filtered);
+
+
+    reportDate.textContent +=
+        ` | จังหวัด${province}`;
+
+}
+
+
+/* =====================================================
+   QUICK BUTTON EVENT
+===================================================== */
+
+document
+.querySelectorAll(".filter-button")
+.forEach(button => {
+
+    button.addEventListener(
+        "click",
+        () => {
+
+            document
+            .querySelectorAll(".filter-button")
+            .forEach(btn =>
+                btn.classList.remove("active")
+            );
+
+
+            button.classList.add("active");
+
+
+            filterByRange(
+                button.dataset.range
+            );
+
+        }
+    );
 
 });
 
 
-document.getElementById("searchButton")
-    .addEventListener("click", () => {
+/* =====================================================
+   SEARCH BUTTON
+===================================================== */
+
+document
+.getElementById("searchButton")
+.addEventListener(
+    "click",
+    () => {
 
         const startValue =
-            document.getElementById("startDate").value;
+            startDate.value;
 
         const endValue =
-            document.getElementById("endDate").value;
+            endDate.value;
+
 
         if (!startValue || !endValue) {
 
-            alert("กรุณาเลือกวันที่เริ่มต้นและวันที่สิ้นสุด");
+            alert(
+                "กรุณาเลือกวันที่เริ่มต้นและวันที่สิ้นสุด"
+            );
 
             return;
+
         }
+
 
         if (startValue > endValue) {
 
-            alert("วันที่เริ่มต้นต้องไม่มากกว่าวันที่สิ้นสุด");
+            alert(
+                "วันที่เริ่มต้นต้องไม่มากกว่าวันที่สิ้นสุด"
+            );
 
             return;
+
         }
 
-        document.querySelectorAll(".filter-button")
-            .forEach(btn => btn.classList.remove("active"));
 
-        const filtered = supportData.filter(item =>
-            item.date >= startValue &&
-            item.date <= endValue
+        document
+        .querySelectorAll(".filter-button")
+        .forEach(btn =>
+            btn.classList.remove("active")
         );
+
+
+        let filtered =
+            supportData.filter(item =>
+                item.date >= startValue &&
+                item.date <= endValue
+            );
+
+
+        const province =
+            provinceFilter.value;
+
+
+        if (province !== "all") {
+
+            filtered =
+                filtered.filter(item =>
+                    item.province === province
+                );
+
+        }
+
 
         reportDate.textContent =
             `แสดงข้อมูล ${formatThaiDate(startValue)} ถึง ${formatThaiDate(endValue)}`;
 
+
+        if (province !== "all") {
+
+            reportDate.textContent +=
+                ` | จังหวัด${province}`;
+
+        }
+
+
         render(filtered);
 
-    });
+    }
+);
 
 
-/* แสดงข้อมูลครั้งแรก */
+/* =====================================================
+   CLEAR FILTER
+===================================================== */
+
+document
+.getElementById("clearButton")
+.addEventListener(
+    "click",
+    () => {
+
+        /* ล้างวันที่ */
+
+        startDate.value = "";
+        endDate.value = "";
+
+
+        /* กลับทุกจังหวัด */
+
+        provinceFilter.value = "all";
+
+
+        /* ล้าง Active ทุกปุ่ม */
+
+        document
+        .querySelectorAll(".filter-button")
+        .forEach(btn =>
+            btn.classList.remove("active")
+        );
+
+
+        /* เลือกวันนี้ */
+
+        const todayButton =
+            document.querySelector(
+                '[data-range="today"]'
+            );
+
+
+        todayButton.classList.add("active");
+
+
+        /* แสดงข้อมูลวันนี้ */
+
+        filterByRange("today");
+
+    }
+);
+
+
+/* =====================================================
+   INITIAL LOAD
+===================================================== */
+
 render(supportData);
 
 </script>
