@@ -127,40 +127,42 @@
     }
 
 
-    .filter-row {
+.filter-row {
 
-      display: flex;
+  display: flex;
 
-      align-items: center;
+  align-items: center;
 
-      gap: 10px;
+  gap: 10px;
 
-      flex-wrap: wrap;
+  flex-wrap: nowrap;
 
-    }
+}
 
 
     .quick-btn {
 
-      height: 48px;
+  height: 48px;
 
-      padding: 0 27px;
+  padding: 0 20px;
 
-      border-radius: 11px;
+  border-radius: 11px;
 
-      border: 1px solid #cfd8e3;
+  border: 1px solid #cfd8e3;
 
-      background: #ffffff;
+  background: #ffffff;
 
-      color: #123b70;
+  color: #123b70;
 
-      font-size: 16px;
+  font-size: 16px;
 
-      font-weight: 700;
+  font-weight: 700;
 
-      cursor: pointer;
+  cursor: pointer;
 
-    }
+  white-space: nowrap;
+
+}
 
 
     .quick-btn:hover {
@@ -194,44 +196,48 @@
 
     .date-input {
 
-      height: 48px;
+  height: 48px;
 
-      width: 205px;
+  width: 180px;
 
-      padding: 0 13px;
+  padding: 0 13px;
 
-      border: 1px solid #cfd8e3;
+  border: 1px solid #cfd8e3;
 
-      border-radius: 10px;
+  border-radius: 10px;
 
-      font-size: 16px;
+  font-size: 16px;
 
-      color: #222;
+  color: #222;
 
-      background: #ffffff;
+  background: #ffffff;
 
-    }
+  flex-shrink: 0;
+
+}
 
 
     .province-select {
 
-      height: 48px;
+  height: 48px;
 
-      width: 250px;
+  width: 220px;
 
-      padding: 0 14px;
+  padding: 0 14px;
 
-      border: 1px solid #cfd8e3;
+  border: 1px solid #cfd8e3;
 
-      border-radius: 10px;
+  border-radius: 10px;
 
-      font-size: 16px;
+  font-size: 16px;
 
-      background: #ffffff;
+  background: #ffffff;
 
-      color: #222;
+  color: #222;
 
-    }
+  flex-shrink: 0;
+
+}
 
 
     .search-btn {
@@ -282,13 +288,21 @@
 
     .filter-status {
 
-      margin-top: 10px;
+  margin-top: 12px;
 
-      font-size: 16px;
+  padding-top: 10px;
 
-      font-weight: 700;
+  border-top: 1px solid #eee8bd;
 
-    }
+  font-size: 13px;
+
+  font-weight: 400;
+
+  color: #999;
+
+  text-align: left;
+
+}
 
 
     /* =====================================================
@@ -866,11 +880,13 @@
   }
 
 
-  .filter-row {
+.filter-row {
 
-    align-items: stretch;
+  align-items: stretch;
 
-  }
+  flex-wrap: wrap;
+
+}
 
 
   .quick-btn,
@@ -1124,12 +1140,6 @@
     </div>
 
 
-    <div
-      id="filterStatus"
-      class="filter-status"
-    >
-      รายงานข้อมูลทั้งหมด
-    </div>
 
   </section>
 
@@ -1250,27 +1260,31 @@
          RIGHT 60%
     ==================================================== -->
 
-    <section class="support-card">
+<section class="support-card">
 
+  <h2 class="support-title">
+    รายการสนับสนุน
+  </h2>
 
-      <h2 class="support-title">
-        รายการสนับสนุน
-      </h2>
+  <div
+    id="supportList"
+    class="support-list"
+  >
 
+    <div class="loading">
+      กำลังโหลดข้อมูล...
+    </div>
 
-      <div
-        id="supportList"
-        class="support-list"
-      >
+  </div>
 
-        <div class="loading">
-          กำลังโหลดข้อมูล...
-        </div>
+  <div
+    id="filterStatus"
+    class="filter-status"
+  >
+    ข้อมูลทั้งหมด • 0 รายการ
+  </div>
 
-      </div>
-
-
-    </section>
+</section>
 
 
   </main>
