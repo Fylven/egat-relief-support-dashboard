@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>จัดการข้อมูล | EGAT Support Dashboard</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, "Noto Sans Thai", sans-serif;
+      background: #f5f7f9;
+      color: #222;
+    }
+
+    .header {
+      background: #ffd400;
+      padding: 22px 30px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.12);
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 26px;
+    }
+
+    .header p {
+      margin: 6px 0 0;
+      color: #444;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .topbar h2 {
+      margin: 0;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 8px;
+      padding: 10px 18px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .btn-primary {
+      background: #087f3e;
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #eee;
+      color: #222;
+    }
+
+    .btn-danger {
+      background: #d62828;
+      color: white;
+    }
+
+    .card {
+      background: white;
+      border-radius: 14px;
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 3px 14px rgba(0,0,0,.08);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 7px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid #d5d9dd;
+      border-radius: 8px;
+      font-size: 15px;
+      background: white;
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .status {
+      margin-bottom: 15px;
+      padding: 12px 15px;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .status.success {
+      display: block;
+      background: #e8f7ee;
+      color: #087f3e;
+    }
+
+    .status.error {
+      display: block;
+      background: #fdecec;
+      color: #b42318;
+    }
+
+    .date-group {
+      margin-bottom: 28px;
+    }
+
+    .date-title {
+      font-size: 18px;
+      font-weight: 700;
+      padding: 10px 0;
+      border-bottom: 2px solid #ffd400;
+      margin-bottom: 10px;
+    }
+
+    .item {
+      border: 1px solid #e1e5e8;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 10px;
+      background: #fff;
+    }
+
+    .item-title {
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .item-info {
+      margin-top: 7px;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .item-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .small-btn {
+      border: 0;
+      border-radius: 6px;
+      padding: 7px 13px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .edit-btn {
+      background: #eee;
+    }
+
+    .delete-btn {
+      background: #ffe1e1;
+      color: #b42318;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 35px;
+      color: #777;
+    }
+
+    @media (max-width: 700px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .full {
+        grid-column: auto;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="header">
+    <h1>⚙️ จัดการข้อมูล</h1>
+    <p>EGAT Support Dashboard</p>
+  </header>
+
+  <main class="container">
+
+    <div class="topbar">
+      <h2 id="formTitle">เพิ่มข้อมูลสนับสนุน</h2>
+
+      <a href="index.html">
+        <button class="btn btn-secondary">
+          ← กลับ Dashboard
+        </button>
+      </a>
+    </div>
+
+    <div id="status" class="status"></div>
+
+    <!-- FORM -->
+    <section class="card">
+
+      <div class="form-grid">
+
+        <div>
+          <label for="date">วันที่</label>
+          <input type="date" id="date">
+        </div>
+
+        <div>
+          <label for="province">จังหวัด</label>
+
+          <select id="province">
+            <option value="">-- เลือกจังหวัด --</option>
+            <option>พระนครศรีอยุธยา</option>
+            <option>สิงห์บุรี</option>
+            <option>สุพรรณบุรี</option>
+            <option>ลพบุรี</option>
+            <option>อ่างทอง</option>
+            <option>ระยอง</option>
+            <option>ชลบุรี</option>
+            <option>สระบุรี</option>
+            <option>นครนายก</option>
+            <option>ฉะเชิงเทรา</option>
+            <option>ปราจีนบุรี</option>
+            <option>จันทบุรี</option>
+            <option>สระแก้ว</option>
+            <option>ตราด</option>
+          </select>
+        </div>
+
+        <div class="full">
+          <label for="location">สถานที่ / รายละเอียด</label>
+
+          <textarea
+            id="location"
+            placeholder="เช่น วัดสุทธาราม ต.หอมหก อ.บางไทร"
+          ></textarea>
+        </div>
+
+        <div>
+          <label for="bags">ถุงยังชีพ (ถุง)</label>
+          <input
+            type="number"
+            id="bags"
+            min="0"
+            value="0"
+          >
+        </div>
+
+        <div>
+          <label for="water">น้ำดื่ม (แพ็ก)</label>
+          <input
+            type="number"
+            id="water"
+            min="0"
+            value="0"
+          >
+        </div>
+
+        <div class="full">
+          <label for="images">
+            ลิงก์รูปภาพ (ถ้ามี)
+          </label>
+
+          <textarea
+            id="images"
+            placeholder="ใส่ URL รูปภาพ คั่นด้วยเครื่องหมาย ,"
+          ></textarea>
+        </div>
+
+      </div>
+
+      <div class="form-actions">
+
+        <button
+          class="btn btn-primary"
+          id="saveBtn"
+        >
+          💾 บันทึกข้อมูล
+        </button>
+
+        <button
+          class="btn btn-secondary"
+          id="cancelBtn"
+          style="display:none;"
+        >
+          ยกเลิกแก้ไข
+        </button>
+
+      </div>
+
+    </section>
+
+    <!-- LIST -->
+    <section class="card">
+
+      <h2>รายการข้อมูล</h2>
+
+      <div id="records">
+        กำลังโหลดข้อมูล...
+      </div>
+
+    </section>
+
+  </main>
+
+
+<script>
+
+  /* =====================================================
+     SUPABASE CONFIG
+     ===================================================== */
+
+  const SUPABASE_URL =
+    "https://voaktlbvwzliyfhxksdz.supabase.co/rest/v1/";
+
+  const SUPABASE_KEY =
+    "sb_publishable_g_p2WWtAFq2GppJN-kLaWg_ccrxTkQ2";
+
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+
+  /* =====================================================
+     ELEMENTS
+     ===================================================== */
+
+  const dateInput = document.getElementById("date");
+  const provinceInput = document.getElementById("province");
+  const locationInput = document.getElementById("location");
+  const bagsInput = document.getElementById("bags");
+  const waterInput = document.getElementById("water");
+  const imagesInput = document.getElementById("images");
+
+  const saveBtn = document.getElementById("saveBtn");
+  const cancelBtn = document.getElementById("cancelBtn");
+
+  const recordsEl = document.getElementById("records");
+  const statusEl = document.getElementById("status");
+  const formTitle = document.getElementById("formTitle");
+
+  let editingId = null;
+
+
+  /* =====================================================
+     STATUS
+     ===================================================== */
+
+  function showStatus(message, type = "success") {
+
+    statusEl.textContent = message;
+
+    statusEl.className =
+      "status " + type;
+
+    setTimeout(() => {
+      statusEl.className = "status";
+    }, 3500);
+  }
+
+
+  /* =====================================================
+     FORMAT DATE
+     ===================================================== */
+
+  function formatThaiDate(dateString) {
+
+    const date = new Date(
+      dateString + "T00:00:00"
+    );
+
+    return date.toLocaleDateString(
+      "th-TH",
+      {
+        day: "numeric",
+        month: "short",
+        year: "2-digit"
+      }
+    );
+  }
+
+
+  /* =====================================================
+     LOAD RECORDS
+     ===================================================== */
+
+  async function loadRecords() {
+
+    recordsEl.innerHTML =
+      "กำลังโหลดข้อมูล...";
+
+    const { data, error } =
+      await supabaseClient
+        .from("support_records")
+        .select("*")
+        .order("date", {
+          ascending: false
+        })
+        .order("id", {
+          ascending: true
+        });
+
+    if (error) {
+
+      console.error(error);
+
+      recordsEl.innerHTML =
+        "ไม่สามารถโหลดข้อมูลได้";
+
+      showStatus(
+        "โหลดข้อมูลไม่สำเร็จ",
+        "error"
+      );
+
+      return;
+    }
+
+    renderRecords(data || []);
+  }
+
+
+  /* =====================================================
+     RENDER RECORDS
+     ===================================================== */
+
+  function renderRecords(data) {
+
+    if (!data.length) {
+
+      recordsEl.innerHTML = `
+        <div class="empty">
+          ยังไม่มีข้อมูล
+        </div>
+      `;
+
+      return;
+    }
+
+    const groups = {};
+
+    data.forEach(item => {
+
+      if (!groups[item.date]) {
+        groups[item.date] = [];
+      }
+
+      groups[item.date].push(item);
+
+    });
+
+
+    let html = "";
+
+    Object.keys(groups)
+      .sort()
+      .reverse()
+      .forEach(date => {
+
+        html += `
+          <div class="date-group">
+
+            <div class="date-title">
+              ${formatThaiDate(date)}
+            </div>
+        `;
+
+        groups[date].forEach(
+          (item, index) => {
+
+            const images =
+              Array.isArray(item.images)
+                ? item.images.join(", ")
+                : "";
+
+            html += `
+
+              <div class="item">
+
+                <div class="item-title">
+
+                  <strong>
+                    ${index + 1}.
+                  </strong>
+
+                  ${escapeHtml(item.location)}
+
+                  จ.<strong>
+                    ${escapeHtml(item.province)}
+                  </strong>
+
+                </div>
+
+                <div class="item-info">
+
+                  👜 ถุงยังชีพ:
+                  <strong>
+                    ${Number(item.bags).toLocaleString()}
+                  </strong>
+                  ถุง
+
+                  &nbsp;&nbsp;|&nbsp;&nbsp;
+
+                  💧 น้ำดื่ม:
+                  <strong>
+                    ${Number(item.water).toLocaleString()}
+                  </strong>
+                  แพ็ก
+
+                </div>
+
+                ${
+                  images
+                    ? `
+                      <div class="item-info">
+                        🖼️ ${escapeHtml(images)}
+                      </div>
+                    `
+                    : ""
+                }
+
+                <div class="item-actions">
+
+                  <button
+                    class="small-btn edit-btn"
+                    onclick="editRecord(${item.id})"
+                  >
+                    ✏️ แก้ไข
+                  </button>
+
+                  <button
+                    class="small-btn delete-btn"
+                    onclick="deleteRecord(${item.id})"
+                  >
+                    🗑️ ลบ
+                  </button>
+
+                </div>
+
+              </div>
+
+            `;
+          }
+        );
+
+        html += `
+          </div>
+        `;
+
+      });
+
+    recordsEl.innerHTML = html;
+  }
+
+
+  /* =====================================================
+     ESCAPE HTML
+     ===================================================== */
+
+  function escapeHtml(value) {
+
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+
+  /* =====================================================
+     SAVE
+     ===================================================== */
+
+  saveBtn.addEventListener(
+    "click",
+    async () => {
+
+      const date =
+        dateInput.value;
+
+      const province =
+        provinceInput.value;
+
+      const location =
+        locationInput.value.trim();
+
+      const bags =
+        Number(bagsInput.value) || 0;
+
+      const water =
+        Number(waterInput.value) || 0;
+
+      const images =
+        imagesInput.value
+          .split(",")
+          .map(x => x.trim())
+          .filter(Boolean);
+
+
+      if (!date) {
+
+        showStatus(
+          "กรุณาเลือกวันที่",
+          "error"
+        );
+
+        return;
+      }
+
+      if (!province) {
+
+        showStatus(
+          "กรุณาเลือกจังหวัด",
+          "error"
+        );
+
+        return;
+      }
+
+      if (!location) {
+
+        showStatus(
+          "กรุณากรอกสถานที่",
+          "error"
+        );
+
+        return;
+      }
+
+
+      saveBtn.disabled = true;
+
+      saveBtn.textContent =
+        "กำลังบันทึก...";
+
+
+      const payload = {
+
+        date,
+        province,
+        location,
+        bags,
+        water,
+        images
+
+      };
+
+
+      let result;
+
+
+      if (editingId) {
+
+        result =
+          await supabaseClient
+            .from("support_records")
+            .update(payload)
+            .eq("id", editingId);
+
+      } else {
+
+        result =
+          await supabaseClient
+            .from("support_records")
+            .insert([payload]);
+
+      }
+
+
+      if (result.error) {
+
+        console.error(result.error);
+
+        showStatus(
+          "บันทึกข้อมูลไม่สำเร็จ: " +
+          result.error.message,
+          "error"
+        );
+
+      } else {
+
+        showStatus(
+          editingId
+            ? "แก้ไขข้อมูลเรียบร้อยแล้ว 🎉"
+            : "เพิ่มข้อมูลเรียบร้อยแล้ว 🎉"
+        );
+
+        resetForm();
+
+        await loadRecords();
+
+      }
+
+
+      saveBtn.disabled = false;
+
+      saveBtn.textContent =
+        "💾 บันทึกข้อมูล";
+
+    }
+  );
+
+
+  /* =====================================================
+     EDIT
+     ===================================================== */
+
+  window.editRecord =
+    async function(id) {
+
+      const { data, error } =
+        await supabaseClient
+          .from("support_records")
+          .select("*")
+          .eq("id", id)
+          .single();
+
+
+      if (error) {
+
+        showStatus(
+          "โหลดข้อมูลสำหรับแก้ไขไม่สำเร็จ",
+          "error"
+        );
+
+        return;
+      }
+
+
+      editingId = id;
+
+      dateInput.value =
+        data.date;
+
+      provinceInput.value =
+        data.province;
+
+      locationInput.value =
+        data.location;
+
+      bagsInput.value =
+        data.bags;
+
+      waterInput.value =
+        data.water;
+
+      imagesInput.value =
+        Array.isArray(data.images)
+          ? data.images.join(", ")
+          : "";
+
+
+      formTitle.textContent =
+        "แก้ไขข้อมูล";
+
+      saveBtn.textContent =
+        "💾 บันทึกการแก้ไข";
+
+      cancelBtn.style.display =
+        "inline-block";
+
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+
+    };
+
+
+  /* =====================================================
+     DELETE
+     ===================================================== */
+
+  window.deleteRecord =
+    async function(id) {
+
+      const confirmed =
+        confirm(
+          "ต้องการลบรายการนี้ใช่หรือไม่?"
+        );
+
+      if (!confirmed) {
+        return;
+      }
+
+
+      const { error } =
+        await supabaseClient
+          .from("support_records")
+          .delete()
+          .eq("id", id);
+
+
+      if (error) {
+
+        console.error(error);
+
+        showStatus(
+          "ลบข้อมูลไม่สำเร็จ",
+          "error"
+        );
+
+        return;
+      }
+
+
+      showStatus(
+        "ลบข้อมูลเรียบร้อยแล้ว"
+      );
+
+      await loadRecords();
+
+    };
+
+
+  /* =====================================================
+     RESET
+     ===================================================== */
+
+  function resetForm() {
+
+    editingId = null;
+
+    dateInput.value = "";
+
+    provinceInput.value = "";
+
+    locationInput.value = "";
+
+    bagsInput.value = 0;
+
+    waterInput.value = 0;
+
+    imagesInput.value = "";
+
+    formTitle.textContent =
+      "เพิ่มข้อมูลสนับสนุน";
+
+    saveBtn.textContent =
+      "💾 บันทึกข้อมูล";
+
+    cancelBtn.style.display =
+      "none";
+  }
+
+
+  cancelBtn.addEventListener(
+    "click",
+    resetForm
+  );
+
+
+  /* =====================================================
+     START
+     ===================================================== */
+
+  loadRecords();
+
+</script>
+
+</body>
+</html>
