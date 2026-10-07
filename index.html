@@ -69,44 +69,28 @@ body {
 
 .filter-area {
     margin-top: 14px;
-
     background: white;
-
     border-radius: 12px;
-
     padding: 12px;
-
     box-shadow: 0 1px 4px rgba(0,0,0,.08);
 }
 
 .filter-row {
     display: flex;
     align-items: center;
-
     gap: 8px;
-
     flex-wrap: nowrap;
-
     width: 100%;
 }
 
 .filter-button {
     border: 1px solid #d9dee7;
-
     background: white;
-
     color: #34495e;
-
     border-radius: 9px;
-
     padding: 9px 18px;
-
     font-size: 15px;
-
     cursor: pointer;
-
-    transition: .2s;
-
     white-space: nowrap;
 }
 
@@ -116,17 +100,13 @@ body {
 
 .filter-button.active {
     background: #164d91;
-
     color: white;
-
     border-color: #164d91;
 }
 
 .filter-label {
     font-size: 14px;
-
     color: #666;
-
     white-space: nowrap;
 }
 
@@ -135,15 +115,12 @@ select {
     height: 40px;
 
     border: 1px solid #d6dce5;
-
     border-radius: 8px;
 
     padding: 8px 10px;
 
     font-size: 14px;
-
     color: #333;
-
     background: white;
 }
 
@@ -153,7 +130,6 @@ input[type="date"] {
 
 select {
     width: 190px;
-
     cursor: pointer;
 }
 
@@ -161,19 +137,15 @@ select {
     height: 40px;
 
     background: #174d91;
-
     color: white;
 
     border: none;
-
     border-radius: 8px;
 
     padding: 0 18px;
 
     cursor: pointer;
-
     font-weight: bold;
-
     white-space: nowrap;
 }
 
@@ -185,19 +157,15 @@ select {
     height: 40px;
 
     background: white;
-
     color: #174d91;
 
     border: 1px solid #174d91;
-
     border-radius: 8px;
 
     padding: 0 16px;
 
     cursor: pointer;
-
     font-weight: bold;
-
     white-space: nowrap;
 }
 
@@ -209,7 +177,6 @@ select {
     margin-top: 10px;
 
     font-weight: bold;
-
     font-size: 16px;
 
     color: #183b70;
@@ -234,9 +201,7 @@ select {
 
 .left-column {
     display: flex;
-
     flex-direction: column;
-
     gap: 14px;
 }
 
@@ -255,9 +220,7 @@ select {
 
 .summary-card {
     border-radius: 15px;
-
     padding: 18px;
-
     text-align: center;
 }
 
@@ -271,15 +234,12 @@ select {
 
 .summary-title {
     font-size: 17px;
-
     font-weight: bold;
 }
 
 .summary-number {
     font-size: 34px;
-
     font-weight: bold;
-
     margin: 7px 0;
 }
 
@@ -295,7 +255,6 @@ select {
 
 .summary-total strong {
     display: block;
-
     font-size: 24px;
 }
 
@@ -308,7 +267,6 @@ select {
     background: white;
 
     border: 1px solid #e2e5e9;
-
     border-radius: 13px;
 
     height: 430px;
@@ -316,13 +274,11 @@ select {
     padding: 18px;
 
     display: flex;
-
     flex-direction: column;
 }
 
 .map-title {
     font-weight: bold;
-
     margin-bottom: 8px;
 }
 
@@ -336,9 +292,7 @@ select {
     border-radius: 10px;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     text-align: center;
@@ -360,11 +314,6 @@ select {
 
     padding: 18px;
 
-    /*
-       กำหนดความสูงของกล่องรายการ
-       รายการด้านในจะเลื่อนแทน
-    */
-
     height: 600px;
 
     overflow: hidden;
@@ -374,7 +323,6 @@ select {
     display: flex;
 
     justify-content: space-between;
-
     align-items: center;
 
     height: 32px;
@@ -384,13 +332,12 @@ select {
 
 .list-header h2 {
     margin: 0;
-
     font-size: 20px;
 }
 
 
 /* =====================================================
-   SCROLL AREA
+   SCROLL
 ===================================================== */
 
 #supportList {
@@ -401,16 +348,12 @@ select {
     padding-right: 8px;
 }
 
-
-/* Scrollbar */
-
 #supportList::-webkit-scrollbar {
     width: 7px;
 }
 
 #supportList::-webkit-scrollbar-thumb {
     background: #c8c8c8;
-
     border-radius: 10px;
 }
 
@@ -420,11 +363,38 @@ select {
 
 
 /* =====================================================
+   DATE GROUP
+===================================================== */
+
+.date-group {
+    margin-bottom: 16px;
+}
+
+.date-title {
+    display: inline-block;
+
+    background: #ffcf00;
+
+    color: #183b70;
+
+    font-weight: bold;
+
+    border-radius: 7px;
+
+    padding: 6px 10px;
+
+    margin-bottom: 4px;
+}
+
+
+/* =====================================================
    ITEM
 ===================================================== */
 
 .item {
-    padding: 10px 0 14px;
+    position: relative;
+
+    padding: 10px 0 15px;
 
     border-bottom: 1px dashed #d9d0aa;
 }
@@ -433,20 +403,13 @@ select {
     border-bottom: none;
 }
 
-.item-date {
-    display: inline-block;
+.item-top {
+    display: flex;
 
-    background: #ffcf00;
+    justify-content: space-between;
+    align-items: flex-start;
 
-    border-radius: 7px;
-
-    padding: 5px 9px;
-
-    font-weight: bold;
-
-    color: #183b70;
-
-    margin-bottom: 7px;
+    gap: 10px;
 }
 
 .item-title {
@@ -457,6 +420,44 @@ select {
     color: #183b70;
 
     line-height: 1.5;
+
+    flex: 1;
+}
+
+.item-actions {
+    display: flex;
+
+    gap: 8px;
+
+    flex-shrink: 0;
+
+    white-space: nowrap;
+}
+
+.edit-button,
+.delete-button {
+    border: none;
+
+    background: transparent;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+    padding: 2px 0;
+}
+
+.edit-button {
+    color: #174d91;
+}
+
+.delete-button {
+    color: #b43a32;
+}
+
+.edit-button:hover,
+.delete-button:hover {
+    text-decoration: underline;
 }
 
 .item-province {
@@ -505,7 +506,6 @@ select {
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     color: #777;
@@ -515,9 +515,7 @@ select {
 
 .item-image img {
     width: 100%;
-
     height: 100%;
-
     object-fit: cover;
 }
 
@@ -527,6 +525,130 @@ select {
     padding: 50px 20px;
 
     color: #777;
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+.modal {
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0,0,0,.45);
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    z-index: 9999;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-box {
+    width: min(560px, 100%);
+
+    background: white;
+
+    border-radius: 16px;
+
+    padding: 22px;
+
+    box-shadow: 0 10px 40px rgba(0,0,0,.2);
+}
+
+.modal-title {
+    margin: 0 0 18px;
+
+    color: #183b70;
+
+    font-size: 21px;
+}
+
+.form-group {
+    margin-bottom: 13px;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    color: #555;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    height: 42px;
+}
+
+.modal-actions {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 8px;
+
+    margin-top: 20px;
+}
+
+.modal-cancel {
+    background: white;
+
+    border: 1px solid #ccc;
+
+    color: #555;
+
+    border-radius: 8px;
+
+    padding: 9px 18px;
+
+    cursor: pointer;
+}
+
+.modal-save {
+    background: #174d91;
+
+    border: none;
+
+    color: white;
+
+    border-radius: 8px;
+
+    padding: 9px 20px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+}
+
+.modal-delete {
+    background: #b43a32;
+
+    border: none;
+
+    color: white;
+
+    border-radius: 8px;
+
+    padding: 9px 20px;
+
+    cursor: pointer;
+
+    font-weight: bold;
 }
 
 
@@ -553,8 +675,6 @@ select {
    RESPONSIVE
 ===================================================== */
 
-/* หน้าจอเริ่มแคบ */
-
 @media (max-width: 1250px) {
 
     .filter-row {
@@ -562,9 +682,6 @@ select {
     }
 
 }
-
-
-/* Tablet */
 
 @media (max-width: 900px) {
 
@@ -580,28 +697,18 @@ select {
         font-size: 26px;
     }
 
-    /*
-       บนจอเล็ก ให้รายการยาวตามข้อมูล
-    */
-
     .list-card {
         height: auto;
-
         overflow: visible;
     }
 
     #supportList {
         height: auto;
-
         overflow-y: visible;
-
         padding-right: 0;
     }
 
 }
-
-
-/* Mobile */
 
 @media (max-width: 600px) {
 
@@ -623,7 +730,6 @@ select {
 
     .filter-row {
         flex-direction: column;
-
         align-items: stretch;
     }
 
@@ -639,13 +745,20 @@ select {
         margin-top: 4px;
     }
 
+    .item-top {
+        flex-direction: column;
+    }
+
+    .item-actions {
+        align-self: flex-end;
+    }
+
     .item-images {
         grid-template-columns: 1fr;
     }
 
     .footer {
         flex-direction: column;
-
         gap: 5px;
     }
 
@@ -830,6 +943,7 @@ select {
             ล้างตัวกรอง
         </button>
 
+
     </div>
 
 
@@ -855,8 +969,6 @@ select {
 
     <div class="left-column">
 
-
-        <!-- SUMMARY -->
 
         <div class="summary-grid">
 
@@ -916,7 +1028,6 @@ select {
         </div>
 
 
-        <!-- MAP -->
 
         <div class="map-card">
 
@@ -967,10 +1078,6 @@ select {
 
 
 
-<!-- =====================================================
-     FOOTER
-===================================================== -->
-
 <footer class="footer">
 
     <span>
@@ -988,15 +1095,228 @@ select {
 
 
 
+<!-- =====================================================
+     EDIT MODAL
+===================================================== -->
+
+<div
+    class="modal"
+    id="editModal"
+>
+
+    <div class="modal-box">
+
+        <h2 class="modal-title">
+            แก้ไขรายการสนับสนุน
+        </h2>
+
+
+        <div class="form-group">
+
+            <label>
+                วันที่
+            </label>
+
+            <input
+                type="date"
+                id="editDate"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                จังหวัด
+            </label>
+
+            <select id="editProvince">
+
+                <option value="พระนครศรีอยุธยา">
+                    พระนครศรีอยุธยา
+                </option>
+
+                <option value="สิงห์บุรี">
+                    สิงห์บุรี
+                </option>
+
+                <option value="สุพรรณบุรี">
+                    สุพรรณบุรี
+                </option>
+
+                <option value="ลพบุรี">
+                    ลพบุรี
+                </option>
+
+                <option value="อ่างทอง">
+                    อ่างทอง
+                </option>
+
+                <option value="ระยอง">
+                    ระยอง
+                </option>
+
+                <option value="ชลบุรี">
+                    ชลบุรี
+                </option>
+
+                <option value="สระบุรี">
+                    สระบุรี
+                </option>
+
+                <option value="นครนายก">
+                    นครนายก
+                </option>
+
+                <option value="ฉะเชิงเทรา">
+                    ฉะเชิงเทรา
+                </option>
+
+                <option value="ปราจีนบุรี">
+                    ปราจีนบุรี
+                </option>
+
+                <option value="จันทบุรี">
+                    จันทบุรี
+                </option>
+
+                <option value="สระแก้ว">
+                    สระแก้ว
+                </option>
+
+                <option value="ตราด">
+                    ตราด
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                สถานที่ / รายละเอียด
+            </label>
+
+            <input
+                type="text"
+                id="editLocation"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                จำนวนถุงยังชีพ
+            </label>
+
+            <input
+                type="number"
+                id="editBags"
+                min="0"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                จำนวนน้ำดื่ม
+            </label>
+
+            <input
+                type="number"
+                id="editWater"
+                min="0"
+            >
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button
+                class="modal-cancel"
+                id="cancelEdit"
+            >
+                ยกเลิก
+            </button>
+
+            <button
+                class="modal-save"
+                id="saveEdit"
+            >
+                บันทึก
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     DELETE MODAL
+===================================================== -->
+
+<div
+    class="modal"
+    id="deleteModal"
+>
+
+    <div class="modal-box">
+
+        <h2 class="modal-title">
+            ยืนยันการลบ
+        </h2>
+
+
+        <p id="deleteMessage">
+            ต้องการลบรายการนี้หรือไม่?
+        </p>
+
+
+        <div class="modal-actions">
+
+            <button
+                class="modal-cancel"
+                id="cancelDelete"
+            >
+                ยกเลิก
+            </button>
+
+            <button
+                class="modal-delete"
+                id="confirmDelete"
+            >
+                ลบรายการ
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
 <script>
 
 /* =====================================================
    DATA
 ===================================================== */
 
-const supportData = [
+let supportData = [
 
     {
+        id: 1,
         date: "2026-10-07",
         province: "พระนครศรีอยุธยา",
         location: "วัดสุทธาราม ต.หอมหก อ.บางไทร",
@@ -1006,6 +1326,27 @@ const supportData = [
     },
 
     {
+        id: 2,
+        date: "2026-10-07",
+        province: "พระนครศรีอยุธยา",
+        location: "พื้นที่ช่วยเหลือผู้ประสบภัย อ.บางไทร",
+        bags: 300,
+        water: 300,
+        images: []
+    },
+
+    {
+        id: 3,
+        date: "2026-10-07",
+        province: "พระนครศรีอยุธยา",
+        location: "ศูนย์ช่วยเหลือผู้ประสบภัย จังหวัดพระนครศรีอยุธยา",
+        bags: 250,
+        water: 250,
+        images: []
+    },
+
+    {
+        id: 4,
         date: "2026-10-06",
         province: "ฉะเชิงเทรา",
         location: "หมู่บ้านหนองสีบู เฟส 2 ต.คลองหลวงแพ่ง",
@@ -1015,6 +1356,7 @@ const supportData = [
     },
 
     {
+        id: 5,
         date: "2026-10-06",
         province: "พระนครศรีอยุธยา",
         location: "วัดป้อมแก้ว ต.บ้านกลึง อ.บางไทร",
@@ -1024,7 +1366,8 @@ const supportData = [
     },
 
     {
-        date: "2026-10-05",
+        id: 6,
+        date: "2026-10-06",
         province: "สระบุรี",
         location: "ศูนย์ช่วยเหลือผู้ประสบภัย จังหวัดสระบุรี",
         bags: 400,
@@ -1033,7 +1376,8 @@ const supportData = [
     },
 
     {
-        date: "2026-10-04",
+        id: 7,
+        date: "2026-10-05",
         province: "สุพรรณบุรี",
         location: "พื้นที่ชุมชน จังหวัดสุพรรณบุรี",
         bags: 300,
@@ -1042,7 +1386,8 @@ const supportData = [
     },
 
     {
-        date: "2026-10-03",
+        id: 8,
+        date: "2026-10-05",
         province: "นครนายก",
         location: "ศูนย์ช่วยเหลือผู้ประสบภัย จังหวัดนครนายก",
         bags: 250,
@@ -1051,7 +1396,8 @@ const supportData = [
     },
 
     {
-        date: "2026-10-02",
+        id: 9,
+        date: "2026-10-04",
         province: "ปราจีนบุรี",
         location: "พื้นที่ชุมชน จังหวัดปราจีนบุรี",
         bags: 450,
@@ -1060,7 +1406,8 @@ const supportData = [
     },
 
     {
-        date: "2026-10-01",
+        id: 10,
+        date: "2026-10-03",
         province: "ลพบุรี",
         location: "ศูนย์ช่วยเหลือผู้ประสบภัย จังหวัดลพบุรี",
         bags: 350,
@@ -1069,7 +1416,8 @@ const supportData = [
     },
 
     {
-        date: "2026-09-30",
+        id: 11,
+        date: "2026-10-02",
         province: "อ่างทอง",
         location: "พื้นที่ชุมชน จังหวัดอ่างทอง",
         bags: 280,
@@ -1078,7 +1426,8 @@ const supportData = [
     },
 
     {
-        date: "2026-09-29",
+        id: 12,
+        date: "2026-10-01",
         province: "สิงห์บุรี",
         location: "พื้นที่ชุมชน จังหวัดสิงห์บุรี",
         bags: 320,
@@ -1087,7 +1436,8 @@ const supportData = [
     },
 
     {
-        date: "2026-09-28",
+        id: 13,
+        date: "2026-09-30",
         province: "ชลบุรี",
         location: "ศูนย์ช่วยเหลือผู้ประสบภัย จังหวัดชลบุรี",
         bags: 200,
@@ -1096,7 +1446,8 @@ const supportData = [
     },
 
     {
-        date: "2026-09-27",
+        id: 14,
+        date: "2026-09-29",
         province: "ระยอง",
         location: "พื้นที่ชุมชน จังหวัดระยอง",
         bags: 180,
@@ -1105,7 +1456,8 @@ const supportData = [
     },
 
     {
-        date: "2026-09-26",
+        id: 15,
+        date: "2026-09-28",
         province: "จันทบุรี",
         location: "พื้นที่ชุมชน จังหวัดจันทบุรี",
         bags: 220,
@@ -1114,7 +1466,8 @@ const supportData = [
     },
 
     {
-        date: "2026-09-25",
+        id: 16,
+        date: "2026-09-27",
         province: "สระแก้ว",
         location: "ศูนย์ช่วยเหลือผู้ประสบภัย จังหวัดสระแก้ว",
         bags: 190,
@@ -1123,7 +1476,8 @@ const supportData = [
     },
 
     {
-        date: "2026-09-24",
+        id: 17,
+        date: "2026-09-26",
         province: "ตราด",
         location: "พื้นที่ชุมชน จังหวัดตราด",
         bags: 160,
@@ -1165,20 +1519,29 @@ const endDate =
 const provinceFilter =
     document.getElementById("provinceFilter");
 
+const editModal =
+    document.getElementById("editModal");
+
+const deleteModal =
+    document.getElementById("deleteModal");
+
+let editingId = null;
+let deletingId = null;
+
 
 /* =====================================================
-   NUMBER
+   FORMAT NUMBER
 ===================================================== */
 
 function formatNumber(number) {
 
-    return number.toLocaleString("th-TH");
+    return Number(number).toLocaleString("th-TH");
 
 }
 
 
 /* =====================================================
-   DATE
+   FORMAT DATE
 ===================================================== */
 
 function formatThaiDate(dateString) {
@@ -1205,15 +1568,13 @@ function formatThaiDate(dateString) {
 function render(data) {
 
     let bags = 0;
-
     let water = 0;
 
 
     data.forEach(item => {
 
-        bags += item.bags;
-
-        water += item.water;
+        bags += Number(item.bags);
+        water += Number(item.water);
 
     });
 
@@ -1247,14 +1608,71 @@ function render(data) {
     }
 
 
-    supportList.innerHTML =
+    /*
+       เรียงวันที่จากใหม่ไปเก่า
+    */
 
-        data.map((item, index) => {
+    const sortedData =
+        [...data].sort(
+            (a, b) =>
+                b.date.localeCompare(a.date)
+        );
+
+
+    /*
+       แยกข้อมูลตามวันที่
+    */
+
+    const groups = {};
+
+
+    sortedData.forEach(item => {
+
+        if (!groups[item.date]) {
+
+            groups[item.date] = [];
+
+        }
+
+        groups[item.date].push(item);
+
+    });
+
+
+    /*
+       สร้าง HTML
+    */
+
+    let html = "";
+
+
+    Object.keys(groups)
+    .sort((a, b) => b.localeCompare(a))
+    .forEach(date => {
+
+        const items =
+            groups[date];
+
+
+        html += `
+
+            <div class="date-group">
+
+                <div class="date-title">
+
+                    ${formatThaiDate(date)}
+
+                </div>
+
+        `;
+
+
+        items.forEach((item, index) => {
 
             let images = "";
 
 
-            if (item.images.length > 0) {
+            if (item.images && item.images.length > 0) {
 
                 images =
                     item.images.map(image => `
@@ -1270,9 +1688,7 @@ function render(data) {
 
                     `).join("");
 
-            }
-
-            else {
+            } else {
 
                 images = `
 
@@ -1289,22 +1705,41 @@ function render(data) {
             }
 
 
-            return `
+            html += `
 
                 <article class="item">
 
 
-                    <div class="item-date">
-
-                        ${formatThaiDate(item.date)}
-
-                    </div>
+                    <div class="item-top">
 
 
-                    <div class="item-title">
+                        <div class="item-title">
 
-                        ${index + 1}.
-                        ${item.location}
+                            ${index + 1}.
+                            ${item.location}
+
+                        </div>
+
+
+                        <div class="item-actions">
+
+                            <button
+                                class="edit-button"
+                                onclick="openEdit(${item.id})"
+                            >
+                                แก้ไข
+                            </button>
+
+
+                            <button
+                                class="delete-button"
+                                onclick="openDelete(${item.id})"
+                            >
+                                ลบ
+                            </button>
+
+                        </div>
+
 
                     </div>
 
@@ -1346,13 +1781,25 @@ function render(data) {
 
             `;
 
-        }).join("");
+        });
+
+
+        html += `
+
+            </div>
+
+        `;
+
+    });
+
+
+    supportList.innerHTML = html;
 
 }
 
 
 /* =====================================================
-   PROVINCE FILTER
+   APPLY PROVINCE
 ===================================================== */
 
 function applyProvinceFilter(data) {
@@ -1486,7 +1933,6 @@ document
         "click",
         () => {
 
-
             document
             .querySelectorAll(".filter-button")
             .forEach(btn =>
@@ -1508,7 +1954,7 @@ document
 
 
 /* =====================================================
-   SEARCH
+   SEARCH CUSTOM DATE
 ===================================================== */
 
 document
@@ -1516,7 +1962,6 @@ document
 .addEventListener(
     "click",
     () => {
-
 
         const startValue =
             startDate.value;
@@ -1594,6 +2039,47 @@ document
 
 
 /* =====================================================
+   PROVINCE CHANGE
+===================================================== */
+
+provinceFilter.addEventListener(
+    "change",
+    () => {
+
+        /*
+           ถ้าเลือกจังหวัดโดยตรง
+           ให้ใช้ช่วงวันที่ที่กำลังเลือกอยู่
+        */
+
+        const activeButton =
+            document.querySelector(
+                ".filter-button.active"
+            );
+
+
+        if (activeButton) {
+
+            filterByRange(
+                activeButton.dataset.range
+            );
+
+            return;
+
+        }
+
+
+        render(
+            supportData.filter(item =>
+                provinceFilter.value === "all" ||
+                item.province === provinceFilter.value
+            )
+        );
+
+    }
+);
+
+
+/* =====================================================
    CLEAR FILTER
 ===================================================== */
 
@@ -1603,20 +2089,12 @@ document
     "click",
     () => {
 
-
-        /* ล้างวันที่ */
-
         startDate.value = "";
 
         endDate.value = "";
 
-
-        /* ล้างจังหวัด */
-
         provinceFilter.value = "all";
 
-
-        /* ล้าง Active */
 
         document
         .querySelectorAll(".filter-button")
@@ -1625,20 +2103,328 @@ document
         );
 
 
-        /* เลือกวันนี้ */
-
-        const todayButton =
+        const allButton =
             document.querySelector(
-                '[data-range="today"]'
+                '[data-range="all"]'
             );
 
 
-        todayButton.classList.add("active");
+        allButton.classList.add("active");
 
 
-        /* แสดงข้อมูลวันนี้ */
+        filterByRange("all");
 
-        filterByRange("today");
+    }
+);
+
+
+/* =====================================================
+   OPEN EDIT
+===================================================== */
+
+function openEdit(id) {
+
+    const item =
+        supportData.find(
+            data => data.id === id
+        );
+
+
+    if (!item) {
+        return;
+    }
+
+
+    editingId = id;
+
+
+    document.getElementById("editDate").value =
+        item.date;
+
+    document.getElementById("editProvince").value =
+        item.province;
+
+    document.getElementById("editLocation").value =
+        item.location;
+
+    document.getElementById("editBags").value =
+        item.bags;
+
+    document.getElementById("editWater").value =
+        item.water;
+
+
+    editModal.classList.add("show");
+
+}
+
+
+/* =====================================================
+   CLOSE EDIT
+===================================================== */
+
+document
+.getElementById("cancelEdit")
+.addEventListener(
+    "click",
+    () => {
+
+        editModal.classList.remove("show");
+
+        editingId = null;
+
+    }
+);
+
+
+/* =====================================================
+   SAVE EDIT
+===================================================== */
+
+document
+.getElementById("saveEdit")
+.addEventListener(
+    "click",
+    () => {
+
+        if (editingId === null) {
+            return;
+        }
+
+
+        const item =
+            supportData.find(
+                data => data.id === editingId
+            );
+
+
+        if (!item) {
+            return;
+        }
+
+
+        item.date =
+            document.getElementById("editDate").value;
+
+        item.province =
+            document.getElementById("editProvince").value;
+
+        item.location =
+            document.getElementById("editLocation").value.trim();
+
+        item.bags =
+            Number(
+                document.getElementById("editBags").value
+            );
+
+        item.water =
+            Number(
+                document.getElementById("editWater").value
+            );
+
+
+        if (!item.date || !item.location) {
+
+            alert(
+                "กรุณากรอกวันที่และสถานที่"
+            );
+
+            return;
+
+        }
+
+
+        editModal.classList.remove("show");
+
+        editingId = null;
+
+
+        /*
+           แสดงผลใหม่ตามตัวกรองปัจจุบัน
+        */
+
+        refreshCurrentView();
+
+    }
+);
+
+
+/* =====================================================
+   OPEN DELETE
+===================================================== */
+
+function openDelete(id) {
+
+    const item =
+        supportData.find(
+            data => data.id === id
+        );
+
+
+    if (!item) {
+        return;
+    }
+
+
+    deletingId = id;
+
+
+    document.getElementById("deleteMessage").textContent =
+        `ต้องการลบรายการ "${item.location}" หรือไม่?`;
+
+
+    deleteModal.classList.add("show");
+
+}
+
+
+/* =====================================================
+   CANCEL DELETE
+===================================================== */
+
+document
+.getElementById("cancelDelete")
+.addEventListener(
+    "click",
+    () => {
+
+        deleteModal.classList.remove("show");
+
+        deletingId = null;
+
+    }
+);
+
+
+/* =====================================================
+   CONFIRM DELETE
+===================================================== */
+
+document
+.getElementById("confirmDelete")
+.addEventListener(
+    "click",
+    () => {
+
+        if (deletingId === null) {
+            return;
+        }
+
+
+        supportData =
+            supportData.filter(
+                item => item.id !== deletingId
+            );
+
+
+        deleteModal.classList.remove("show");
+
+        deletingId = null;
+
+
+        refreshCurrentView();
+
+    }
+);
+
+
+/* =====================================================
+   REFRESH CURRENT VIEW
+===================================================== */
+
+function refreshCurrentView() {
+
+    const activeButton =
+        document.querySelector(
+            ".filter-button.active"
+        );
+
+
+    /*
+       ถ้าเป็นการค้นหาวันที่เอง
+    */
+
+    if (
+        !activeButton &&
+        startDate.value &&
+        endDate.value
+    ) {
+
+        let filtered =
+            supportData.filter(item =>
+                item.date >= startDate.value &&
+                item.date <= endDate.value
+            );
+
+
+        if (provinceFilter.value !== "all") {
+
+            filtered =
+                filtered.filter(item =>
+                    item.province === provinceFilter.value
+                );
+
+        }
+
+
+        render(filtered);
+
+        return;
+
+    }
+
+
+    /*
+       ถ้ามีปุ่มช่วงเวลา
+    */
+
+    if (activeButton) {
+
+        filterByRange(
+            activeButton.dataset.range
+        );
+
+        return;
+
+    }
+
+
+    render(supportData);
+
+}
+
+
+/* =====================================================
+   CLOSE MODAL WHEN CLICK OUTSIDE
+===================================================== */
+
+editModal.addEventListener(
+    "click",
+    event => {
+
+        if (event.target === editModal) {
+
+            editModal.classList.remove("show");
+
+            editingId = null;
+
+        }
+
+    }
+);
+
+
+deleteModal.addEventListener(
+    "click",
+    event => {
+
+        if (event.target === deleteModal) {
+
+            deleteModal.classList.remove("show");
+
+            deletingId = null;
+
+        }
 
     }
 );
