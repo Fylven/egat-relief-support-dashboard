@@ -1,372 +1,465 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>รายการสนับสนุนถุงยังชีพและน้ำดื่ม กฟผ.</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-  <!-- Supabase -->
+  <title>
+    EGAT Support Dashboard
+  </title>
+
+
+  <!-- =====================================================
+       SUPABASE
+  ====================================================== -->
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+
   <style>
+
+    /* =====================================================
+       RESET
+    ====================================================== */
+
     * {
       box-sizing: border-box;
     }
 
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+
     body {
+
       margin: 0;
+
       font-family:
         Arial,
         "Noto Sans Thai",
-        "Tahoma",
+        Tahoma,
         sans-serif;
 
-      background: #f5f7f9;
+      background: #f4f6f8;
+
       color: #123b70;
+
     }
+
 
     /* =====================================================
        HEADER
-    ===================================================== */
+    ====================================================== */
 
     .header {
-      margin: 14px 26px 16px;
-      padding: 20px 28px;
+
+      margin: 14px 26px 18px;
+
+      padding: 18px 28px;
+
+      min-height: 92px;
 
       background: #ffc400;
 
       border-radius: 18px;
 
       display: flex;
-      justify-content: space-between;
+
       align-items: center;
 
+      justify-content: space-between;
+
       box-shadow:
-        0 4px 12px rgba(0, 0, 0, 0.10);
+        0 4px 12px rgba(0, 0, 0, .10);
+
     }
+
 
     .header-title {
+
       font-size: 29px;
-      line-height: 1.45;
-      font-weight: 800;
-      color: #0752a0;
+
+      font-weight: 900;
+
+      line-height: 1.35;
+
     }
 
+
     .header-logo {
-      font-size: 40px;
+
+      font-size: 38px;
+
       font-weight: 900;
-      color: #0752a0;
+
+      color: #0753a4;
+
       white-space: nowrap;
+
     }
 
 
     /* =====================================================
-       FILTER AREA
-    ===================================================== */
+       FILTER
+    ====================================================== */
 
     .filter-card {
+
       margin: 0 26px 18px;
 
+      padding: 14px 16px;
+
       background: #ffffff;
 
-      border-radius: 16px;
-
-      padding: 14px;
+      border-radius: 18px;
 
       box-shadow:
-        0 3px 10px rgba(0, 0, 0, 0.08);
+        0 3px 12px rgba(0, 0, 0, .07);
+
     }
+
 
     .filter-row {
+
       display: flex;
-      flex-wrap: wrap;
+
       align-items: center;
+
       gap: 10px;
+
+      flex-wrap: wrap;
+
     }
 
-    .quick-btn {
-      background: #ffffff;
 
-      border: 1px solid #d5dce5;
+    .quick-btn {
+
+      height: 48px;
+
+      padding: 0 27px;
+
+      border-radius: 11px;
+
+      border: 1px solid #cfd8e3;
+
+      background: #ffffff;
 
       color: #123b70;
 
-      border-radius: 10px;
-
-      padding: 12px 22px;
-
       font-size: 16px;
+
+      font-weight: 700;
 
       cursor: pointer;
 
-      transition: 0.2s;
     }
+
 
     .quick-btn:hover {
-      background: #eef5ff;
+
+      background: #f1f5f9;
+
     }
+
 
     .quick-btn.active {
-      background: #14589d;
+
+      background: #16599e;
+
       color: #ffffff;
-      border-color: #14589d;
-      font-weight: 700;
+
+      border-color: #16599e;
+
     }
 
-    .filter-label {
-      font-size: 15px;
-      color: #777;
-      margin-left: 2px;
+
+    .custom-label {
+
+      font-size: 16px;
+
+      color: #666;
+
+      white-space: nowrap;
+
     }
+
 
     .date-input {
+
       height: 48px;
 
-      border: 1px solid #d5dce5;
+      width: 205px;
 
-      border-radius: 9px;
+      padding: 0 13px;
 
-      padding: 0 12px;
+      border: 1px solid #cfd8e3;
 
-      font-size: 15px;
+      border-radius: 10px;
 
-      color: #333;
+      font-size: 16px;
 
-      min-width: 175px;
+      color: #222;
+
+      background: #ffffff;
+
     }
+
 
     .province-select {
+
       height: 48px;
 
-      border: 1px solid #d5dce5;
+      width: 250px;
 
-      border-radius: 9px;
+      padding: 0 14px;
 
-      padding: 0 12px;
+      border: 1px solid #cfd8e3;
 
-      font-size: 15px;
+      border-radius: 10px;
 
-      min-width: 230px;
-
-      color: #333;
+      font-size: 16px;
 
       background: #ffffff;
+
+      color: #222;
+
     }
+
 
     .search-btn {
+
       height: 48px;
 
-      background: #14589d;
-
-      color: white;
+      padding: 0 25px;
 
       border: none;
 
-      border-radius: 9px;
+      border-radius: 11px;
 
-      padding: 0 22px;
+      background: #16599e;
+
+      color: #ffffff;
 
       font-size: 16px;
 
-      font-weight: 700;
+      font-weight: 800;
 
       cursor: pointer;
+
     }
 
+
     .clear-btn {
+
       height: 48px;
+
+      padding: 0 24px;
+
+      border: 1px solid #16599e;
+
+      border-radius: 11px;
 
       background: #ffffff;
 
-      color: #14589d;
-
-      border: 1px solid #14589d;
-
-      border-radius: 9px;
-
-      padding: 0 20px;
+      color: #16599e;
 
       font-size: 16px;
 
-      cursor: pointer;
-    }
-
-    .admin-btn {
-      margin-left: auto;
-
-      height: 48px;
-
-      background: #087f3e;
-
-      color: white;
-
-      border: none;
-
-      border-radius: 9px;
-
-      padding: 0 20px;
-
-      font-size: 15px;
-
-      font-weight: 700;
+      font-weight: 800;
 
       cursor: pointer;
 
-      text-decoration: none;
-
-      display: inline-flex;
-
-      align-items: center;
-
-      justify-content: center;
     }
 
-    .report-text {
+
+    .filter-status {
+
       margin-top: 10px;
 
       font-size: 16px;
 
       font-weight: 700;
 
-      color: #123b70;
     }
 
 
     /* =====================================================
        MAIN GRID
-    ===================================================== */
+       40% LEFT / 60% RIGHT
+    ====================================================== */
 
     .main-grid {
-      margin: 0 26px 25px;
+
+      margin: 0 26px 30px;
 
       display: grid;
 
       grid-template-columns:
-        30% 70%;
+        40% 60%;
 
-      gap: 14px;
+      gap: 16px;
 
       align-items: start;
+
     }
 
 
     /* =====================================================
-       LEFT COLUMN
-    ===================================================== */
+       LEFT SIDE
+    ====================================================== */
 
     .left-column {
-      display: flex;
 
-      flex-direction: column;
+      min-width: 0;
 
-      gap: 16px;
     }
 
+
     .summary-grid {
+
       display: grid;
 
       grid-template-columns:
         1fr 1fr;
 
       gap: 14px;
+
+      margin-bottom: 16px;
+
     }
 
+
     .summary-card {
+
+      min-height: 180px;
+
       border-radius: 18px;
 
       padding: 20px 15px;
 
       text-align: center;
 
-      min-height: 200px;
-
-      display: flex;
-
-      flex-direction: column;
-
-      justify-content: center;
-
       box-shadow:
-        0 2px 8px rgba(0, 0, 0, 0.05);
+        0 3px 10px rgba(0, 0, 0, .06);
+
     }
 
-    .bags-card {
-      background: #ffedab;
+
+    .summary-card.bags {
+
+      background: #ffedac;
+
     }
 
-    .water-card {
-      background: #a9ddf8;
+
+    .summary-card.water {
+
+      background: #a7dcf7;
+
     }
+
 
     .summary-title {
-      font-size: 19px;
 
-      margin-bottom: 12px;
+      font-size: 20px;
 
-      font-weight: 700;
+      font-weight: 800;
+
     }
 
+
     .summary-number {
-      font-size: 40px;
+
+      margin-top: 16px;
+
+      font-size: 43px;
+
+      line-height: 1;
 
       font-weight: 900;
 
-      line-height: 1.1;
+      color: #0e4b91;
 
-      margin-bottom: 12px;
     }
+
 
     .summary-total {
-      background: rgba(255,255,255,0.35);
 
-      border-radius: 16px;
+      margin-top: 15px;
 
-      padding: 8px;
+      padding: 10px;
 
-      font-size: 17px;
+      border-radius: 15px;
+
+      background: rgba(255,255,255,.42);
+
     }
 
-    .summary-total strong {
-      display: block;
 
-      font-size: 28px;
+    .summary-total-label {
 
-      margin-top: 2px;
+      font-size: 16px;
+
+    }
+
+
+    .summary-total-number {
+
+      margin-top: 3px;
+
+      font-size: 27px;
+
+      font-weight: 900;
+
     }
 
 
     /* =====================================================
        MAP
-    ===================================================== */
+    ====================================================== */
 
     .map-card {
-      background: white;
+
+      background: #ffffff;
 
       border-radius: 18px;
 
-      padding: 14px;
+      padding: 18px;
 
-      min-height: 600px;
+      min-height: 500px;
 
       box-shadow:
-        0 2px 8px rgba(0, 0, 0, 0.05);
+        0 3px 12px rgba(0,0,0,.06);
+
     }
+
 
     .map-title {
-      font-size: 18px;
 
-      font-weight: 800;
+      font-size: 20px;
 
-      margin: 6px 8px 12px;
+      font-weight: 900;
+
+      margin-bottom: 12px;
+
     }
 
-    .map-placeholder {
-      min-height: 530px;
 
-      background: #f0f1f3;
+    .map-placeholder {
+
+      min-height: 430px;
 
       border-radius: 14px;
+
+      background: #eef0f2;
 
       display: flex;
 
@@ -376,212 +469,330 @@
 
       text-align: center;
 
+      padding: 20px;
+
       color: #777;
 
       font-size: 18px;
 
-      padding: 20px;
     }
 
 
     /* =====================================================
-       RIGHT LIST
-    ===================================================== */
+       RIGHT SIDE
+    ====================================================== */
 
-    .list-card {
-      background: #fffbe0;
+    .support-card {
+
+      min-width: 0;
+
+      background: #fffde4;
 
       border-radius: 18px;
 
-      padding: 20px;
+      padding: 18px 20px 20px;
 
       box-shadow:
-        0 2px 8px rgba(0, 0, 0, 0.05);
+        0 3px 12px rgba(0,0,0,.06);
 
-      min-height: 820px;
     }
 
-    .list-title {
-      font-size: 26px;
+
+    .support-title {
+
+      margin: 0 0 13px;
+
+      font-size: 27px;
 
       font-weight: 900;
-
-      margin-bottom: 15px;
-    }
-
-    .list-scroll {
-      height: 730px;
-
-      overflow-y: auto;
-
-      padding-right: 8px;
-    }
-
-    .date-group {
-      margin-bottom: 18px;
-    }
-
-    .date-header {
-      display: inline-block;
-
-      background: #ffc400;
-
-      color: #0752a0;
-
-      font-size: 19px;
-
-      font-weight: 900;
-
-      border-radius: 10px;
-
-      padding: 7px 13px;
-
-      margin-bottom: 10px;
-    }
-
-    .support-item {
-      padding: 13px 0 17px;
-
-      border-bottom: 1px dashed #d9d4a7;
-    }
-
-    .item-title {
-      font-size: 17px;
-
-      font-weight: 700;
-
-      line-height: 1.6;
 
       color: #123b70;
-    }
 
-    .item-number {
-      font-weight: 900;
-    }
-
-    .item-info {
-      margin-top: 6px;
-
-      color: #333;
-
-      font-size: 15px;
-
-      font-weight: 600;
-    }
-
-    .item-info span {
-      margin-right: 15px;
-    }
-
-    .province-bold {
-      font-weight: 900;
-    }
-
-    .image-grid {
-      display: grid;
-
-      grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-
-      gap: 10px;
-
-      margin-top: 10px;
-
-      max-width: 680px;
-    }
-
-    .support-image {
-      width: 100%;
-
-      height: 108px;
-
-      object-fit: cover;
-
-      border-radius: 10px;
-
-      background: #ddd;
-
-      display: block;
-    }
-
-    .empty-state {
-      text-align: center;
-
-      padding: 70px 20px;
-
-      color: #777;
-
-      font-size: 18px;
-    }
-
-    .loading-state {
-      text-align: center;
-
-      padding: 60px 20px;
-
-      color: #777;
-
-      font-size: 18px;
-    }
-
-    .error-state {
-      text-align: center;
-
-      padding: 50px 20px;
-
-      color: #b42318;
-
-      font-size: 17px;
-
-      background: #fff0f0;
-
-      border-radius: 12px;
     }
 
 
     /* =====================================================
-       SCROLLBAR
-    ===================================================== */
+       SUPPORT LIST SCROLL
+    ====================================================== */
 
-    .list-scroll::-webkit-scrollbar {
+    .support-list {
+
+      height: 590px;
+
+      overflow-y: auto;
+
+      padding-right: 12px;
+
+    }
+
+
+    .support-list::-webkit-scrollbar {
+
       width: 8px;
+
     }
 
-    .list-scroll::-webkit-scrollbar-track {
-      background: #eee;
+
+    .support-list::-webkit-scrollbar-track {
+
+      background: #eeeeee;
+
       border-radius: 10px;
+
     }
 
-    .list-scroll::-webkit-scrollbar-thumb {
-      background: #b8b8b8;
+
+    .support-list::-webkit-scrollbar-thumb {
+
+      background: #b7bdc4;
+
       border-radius: 10px;
+
+    }
+
+
+    /* =====================================================
+       DATE GROUP
+    ====================================================== */
+
+    .date-group {
+
+      margin-bottom: 18px;
+
+    }
+
+
+    .date-badge {
+
+      display: inline-block;
+
+      margin-bottom: 8px;
+
+      padding: 8px 14px;
+
+      border-radius: 10px;
+
+      background: #ffc400;
+
+      color: #0753a4;
+
+      font-size: 20px;
+
+      font-weight: 900;
+
+    }
+
+
+    /* =====================================================
+       ITEM
+    ====================================================== */
+
+    .support-item {
+
+      padding: 12px 0 18px;
+
+      border-bottom: 1px dashed #d8d1a5;
+
+    }
+
+
+    .support-item:last-child {
+
+      border-bottom: none;
+
+    }
+
+
+    .item-title {
+
+      font-size: 17px;
+
+      line-height: 1.55;
+
+      font-weight: 800;
+
+      color: #123b70;
+
+    }
+
+
+    .item-title strong {
+
+      font-weight: 900;
+
+    }
+
+
+    .item-amount {
+
+      margin-top: 7px;
+
+      color: #222;
+
+      font-size: 15px;
+
+    }
+
+
+    .item-amount strong {
+
+      font-size: 16px;
+
+    }
+
+
+    /* =====================================================
+       IMAGES
+    ====================================================== */
+
+.item-images {
+  display: flex;
+  gap: 10px;
+  margin-top: 11px;
+  max-width: 620px;
+  flex-wrap: wrap;
+}
+
+.item-images img {
+  width: 180px;
+  height: 135px;
+  object-fit: cover;
+  border-radius: 9px;
+  background: #ddd;
+  cursor: pointer;
+  transition: .2s;
+}
+
+
+    .item-images img:hover {
+
+      transform: scale(1.015);
+
+    }
+
+
+    /* =====================================================
+       LOADING / EMPTY
+    ====================================================== */
+
+    .loading,
+    .empty {
+
+      min-height: 250px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      color: #777;
+
+      font-size: 17px;
+
+      text-align: center;
+
+    }
+
+
+    /* =====================================================
+       IMAGE MODAL
+    ====================================================== */
+
+    .image-modal {
+
+      position: fixed;
+
+      inset: 0;
+
+      display: none;
+
+      align-items: center;
+
+      justify-content: center;
+
+      padding: 30px;
+
+      background: rgba(0,0,0,.78);
+
+      z-index: 9999;
+
+    }
+
+
+    .image-modal.show {
+
+      display: flex;
+
+    }
+
+
+    .image-modal img {
+
+      max-width: 90vw;
+
+      max-height: 90vh;
+
+      border-radius: 12px;
+
+      object-fit: contain;
+
+    }
+
+
+    .image-modal-close {
+
+      position: fixed;
+
+      top: 20px;
+
+      right: 25px;
+
+      width: 45px;
+
+      height: 45px;
+
+      border: none;
+
+      border-radius: 50%;
+
+      background: #ffffff;
+
+      color: #222;
+
+      font-size: 28px;
+
+      cursor: pointer;
+
     }
 
 
     /* =====================================================
        RESPONSIVE
-    ===================================================== */
+    ====================================================== */
 
     @media (max-width: 1100px) {
 
       .main-grid {
-        grid-template-columns: 1fr;
+
+        grid-template-columns:
+          1fr;
+
       }
 
-      .list-card {
-        min-height: auto;
+
+      .left-column,
+      .support-card {
+
+        width: 100%;
+
       }
 
-      .list-scroll {
+
+      .support-list {
+
         height: 600px;
-      }
 
-      .map-card {
-        min-height: auto;
-      }
-
-      .map-placeholder {
-        min-height: 350px;
       }
 
     }
@@ -590,92 +801,141 @@
     @media (max-width: 800px) {
 
       .header {
+
         margin: 10px;
 
-        padding: 16px;
+        padding: 18px;
 
-        flex-direction: column;
-
-        align-items: flex-start;
-
-        gap: 10px;
       }
+
 
       .header-title {
-        font-size: 21px;
+
+        font-size: 22px;
+
       }
+
 
       .header-logo {
-        font-size: 30px;
+
+        font-size: 28px;
+
       }
+
 
       .filter-card {
-        margin: 0 10px 15px;
+
+        margin: 0 10px 12px;
+
       }
 
-      .filter-row {
-        flex-direction: column;
-
-        align-items: stretch;
-      }
-
-      .quick-btn,
-      .date-input,
-      .province-select,
-      .search-btn,
-      .clear-btn,
-      .admin-btn {
-        width: 100%;
-      }
-
-      .admin-btn {
-        margin-left: 0;
-      }
 
       .main-grid {
+
         margin: 0 10px 20px;
+
       }
+
+
+      .filter-row {
+
+        align-items: stretch;
+
+      }
+
+
+      .quick-btn,
+      .search-btn,
+      .clear-btn {
+
+        flex: 1;
+
+      }
+
+
+      .date-input,
+      .province-select {
+
+        width: 100%;
+
+      }
+
+
+      .custom-label {
+
+        width: 100%;
+
+      }
+
+    }
+
+
+    @media (max-width: 600px) {
 
       .summary-grid {
-        grid-template-columns: 1fr;
+
+        grid-template-columns:
+          1fr;
+
       }
 
-      .list-scroll {
+
+      .summary-card {
+
+        min-height: 150px;
+
+      }
+
+
+      .summary-number {
+
+        font-size: 38px;
+
+      }
+
+
+      .support-card {
+
+        padding: 15px;
+
+      }
+
+
+      .support-title {
+
+        font-size: 23px;
+
+      }
+
+
+      .support-list {
+
         height: auto;
 
-        max-height: none;
+        max-height: 700px;
 
-        overflow: visible;
       }
 
-      .list-card {
-        padding: 15px;
+
+      .item-images {
+
+        grid-template-columns:
+          1fr 1fr;
+
       }
 
-      .image-grid {
-        grid-template-columns: 1fr;
-      }
 
-    }
+      .item-images img {
 
+        height: 110px;
 
-    @media (max-width: 500px) {
-
-      .item-title {
-        font-size: 15px;
-      }
-
-      .item-info {
-        font-size: 14px;
-      }
-
-      .date-header {
-        font-size: 17px;
       }
 
     }
+
 
   </style>
+
 </head>
 
 
@@ -684,14 +944,18 @@
 
   <!-- =====================================================
        HEADER
-  ===================================================== -->
+  ====================================================== -->
 
   <header class="header">
 
     <div class="header-title">
+
       รายการสนับสนุนถุงยังชีพและน้ำดื่ม กฟผ.<br>
+
       ผู้ประสบอุทกภัย พื้นที่ อปก. ปี 2569
+
     </div>
+
 
     <div class="header-logo">
       กฟผ.
@@ -700,13 +964,15 @@
   </header>
 
 
+
   <!-- =====================================================
        FILTER
-  ===================================================== -->
+  ====================================================== -->
 
   <section class="filter-card">
 
     <div class="filter-row">
+
 
       <button
         class="quick-btn"
@@ -715,12 +981,14 @@
         วันนี้
       </button>
 
+
       <button
         class="quick-btn"
         data-range="7"
       >
         7 วัน
       </button>
+
 
       <button
         class="quick-btn"
@@ -729,6 +997,7 @@
         30 วัน
       </button>
 
+
       <button
         class="quick-btn active"
         data-range="all"
@@ -736,7 +1005,8 @@
         ทั้งหมด
       </button>
 
-      <span class="filter-label">
+
+      <span class="custom-label">
         หรือกำหนดเอง
       </span>
 
@@ -747,9 +1017,11 @@
         class="date-input"
       >
 
-      <span class="filter-label">
+
+      <span class="custom-label">
         ถึง
       </span>
+
 
       <input
         type="date"
@@ -758,9 +1030,10 @@
       >
 
 
-      <span class="filter-label">
+      <span class="custom-label">
         จังหวัด
       </span>
+
 
       <select
         id="provinceFilter"
@@ -790,16 +1063,16 @@
 
 
       <button
-        class="search-btn"
         id="searchBtn"
+        class="search-btn"
       >
         ค้นหา
       </button>
 
 
       <button
-        class="clear-btn"
         id="clearBtn"
+        class="clear-btn"
       >
         ล้างตัวกรอง
       </button>
@@ -808,20 +1081,28 @@
     </div>
 
 
+    <div
+      id="filterStatus"
+      class="filter-status"
+    >
+      รายงานข้อมูลทั้งหมด
+    </div>
 
   </section>
 
 
+
   <!-- =====================================================
        MAIN
-  ===================================================== -->
+       40% / 60%
+  ====================================================== -->
 
   <main class="main-grid">
 
 
     <!-- ===================================================
-         LEFT
-    =================================================== -->
+         LEFT 40%
+    ==================================================== -->
 
     <section class="left-column">
 
@@ -830,54 +1111,76 @@
 
       <div class="summary-grid">
 
-        <div class="summary-card bags-card">
+
+        <div class="summary-card bags">
 
           <div class="summary-title">
             ถุงยังชีพ (ถุง)
           </div>
 
+
           <div
-            class="summary-number"
             id="bagsTotal"
+            class="summary-number"
           >
             0
           </div>
 
-          <div class="summary-total">
-            ยอดสนับสนุนรวม
 
-            <strong id="bagsTotalSmall">
+          <div class="summary-total">
+
+            <div class="summary-total-label">
+              ยอดสนับสนุนรวม
+            </div>
+
+            <div
+              id="bagsTotalSmall"
+              class="summary-total-number"
+            >
               0
-            </strong>
+            </div>
+
           </div>
 
         </div>
 
 
-        <div class="summary-card water-card">
+
+        <div class="summary-card water">
 
           <div class="summary-title">
             น้ำดื่ม (แพ็ก)
           </div>
 
+
           <div
-            class="summary-number"
             id="waterTotal"
+            class="summary-number"
           >
             0
           </div>
 
-          <div class="summary-total">
-            ยอดสนับสนุนรวม
 
-            <strong id="waterTotalSmall">
+          <div class="summary-total">
+
+            <div class="summary-total-label">
+              ยอดสนับสนุนรวม
+            </div>
+
+            <div
+              id="waterTotalSmall"
+              class="summary-total-number"
+            >
               0
-            </strong>
+            </div>
+
           </div>
 
         </div>
 
+
       </div>
+
 
 
       <!-- MAP -->
@@ -888,51 +1191,86 @@
           🗺️ พื้นที่ดำเนินการ
         </div>
 
+
         <div class="map-placeholder">
           แผนที่ประเทศไทยจะเพิ่มแผนที่จริงในขั้นต่อไป
         </div>
 
       </div>
 
+
     </section>
 
 
 
     <!-- ===================================================
-         RIGHT
-    =================================================== -->
+         RIGHT 60%
+    ==================================================== -->
 
-    <section class="list-card">
+    <section class="support-card">
 
-      <div class="list-title">
+
+      <h2 class="support-title">
         รายการสนับสนุน
-      </div>
+      </h2>
+
 
       <div
         id="supportList"
-        class="list-scroll"
+        class="support-list"
       >
 
-        <div class="loading-state">
+        <div class="loading">
           กำลังโหลดข้อมูล...
         </div>
 
       </div>
 
+
     </section>
+
 
   </main>
 
 
 
+  <!-- =====================================================
+       IMAGE MODAL
+  ====================================================== -->
+
+  <div
+    id="imageModal"
+    class="image-modal"
+  >
+
+    <button
+      id="imageModalClose"
+      class="image-modal-close"
+    >
+      ×
+    </button>
+
+
+    <img
+      id="modalImage"
+      src=""
+      alt="รูปภาพ"
+    >
+
+  </div>
+
+
+
 <script>
+
 
   /* =====================================================
      SUPABASE CONFIG
-  ===================================================== */
+  ====================================================== */
 
   const SUPABASE_URL =
     "https://voaktlbvwzliyfhxksdz.supabase.co";
+
 
   const SUPABASE_KEY =
     "sb_publishable_g_p2WWtAFq2GppJN-kLaWg_ccrxTkQ2";
@@ -945,78 +1283,187 @@
     );
 
 
-  /* =====================================================
-     DATA
-  ===================================================== */
-
-  let supportData = [];
-
-  let filteredData = [];
-
-  let currentQuickRange = "all";
-
 
   /* =====================================================
      DOM
-  ===================================================== */
-
-  const bagsTotal =
-    document.getElementById("bagsTotal");
-
-  const bagsTotalSmall =
-    document.getElementById("bagsTotalSmall");
-
-  const waterTotal =
-    document.getElementById("waterTotal");
-
-  const waterTotalSmall =
-    document.getElementById("waterTotalSmall");
+  ====================================================== */
 
   const supportList =
-    document.getElementById("supportList");
+    document.getElementById(
+      "supportList"
+    );
+
+
+  const bagsTotal =
+    document.getElementById(
+      "bagsTotal"
+    );
+
+
+  const bagsTotalSmall =
+    document.getElementById(
+      "bagsTotalSmall"
+    );
+
+
+  const waterTotal =
+    document.getElementById(
+      "waterTotal"
+    );
+
+
+  const waterTotalSmall =
+    document.getElementById(
+      "waterTotalSmall"
+    );
+
 
   const startDate =
-    document.getElementById("startDate");
+    document.getElementById(
+      "startDate"
+    );
+
 
   const endDate =
-    document.getElementById("endDate");
+    document.getElementById(
+      "endDate"
+    );
+
 
   const provinceFilter =
-    document.getElementById("provinceFilter");
+    document.getElementById(
+      "provinceFilter"
+    );
+
 
   const searchBtn =
-    document.getElementById("searchBtn");
+    document.getElementById(
+      "searchBtn"
+    );
+
 
   const clearBtn =
-    document.getElementById("clearBtn");
+    document.getElementById(
+      "clearBtn"
+    );
+
+
+  const filterStatus =
+    document.getElementById(
+      "filterStatus"
+    );
+
+
+  const quickButtons =
+    document.querySelectorAll(
+      ".quick-btn"
+    );
+
+
+  const imageModal =
+    document.getElementById(
+      "imageModal"
+    );
+
+
+  const modalImage =
+    document.getElementById(
+      "modalImage"
+    );
+
+
+  const imageModalClose =
+    document.getElementById(
+      "imageModalClose"
+    );
+
 
 
   /* =====================================================
-     NUMBER FORMAT
-  ===================================================== */
+     STATE
+  ====================================================== */
 
-  function formatNumber(number) {
+  let allData = [];
 
-    return Number(number || 0)
-      .toLocaleString("th-TH");
+  let currentData = [];
+
+  let currentRange = "all";
+
+
+
+  /* =====================================================
+     FORMAT NUMBER
+  ====================================================== */
+
+  function formatNumber(
+    number
+  ) {
+
+    return Number(
+      number || 0
+    ).toLocaleString(
+      "th-TH"
+    );
 
   }
 
 
+
+  /* =====================================================
+     ESCAPE HTML
+  ====================================================== */
+
+  function escapeHtml(
+    value
+  ) {
+
+    return String(
+      value ?? ""
+    )
+
+      .replace(
+        /&/g,
+        "&amp;"
+      )
+
+      .replace(
+        /</g,
+        "&lt;"
+      )
+
+      .replace(
+        />/g,
+        "&gt;"
+      )
+
+      .replace(
+        /"/g,
+        "&quot;"
+      )
+
+      .replace(
+        /'/g,
+        "&#039;"
+      );
+
+  }
+
+
+
   /* =====================================================
      THAI DATE
-  ===================================================== */
+  ====================================================== */
 
-  function formatThaiDate(dateString) {
-
-    if (!dateString) {
-      return "";
-    }
+  function formatThaiDate(
+    dateString
+  ) {
 
     const date =
       new Date(
-        dateString + "T00:00:00"
+        dateString +
+        "T00:00:00"
       );
+
 
     return date.toLocaleDateString(
       "th-TH",
@@ -1030,45 +1477,83 @@
   }
 
 
+
   /* =====================================================
-     HTML ESCAPE
-  ===================================================== */
+     GET TODAY
+  ====================================================== */
 
-  function escapeHtml(value) {
+  function getTodayString() {
 
-    return String(value ?? "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
+    const date =
+      new Date();
+
+
+    const year =
+      date.getFullYear();
+
+
+    const month =
+      String(
+        date.getMonth() + 1
+      ).padStart(
+        2,
+        "0"
+      );
+
+
+    const day =
+      String(
+        date.getDate()
+      ).padStart(
+        2,
+        "0"
+      );
+
+
+    return `${year}-${month}-${day}`;
 
   }
 
 
+
   /* =====================================================
      LOAD DATA FROM SUPABASE
-  ===================================================== */
+  ====================================================== */
 
-  async function loadSupportData() {
+  async function loadData() {
 
     supportList.innerHTML = `
-      <div class="loading-state">
+      <div class="loading">
         กำลังโหลดข้อมูล...
       </div>
     `;
 
 
-    const { data, error } =
+    const {
+      data,
+      error
+    } =
       await supabaseClient
-        .from("support_records")
+
+        .from(
+          "support_records"
+        )
+
         .select("*")
-        .order("date", {
-          ascending: false
-        })
-        .order("id", {
-          ascending: true
-        });
+
+        .order(
+          "date",
+          {
+            ascending: false
+          }
+        )
+
+        .order(
+          "id",
+          {
+            ascending: true
+          }
+        );
 
 
     if (error) {
@@ -1080,230 +1565,45 @@
 
 
       supportList.innerHTML = `
-        <div class="error-state">
-          ไม่สามารถโหลดข้อมูลจากฐานข้อมูลได้<br><br>
-          ${escapeHtml(error.message)}
+
+        <div class="empty">
+
+          โหลดข้อมูลไม่สำเร็จ
+
+          <br><br>
+
+          ${escapeHtml(
+            error.message
+          )}
+
         </div>
+
       `;
 
       return;
+
     }
 
 
-    supportData =
-      (data || []).map(item => ({
-
-        id: item.id,
-
-        date: item.date,
-
-        province: item.province,
-
-        location: item.location,
-
-        bags: Number(item.bags || 0),
-
-        water: Number(item.water || 0),
-
-        images:
-          Array.isArray(item.images)
-            ? item.images
-            : []
-
-      }));
+    allData =
+      data || [];
 
 
-    filteredData =
-      [...supportData];
-
-
-    applyCurrentFilter();
+    applyFilters();
 
   }
 
 
-  /* =====================================================
-     GET LOCAL TODAY
-  ===================================================== */
-
-  function getTodayString() {
-
-    const now =
-      new Date();
-
-    const year =
-      now.getFullYear();
-
-    const month =
-      String(
-        now.getMonth() + 1
-      ).padStart(2, "0");
-
-    const day =
-      String(
-        now.getDate()
-      ).padStart(2, "0");
-
-
-    return `${year}-${month}-${day}`;
-
-  }
-
 
   /* =====================================================
-     ADD DAYS
-  ===================================================== */
+     APPLY FILTERS
+  ====================================================== */
 
-  function addDays(
-    dateString,
-    days
-  ) {
-
-    const date =
-      new Date(
-        dateString + "T00:00:00"
-      );
-
-    date.setDate(
-      date.getDate() + days
-    );
-
-
-    const year =
-      date.getFullYear();
-
-    const month =
-      String(
-        date.getMonth() + 1
-      ).padStart(2, "0");
-
-    const day =
-      String(
-        date.getDate()
-      ).padStart(2, "0");
-
-
-    return `${year}-${month}-${day}`;
-
-  }
-
-
-  /* =====================================================
-     FILTER DATA
-  ===================================================== */
-
-  function applyCurrentFilter() {
+  function applyFilters() {
 
     let data =
-      [...supportData];
+      [...allData];
 
-
-    /*
-      QUICK DATE
-    */
-
-    if (
-      currentQuickRange ===
-      "today"
-    ) {
-
-      const today =
-        getTodayString();
-
-      data =
-        data.filter(
-          item =>
-            item.date === today
-        );
-
-    }
-
-
-    else if (
-      currentQuickRange === "7"
-    ) {
-
-      const today =
-        getTodayString();
-
-      const start =
-        addDays(today, -6);
-
-
-      data =
-        data.filter(
-          item =>
-            item.date >= start &&
-            item.date <= today
-        );
-
-    }
-
-
-    else if (
-      currentQuickRange === "30"
-    ) {
-
-      const today =
-        getTodayString();
-
-      const start =
-        addDays(today, -29);
-
-
-      data =
-        data.filter(
-          item =>
-            item.date >= start &&
-            item.date <= today
-        );
-
-    }
-
-
-    /*
-      CUSTOM DATE
-    */
-
-    if (
-      currentQuickRange ===
-      "custom"
-    ) {
-
-      const start =
-        startDate.value;
-
-      const end =
-        endDate.value;
-
-
-      if (start) {
-
-        data =
-          data.filter(
-            item =>
-              item.date >= start
-          );
-
-      }
-
-
-      if (end) {
-
-        data =
-          data.filter(
-            item =>
-              item.date <= end
-          );
-
-      }
-
-    }
-
-
-    /*
-      PROVINCE
-    */
 
     const province =
       provinceFilter.value;
@@ -1314,38 +1614,231 @@
       data =
         data.filter(
           item =>
-            item.province === province
+            item.province ===
+            province
         );
 
     }
 
 
-    /*
-      SAVE
-    */
+    /* ===================================================
+       QUICK RANGE
+    ==================================================== */
 
-    filteredData =
+    if (
+      currentRange ===
+      "today"
+    ) {
+
+      const today =
+        getTodayString();
+
+
+      data =
+        data.filter(
+          item =>
+            item.date ===
+            today
+        );
+
+    }
+
+
+    if (
+      currentRange ===
+      "7"
+    ) {
+
+      const today =
+        new Date();
+
+
+      today.setHours(
+        0,
+        0,
+        0,
+        0
+      );
+
+
+      const start =
+        new Date(
+          today
+        );
+
+
+      start.setDate(
+        start.getDate() - 6
+      );
+
+
+      data =
+        data.filter(
+          item => {
+
+            const d =
+              new Date(
+                item.date +
+                "T00:00:00"
+              );
+
+
+            return (
+              d >= start &&
+              d <= today
+            );
+
+          }
+        );
+
+    }
+
+
+    if (
+      currentRange ===
+      "30"
+    ) {
+
+      const today =
+        new Date();
+
+
+      today.setHours(
+        0,
+        0,
+        0,
+        0
+      );
+
+
+      const start =
+        new Date(
+          today
+        );
+
+
+      start.setDate(
+        start.getDate() - 29
+      );
+
+
+      data =
+        data.filter(
+          item => {
+
+            const d =
+              new Date(
+                item.date +
+                "T00:00:00"
+              );
+
+
+            return (
+              d >= start &&
+              d <= today
+            );
+
+          }
+        );
+
+    }
+
+
+    /* ===================================================
+       CUSTOM DATE
+    ==================================================== */
+
+    if (
+      startDate.value ||
+      endDate.value
+    ) {
+
+      const start =
+        startDate.value
+          ? new Date(
+              startDate.value +
+              "T00:00:00"
+            )
+          : null;
+
+
+      const end =
+        endDate.value
+          ? new Date(
+              endDate.value +
+              "T23:59:59"
+            )
+          : null;
+
+
+      data =
+        data.filter(
+          item => {
+
+            const d =
+              new Date(
+                item.date +
+                "T12:00:00"
+              );
+
+
+            if (
+              start &&
+              d < start
+            ) {
+
+              return false;
+
+            }
+
+
+            if (
+              end &&
+              d > end
+            ) {
+
+              return false;
+
+            }
+
+
+            return true;
+
+          }
+        );
+
+    }
+
+
+    currentData =
       data;
 
 
     renderDashboard(
-      filteredData
+      data
+    );
+
+
+    updateFilterStatus(
+      data
     );
 
   }
 
 
+
   /* =====================================================
      RENDER DASHBOARD
-  ===================================================== */
+  ====================================================== */
 
   function renderDashboard(
     data
   ) {
 
-    /*
-      TOTAL
-    */
+
+    /* ===================================================
+       TOTAL
+    ==================================================== */
 
     const totalBags =
       data.reduce(
@@ -1354,7 +1847,9 @@
           item
         ) =>
           sum +
-          Number(item.bags || 0),
+          Number(
+            item.bags || 0
+          ),
         0
       );
 
@@ -1366,122 +1861,63 @@
           item
         ) =>
           sum +
-          Number(item.water || 0),
+          Number(
+            item.water || 0
+          ),
         0
       );
 
 
     bagsTotal.textContent =
-      formatNumber(totalBags);
+      formatNumber(
+        totalBags
+      );
+
 
     bagsTotalSmall.textContent =
-      formatNumber(totalBags);
+      formatNumber(
+        totalBags
+      );
+
 
     waterTotal.textContent =
-      formatNumber(totalWater);
+      formatNumber(
+        totalWater
+      );
+
 
     waterTotalSmall.textContent =
-      formatNumber(totalWater);
+      formatNumber(
+        totalWater
+      );
 
 
-    /*
-      REPORT TEXT
-    */
-
-    let report =
-      `รายงานข้อมูล ${data.length} รายการ`;
-
+    /* ===================================================
+       EMPTY
+    ==================================================== */
 
     if (
-      currentQuickRange ===
-      "today"
+      data.length === 0
     ) {
-
-      report =
-        "รายงานข้อมูลวันนี้";
-
-    }
-
-    else if (
-      currentQuickRange === "7"
-    ) {
-
-      report =
-        "รายงานข้อมูลย้อนหลัง 7 วัน";
-
-    }
-
-    else if (
-      currentQuickRange === "30"
-    ) {
-
-      report =
-        "รายงานข้อมูลย้อนหลัง 30 วัน";
-
-    }
-
-    else if (
-      currentQuickRange === "custom"
-    ) {
-
-      report =
-        "รายงานข้อมูลตามช่วงวันที่";
-
-    }
-
-    else if (
-      currentQuickRange === "all"
-    ) {
-
-      report =
-        "รายงานข้อมูลทั้งหมด";
-
-    }
-
-
-    if (
-      provinceFilter.value
-    ) {
-
-      report +=
-        ` จังหวัด${provinceFilter.value}`;
-
-    }
-
-
-
-    /*
-      LIST
-    */
-
-    renderList(data);
-
-  }
-
-
-  /* =====================================================
-     RENDER LIST
-  ===================================================== */
-
-  function renderList(
-    data
-  ) {
-
-    if (!data.length) {
 
       supportList.innerHTML = `
-        <div class="empty-state">
+
+        <div class="empty">
+
           ไม่พบข้อมูลตามเงื่อนไขที่เลือก
+
         </div>
+
       `;
 
       return;
+
     }
 
 
-    /*
-      GROUP BY DATE
-    */
+    /* ===================================================
+       GROUP BY DATE
+    ==================================================== */
 
     const groups = {};
 
@@ -1489,11 +1925,15 @@
     data.forEach(
       item => {
 
-        if (!groups[item.date]) {
+        if (
+          !groups[item.date]
+        ) {
 
-          groups[item.date] = [];
+          groups[item.date] =
+            [];
 
         }
+
 
         groups[item.date].push(
           item
@@ -1507,17 +1947,27 @@
 
 
     Object.keys(groups)
+
       .sort()
+
       .reverse()
+
       .forEach(
         date => {
 
+
           html += `
+
             <div class="date-group">
 
-              <div class="date-header">
-                ${formatThaiDate(date)}
+              <div class="date-badge">
+
+                ${formatThaiDate(
+                  date
+                )}
+
               </div>
+
           `;
 
 
@@ -1527,60 +1977,99 @@
               index
             ) => {
 
+
+              const images =
+                Array.isArray(
+                  item.images
+                )
+                  ? item.images
+                  : [];
+
+
               html += `
+
                 <div class="support-item">
+
 
                   <div class="item-title">
 
-                    <span class="item-number">
-                      ${index + 1}.
-                    </span>
+                    ${index + 1}.
 
                     ${escapeHtml(
                       item.location
                     )}
 
-                    จ.<span class="province-bold">
+                    จ.<strong>
                       ${escapeHtml(
                         item.province
                       )}
-                    </span>
+                    </strong>
 
                   </div>
 
 
-                  <div class="item-info">
+                  <div class="item-amount">
 
-                    <span>
-                      • ถุงยังชีพ
-                      <strong>
-                        ${formatNumber(
-                          item.bags
-                        )}
-                      </strong>
-                      ถุง
-                    </span>
+                    • ถุงยังชีพ
+                    <strong>
+                      ${formatNumber(
+                        item.bags
+                      )}
+                    </strong>
+                    ถุง
 
-                    <span>
-                      • น้ำดื่ม
-                      <strong>
-                        ${formatNumber(
-                          item.water
-                        )}
-                      </strong>
-                      แพ็ก
-                    </span>
+                    &nbsp;&nbsp;•
+
+                    น้ำดื่ม
+                    <strong>
+                      ${formatNumber(
+                        item.water
+                      )}
+                    </strong>
+                    แพ็ก
 
                   </div>
 
 
                   ${
-                    renderImages(
-                      item.images
-                    )
+                    images.length > 0
+                      ? `
+
+                        <div class="item-images">
+
+                          ${images
+                            .slice(
+                              0,
+                              3
+                            )
+                            .map(
+                              url => `
+
+                                <img
+                                  src="${escapeHtml(
+                                    url
+                                  )}"
+                                  alt="รูปภาพการสนับสนุน"
+                                  loading="lazy"
+                                  onclick="openImage('${escapeHtml(
+                                    url
+                                  )}')"
+                                >
+
+                              `
+                            )
+                            .join("")
+                          }
+
+                        </div>
+
+                      `
+                      : ""
                   }
 
+
                 </div>
+
               `;
 
             }
@@ -1588,7 +2077,9 @@
 
 
           html += `
+
             </div>
+
           `;
 
         }
@@ -1601,241 +2092,312 @@
   }
 
 
-  /* =====================================================
-     RENDER IMAGES
-  ===================================================== */
 
-  function renderImages(
-    images
+  /* =====================================================
+     FILTER STATUS
+  ====================================================== */
+
+  function updateFilterStatus(
+    data
   ) {
 
+    let text =
+      "";
+
+
     if (
-      !Array.isArray(images) ||
-      images.length === 0
+      currentRange ===
+      "today"
     ) {
 
-      return "";
+      text =
+        "ข้อมูลวันนี้";
+
+    }
+
+    else if (
+      currentRange ===
+      "7"
+    ) {
+
+      text =
+        "ข้อมูลย้อนหลัง 7 วัน";
+
+    }
+
+    else if (
+      currentRange ===
+      "30"
+    ) {
+
+      text =
+        "ข้อมูลย้อนหลัง 30 วัน";
+
+    }
+
+    else {
+
+      text =
+        "ข้อมูลทั้งหมด";
 
     }
 
 
-    const validImages =
-      images.filter(
-        url =>
-          typeof url === "string" &&
-          url.trim() !== ""
-      );
+    if (
+      startDate.value ||
+      endDate.value
+    ) {
 
-
-    if (!validImages.length) {
-
-      return "";
+      text =
+        "ข้อมูลตามช่วงวันที่";
 
     }
 
 
-    return `
-      <div class="image-grid">
+    if (
+      provinceFilter.value
+    ) {
 
-        ${
-          validImages
-            .map(
-              url => `
-                <img
-                  class="support-image"
-                  src="${escapeHtml(url)}"
-                  alt="รูปภาพการสนับสนุน"
-                  loading="lazy"
-                  onerror="this.style.display='none';"
-                >
-              `
-            )
-            .join("")
-        }
+      text +=
+        " • จังหวัด " +
+        provinceFilter.value;
 
-      </div>
-    `;
+    }
+
+
+    text +=
+      ` • ${data.length} รายการ`;
+
+
+    filterStatus.textContent =
+      text;
 
   }
 
 
+
   /* =====================================================
-     QUICK FILTER
-  ===================================================== */
+     QUICK BUTTONS
+  ====================================================== */
 
-  document
-    .querySelectorAll(".quick-btn")
-    .forEach(
-      button => {
+  quickButtons.forEach(
+    button => {
 
-        button.addEventListener(
-          "click",
-          () => {
+      button.addEventListener(
+        "click",
+        () => {
 
-            document
-              .querySelectorAll(
-                ".quick-btn"
+
+          quickButtons.forEach(
+            btn =>
+              btn.classList.remove(
+                "active"
               )
-              .forEach(
-                btn =>
-                  btn.classList.remove(
-                    "active"
-                  )
-              );
+          );
 
 
-            button.classList.add(
-              "active"
-            );
+          button.classList.add(
+            "active"
+          );
 
 
-            currentQuickRange =
-              button.dataset.range;
+          currentRange =
+            button.dataset.range;
 
 
-            /*
-              CLEAR CUSTOM DATE
-            */
-
-            startDate.value = "";
-
-            endDate.value = "";
+          startDate.value =
+            "";
 
 
-            applyCurrentFilter();
+          endDate.value =
+            "";
 
-          }
-        );
 
-      }
-    );
+          applyFilters();
+
+        }
+      );
+
+    }
+  );
+
 
 
   /* =====================================================
-     CUSTOM DATE
-  ===================================================== */
+     SEARCH
+  ====================================================== */
 
-  function useCustomDateFilter() {
+  searchBtn.addEventListener(
+    "click",
+    () => {
 
-    currentQuickRange =
-      "custom";
-
-
-    document
-      .querySelectorAll(
-        ".quick-btn"
-      )
-      .forEach(
+      quickButtons.forEach(
         btn =>
           btn.classList.remove(
             "active"
           )
       );
 
-  }
+
+      currentRange =
+        "all";
 
 
-  startDate.addEventListener(
-    "change",
-    useCustomDateFilter
-  );
-
-  endDate.addEventListener(
-    "change",
-    useCustomDateFilter
-  );
-
-
-  /* =====================================================
-     SEARCH
-  ===================================================== */
-
-  searchBtn.addEventListener(
-    "click",
-    () => {
-
-      /*
-        If no custom date
-        and no quick filter,
-        use current selected range.
-      */
-
-      applyCurrentFilter();
+      applyFilters();
 
     }
   );
 
 
+
   /* =====================================================
      PROVINCE CHANGE
-  ===================================================== */
+  ====================================================== */
 
   provinceFilter.addEventListener(
     "change",
     () => {
 
-      applyCurrentFilter();
+      applyFilters();
 
     }
   );
 
 
+
   /* =====================================================
-     CLEAR
-  ===================================================== */
+     CLEAR FILTER
+  ====================================================== */
 
   clearBtn.addEventListener(
     "click",
     () => {
 
-      currentQuickRange =
+
+      currentRange =
         "all";
 
 
       startDate.value =
         "";
 
+
       endDate.value =
         "";
+
 
       provinceFilter.value =
         "";
 
 
-      document
-        .querySelectorAll(
-          ".quick-btn"
-        )
-        .forEach(
-          btn =>
-            btn.classList.remove(
-              "active"
-            )
-        );
+      quickButtons.forEach(
+        btn =>
+          btn.classList.remove(
+            "active"
+          )
+      );
 
 
       document
         .querySelector(
-          '.quick-btn[data-range="all"]'
+          '[data-range="all"]'
         )
         .classList.add(
           "active"
         );
 
 
-      applyCurrentFilter();
+      applyFilters();
 
     }
   );
 
 
-  /* =====================================================
-     INITIAL LOAD
-  ===================================================== */
 
-  loadSupportData();
+  /* =====================================================
+     IMAGE MODAL
+  ====================================================== */
+
+  window.openImage =
+    function(url) {
+
+      modalImage.src =
+        url;
+
+
+      imageModal.classList.add(
+        "show"
+      );
+
+    };
+
+
+
+  function closeImage() {
+
+    imageModal.classList.remove(
+      "show"
+    );
+
+
+    modalImage.src =
+      "";
+
+  }
+
+
+
+  imageModalClose.addEventListener(
+    "click",
+    closeImage
+  );
+
+
+  imageModal.addEventListener(
+    "click",
+    event => {
+
+      if (
+        event.target ===
+        imageModal
+      ) {
+
+        closeImage();
+
+      }
+
+    }
+  );
+
+
+  document.addEventListener(
+    "keydown",
+    event => {
+
+      if (
+        event.key ===
+        "Escape"
+      ) {
+
+        closeImage();
+
+      }
+
+    }
+  );
+
+
+
+  /* =====================================================
+     START
+  ====================================================== */
+
+  loadData();
+
 
 </script>
 
+
 </body>
+
 </html>
