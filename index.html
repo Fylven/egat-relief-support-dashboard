@@ -297,19 +297,11 @@
     ====================================================== */
 
     .main-grid {
-
-      margin: 0 26px 30px;
-
-      display: grid;
-
-      grid-template-columns:
-        40% 60%;
-
-      gap: 16px;
-
-      align-items: start;
-
-    }
+  display: grid;
+  grid-template-columns: 40% 60%;
+  gap: 14px;
+  align-items: stretch;
+}
 
 
     /* =====================================================
@@ -317,10 +309,10 @@
     ====================================================== */
 
     .left-column {
-
-      min-width: 0;
-
-    }
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
 
 
     .summary-grid {
@@ -655,7 +647,7 @@
 
 .item-images img {
   width: 180px;
-  height: 135px;
+  height: 101px;
   object-fit: cover;
   border-radius: 9px;
   background: #ddd;
@@ -771,170 +763,221 @@
        RESPONSIVE
     ====================================================== */
 
-    @media (max-width: 1100px) {
+/* =====================================================
+   DESKTOP
+   ให้ฝั่งซ้าย 40% / รายการสนับสนุน 60%
+   และให้ความสูงของ 2 ฝั่งยืดเท่ากัน
+===================================================== */
 
-      .main-grid {
+@media (min-width: 1101px) {
 
-        grid-template-columns:
-          1fr;
+  .main-grid {
 
-      }
+    grid-template-columns:
+      40% 60%;
 
+    align-items: stretch;
 
-      .left-column,
-      .support-card {
+  }
 
-        width: 100%;
+  .left-column,
+  .support-card {
 
-      }
+    height: 100%;
 
+  }
 
-      .support-list {
+}
 
-        height: 600px;
 
-      }
+/* =====================================================
+   TABLET / หน้าจอไม่เกิน 1100px
+===================================================== */
 
-    }
+@media (max-width: 1100px) {
 
+  .main-grid {
 
-    @media (max-width: 800px) {
+    grid-template-columns:
+      1fr;
 
-      .header {
+    align-items: stretch;
 
-        margin: 10px;
+  }
 
-        padding: 18px;
 
-      }
+  .left-column,
+  .support-card {
 
+    width: 100%;
 
-      .header-title {
+  }
 
-        font-size: 22px;
 
-      }
+  .support-list {
 
+    height: 600px;
 
-      .header-logo {
+  }
 
-        font-size: 28px;
+}
 
-      }
 
+/* =====================================================
+   หน้าจอไม่เกิน 800px
+===================================================== */
 
-      .filter-card {
+@media (max-width: 800px) {
 
-        margin: 0 10px 12px;
+  .header {
 
-      }
+    margin: 10px;
 
+    padding: 18px;
 
-      .main-grid {
+  }
 
-        margin: 0 10px 20px;
 
-      }
+  .header-title {
 
+    font-size: 22px;
 
-      .filter-row {
+  }
 
-        align-items: stretch;
 
-      }
+  .header-logo {
 
+    font-size: 28px;
 
-      .quick-btn,
-      .search-btn,
-      .clear-btn {
+  }
 
-        flex: 1;
 
-      }
+  .filter-card {
 
+    margin: 0 10px 12px;
 
-      .date-input,
-      .province-select {
+  }
 
-        width: 100%;
 
-      }
+  .main-grid {
 
+    margin: 0 10px 20px;
 
-      .custom-label {
+  }
 
-        width: 100%;
 
-      }
+  .filter-row {
 
-    }
+    align-items: stretch;
 
+  }
 
-    @media (max-width: 600px) {
 
-      .summary-grid {
+  .quick-btn,
+  .search-btn,
+  .clear-btn {
 
-        grid-template-columns:
-          1fr;
+    flex: 1;
 
-      }
+  }
 
 
-      .summary-card {
+  .date-input,
+  .province-select {
 
-        min-height: 150px;
+    width: 100%;
 
-      }
+  }
 
 
-      .summary-number {
+  .custom-label {
 
-        font-size: 38px;
+    width: 100%;
 
-      }
+  }
 
+}
 
-      .support-card {
 
-        padding: 15px;
+/* =====================================================
+   MOBILE / หน้าจอไม่เกิน 600px
+===================================================== */
 
-      }
+@media (max-width: 600px) {
 
+  .summary-grid {
 
-      .support-title {
+    grid-template-columns:
+      1fr;
 
-        font-size: 23px;
+  }
 
-      }
 
+  .summary-card {
 
-      .support-list {
+    min-height: 150px;
 
-        height: auto;
+  }
 
-        max-height: 700px;
 
-      }
+  .summary-number {
 
+    font-size: 38px;
 
-      .item-images {
+  }
 
-        grid-template-columns:
-          1fr 1fr;
 
-      }
+  .support-card {
 
+    padding: 15px;
 
-      .item-images img {
+  }
 
-        height: 110px;
 
-      }
+  .support-title {
 
-    }
+    font-size: 23px;
 
+  }
 
-  </style>
+
+  .support-list {
+
+    height: auto;
+
+    max-height: 700px;
+
+  }
+
+
+  /* รูป 16:9 บนมือถือ */
+
+  .item-images {
+
+    display: flex;
+
+    gap: 10px;
+
+    flex-wrap: wrap;
+
+  }
+
+
+  .item-images img {
+
+    width: 180px;
+
+    height: 101px;
+
+    object-fit: cover;
+
+  }
+
+}
+
+
+</style>
+
 
 </head>
 
