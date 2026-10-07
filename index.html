@@ -292,15 +292,31 @@ body.page-planned .summary-number{margin-top:14px}
   .item-images{gap:8px}
   .item-images img{width:calc(50% - 4px);height:auto;aspect-ratio:16/9}
 }
+.header-title {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.title-main {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.title-sub {
+  font-size: 24px;
+  font-weight: 1000;
+}
 </style>
 </head>
 
 <body>
 <header class="header">
   <div class="header-title">
-    รายการสนับสนุนถุงยังชีพและน้ำดื่ม กฟผ.<br>
-    ผู้ประสบอุทกภัย พื้นที่ อปก. ปี 2569
-  </div>
+  <span class="title-main">รายการสนับสนุนถุงยังชีพและน้ำดื่ม กฟผ.</span>
+  <span class="title-sub">ผู้ประสบอุทกภัย พื้นที่ อปก. ปี 2569</span>
+</div>
   <div class="header-logo">กฟผ.</div>
 </header>
 
