@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>รายการสนับสนุนถุงยังชีพและน้ำดื่ม กฟผ.</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: "Tahoma", "Noto Sans Thai", sans-serif;
+        background: #f7f8fa;
+        color: #183b70;
+    }
+
+    .container {
+        max-width: 1500px;
+        margin: auto;
+        padding: 12px;
+    }
+
+    /* HEADER */
+    .header {
+        background: #ffc800;
+        border-radius: 14px;
+        min-height: 74px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 22px;
+        box-shadow: 0 2px 5px rgba(0,0,0,.08);
+    }
+
+    .header-title {
+        font-size: 24px;
+        font-weight: bold;
+        color: #123d78;
+    }
+
+    .logo {
+        font-size: 36px;
+        font-weight: 900;
+        color: #174a8b;
+        white-space: nowrap;
+    }
+
+    /* FILTER */
+    .filter-area {
+        margin-top: 14px;
+        background: white;
+        border-radius: 12px;
+        padding: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        box-shadow: 0 1px 4px rgba(0,0,0,.08);
+    }
+
+    .filter-button {
+        border: 1px solid #d9dee7;
+        background: white;
+        color: #34495e;
+        border-radius: 9px;
+        padding: 9px 18px;
+        font-size: 15px;
+        cursor: pointer;
+        transition: .2s;
+    }
+
+    .filter-button:hover {
+        background: #eef5ff;
+    }
+
+    .filter-button.active {
+        background: #164d91;
+        color: white;
+        border-color: #164d91;
+    }
+
+    .date-box {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        margin-left: 5px;
+    }
+
+    .date-box label {
+        color: #666;
+        font-size: 14px;
+    }
+
+    input[type="date"] {
+        border: 1px solid #d6dce5;
+        border-radius: 8px;
+        padding: 9px 10px;
+        font-size: 14px;
+        color: #333;
+    }
+
+    .search-button {
+        background: #174d91;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 18px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .report-date {
+        margin-left: auto;
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    /* MAIN GRID */
+    .main-grid {
+        display: grid;
+        grid-template-columns: 440px 1fr;
+        gap: 14px;
+        margin-top: 14px;
+    }
+
+    /* LEFT */
+    .left-column {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .summary-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    .summary-card {
+        border-radius: 15px;
+        padding: 18px;
+        text-align: center;
+    }
+
+    .bag-card {
+        background: #fff0b9;
+    }
+
+    .water-card {
+        background: #a8dcf8;
+    }
+
+    .summary-title {
+        font-size: 17px;
+        font-weight: bold;
+    }
+
+    .summary-number {
+        font-size: 34px;
+        font-weight: bold;
+        margin: 7px 0;
+    }
+
+    .summary-total {
+        background: rgba(0,0,0,.08);
+        border-radius: 13px;
+        padding: 5px;
+        font-size: 14px;
+    }
+
+    .summary-total strong {
+        display: block;
+        font-size: 24px;
+    }
+
+    /* MAP */
+    .map-card {
+        background: white;
+        border: 1px solid #e2e5e9;
+        border-radius: 13px;
+        min-height: 430px;
+        padding: 18px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .map-title {
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+
+    .map-placeholder {
+        flex: 1;
+        min-height: 330px;
+        background: #f0f1f2;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: #777;
+        font-size: 20px;
+    }
+
+    /* RIGHT */
+    .list-card {
+        background: #fff9dc;
+        border-radius: 15px;
+        padding: 18px;
+    }
+
+    .list-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+    }
+
+    .list-header h2 {
+        margin: 0;
+        font-size: 20px;
+    }
+
+    .item {
+        padding: 10px 0 14px;
+        border-bottom: 1px dashed #d9d0aa;
+    }
+
+    .item:last-child {
+        border-bottom: none;
+    }
+
+    .item-date {
+        display: inline-block;
+        background: #ffcf00;
+        border-radius: 7px;
+        padding: 5px 9px;
+        font-weight: bold;
+        color: #183b70;
+        margin-bottom: 7px;
+    }
+
+    .item-title {
+        font-weight: bold;
+        font-size: 16px;
+        color: #183b70;
+    }
+
+    .item-info {
+        margin: 6px 0;
+        color: #333;
+    }
+
+    .item-images {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        max-width: 550px;
+    }
+
+    .item-image {
+        height: 90px;
+        border-radius: 8px;
+        background: #d9d9d9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #777;
+        overflow: hidden;
+    }
+
+    .item-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .empty {
+        text-align: center;
+        padding: 50px 20px;
+        color: #777;
+    }
+
+    /* FOOTER */
+    .footer {
+        margin-top: 12px;
+        display: flex;
+        justify-content: space-between;
+        color: #777;
+        font-size: 13px;
+        padding: 5px;
+    }
+
+    @media (max-width: 900px) {
+        .main-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .report-date {
+            width: 100%;
+            margin-left: 0;
+        }
+
+        .header-title {
+            font-size: 18px;
+        }
+
+        .logo {
+            font-size: 26px;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .summary-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .date-box {
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        input[type="date"] {
+            flex: 1;
+        }
+
+        .item-images {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-title">
+            รายการสนับสนุนถุงยังชีพและน้ำดื่ม กฟผ.<br>
+            ผู้ประสบอุทกภัย พื้นที่ อปก. ปี 2569
+        </div>
+
+        <div class="logo">
+            กฟผ.
+        </div>
+    </header>
+
+    <!-- FILTER -->
+    <section class="filter-area">
+
+        <button class="filter-button" data-range="today">
+            วันนี้
+        </button>
+
+        <button class="filter-button" data-range="7">
+            7 วัน
+        </button>
+
+        <button class="filter-button" data-range="30">
+            30 วัน
+        </button>
+
+        <button class="filter-button active" data-range="all">
+            ทั้งหมด
+        </button>
+
+        <div class="date-box">
+            <label>หรือกำหนดเอง</label>
+
+            <input type="date" id="startDate">
+
+            <span>ถึง</span>
+
+            <input type="date" id="endDate">
+
+            <button class="search-button" id="searchButton">
+                ค้นหา
+            </button>
+        </div>
+
+        <div class="report-date" id="reportDate">
+            รายงานข้อมูลทั้งหมด
+        </div>
+
+    </section>
+
+    <!-- MAIN -->
+    <main class="main-grid">
+
+        <!-- LEFT -->
+        <div class="left-column">
+
+            <div class="summary-grid">
+
+                <div class="summary-card bag-card">
+                    <div class="summary-title">
+                        ถุงยังชีพ (ถุง)
+                    </div>
+
+                    <div class="summary-number" id="bagNumber">
+                        0
+                    </div>
+
+                    <div class="summary-total">
+                        ยอดสนับสนุนรวม
+                        <strong id="bagTotal">0</strong>
+                    </div>
+                </div>
+
+                <div class="summary-card water-card">
+                    <div class="summary-title">
+                        น้ำดื่ม (แพ็ก)
+                    </div>
+
+                    <div class="summary-number" id="waterNumber">
+                        0
+                    </div>
+
+                    <div class="summary-total">
+                        ยอดสนับสนุนรวม
+                        <strong id="waterTotal">0</strong>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="map-card">
+
+                <div class="map-title">
+                    🗺️ พื้นที่ดำเนินการ
+                </div>
+
+                <div class="map-placeholder">
+                    แผนที่ประเทศไทย<br>
+                    <small>จะเพิ่มแผนที่จริงในขั้นต่อไป</small>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT -->
+        <div class="list-card">
+
+            <div class="list-header">
+                <h2>รายการสนับสนุน</h2>
+            </div>
+
+            <div id="supportList"></div>
+
+        </div>
+
+    </main>
+
+    <footer class="footer">
+        <span>ฝ่ายปฏิบัติการภาคกลาง</span>
+        <span>ระบบ Dashboard สนับสนุนผู้ประสบอุทกภัย</span>
+    </footer>
+
+</div>
+
+
+<script>
+
+const supportData = [
+
+    {
+        date: "2026-10-07",
+        location: "วัดสุทธาราม ต.หอมหก อ.บางไทร จ.พระนครศรีอยุธยา",
+        bags: 565,
+        water: 565,
+        images: []
+    },
+
+    {
+        date: "2026-10-06",
+        location: "หมู่บ้านหนองสีบู เฟส 2 ต.คลองหลวงแพ่ง จ.ฉะเชิงเทรา",
+        bags: 500,
+        water: 500,
+        images: []
+    },
+
+    {
+        date: "2026-10-06",
+        location: "วัดป้อมแก้ว ต.บ้านกลึง อ.บางไทร จ.พระนครศรีอยุธยา",
+        bags: 700,
+        water: 700,
+        images: []
+    },
+
+    {
+        date: "2026-10-05",
+        location: "ศูนย์ช่วยเหลือผู้ประสบภัย จังหวัดพระนครศรีอยุธยา",
+        bags: 400,
+        water: 450,
+        images: []
+    },
+
+    {
+        date: "2026-10-03",
+        location: "พื้นที่ชุมชน จังหวัดฉะเชิงเทรา",
+        bags: 300,
+        water: 350,
+        images: []
+    }
+
+];
+
+let currentData = [...supportData];
+
+const bagNumber = document.getElementById("bagNumber");
+const bagTotal = document.getElementById("bagTotal");
+const waterNumber = document.getElementById("waterNumber");
+const waterTotal = document.getElementById("waterTotal");
+const supportList = document.getElementById("supportList");
+const reportDate = document.getElementById("reportDate");
+
+function formatNumber(number) {
+    return number.toLocaleString("th-TH");
+}
+
+function formatThaiDate(dateString) {
+
+    const date = new Date(dateString + "T00:00:00");
+
+    return date.toLocaleDateString("th-TH", {
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+    });
+
+}
+
+function render(data) {
+
+    currentData = data;
+
+    let bags = 0;
+    let water = 0;
+
+    data.forEach(item => {
+        bags += item.bags;
+        water += item.water;
+    });
+
+    bagNumber.textContent = formatNumber(bags);
+    bagTotal.textContent = formatNumber(bags);
+
+    waterNumber.textContent = formatNumber(water);
+    waterTotal.textContent = formatNumber(water);
+
+    if (data.length === 0) {
+
+        supportList.innerHTML = `
+            <div class="empty">
+                ไม่พบข้อมูลในช่วงวันที่เลือก
+            </div>
+        `;
+
+        return;
+    }
+
+    supportList.innerHTML = data.map((item, index) => {
+
+        let images = "";
+
+        if (item.images.length > 0) {
+
+            images = item.images.map(image => `
+                <div class="item-image">
+                    <img src="${image}" alt="ภาพกิจกรรม">
+                </div>
+            `).join("");
+
+        } else {
+
+            images = `
+                <div class="item-image">รูปภาพ</div>
+                <div class="item-image">รูปภาพ</div>
+            `;
+
+        }
+
+        return `
+            <article class="item">
+
+                <div class="item-date">
+                    ${formatThaiDate(item.date)}
+                </div>
+
+                <div class="item-title">
+                    ${index + 1}. ${item.location}
+                </div>
+
+                <div class="item-info">
+                    • ถุงยังชีพ จำนวน
+                    <strong>${formatNumber(item.bags)}</strong> ถุง
+                    &nbsp;&nbsp;
+                    • น้ำดื่ม จำนวน
+                    <strong>${formatNumber(item.water)}</strong> แพ็ก
+                </div>
+
+                <div class="item-images">
+                    ${images}
+                </div>
+
+            </article>
+        `;
+
+    }).join("");
+
+}
+
+function filterByRange(range) {
+
+    const today = new Date("2026-10-07T00:00:00");
+
+    let filtered = [];
+
+    if (range === "all") {
+
+        filtered = [...supportData];
+
+        reportDate.textContent = "รายงานข้อมูลทั้งหมด";
+
+    }
+
+    else if (range === "today") {
+
+        const todayString = today.toISOString().split("T")[0];
+
+        filtered = supportData.filter(item =>
+            item.date === todayString
+        );
+
+        reportDate.textContent = "รายงานประจำวันที่ 7 ต.ค. 69";
+
+    }
+
+    else {
+
+        const days = Number(range);
+
+        const start = new Date(today);
+
+        start.setDate(start.getDate() - days + 1);
+
+        filtered = supportData.filter(item => {
+
+            const itemDate = new Date(item.date + "T00:00:00");
+
+            return itemDate >= start && itemDate <= today;
+
+        });
+
+        reportDate.textContent =
+            `รายงานย้อนหลัง ${days} วัน`;
+
+    }
+
+    render(filtered);
+
+}
+
+document.querySelectorAll(".filter-button").forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        document.querySelectorAll(".filter-button")
+            .forEach(btn => btn.classList.remove("active"));
+
+        button.classList.add("active");
+
+        filterByRange(button.dataset.range);
+
+    });
+
+});
+
+
+document.getElementById("searchButton")
+    .addEventListener("click", () => {
+
+        const startValue =
+            document.getElementById("startDate").value;
+
+        const endValue =
+            document.getElementById("endDate").value;
+
+        if (!startValue || !endValue) {
+
+            alert("กรุณาเลือกวันที่เริ่มต้นและวันที่สิ้นสุด");
+
+            return;
+        }
+
+        if (startValue > endValue) {
+
+            alert("วันที่เริ่มต้นต้องไม่มากกว่าวันที่สิ้นสุด");
+
+            return;
+        }
+
+        document.querySelectorAll(".filter-button")
+            .forEach(btn => btn.classList.remove("active"));
+
+        const filtered = supportData.filter(item =>
+            item.date >= startValue &&
+            item.date <= endValue
+        );
+
+        reportDate.textContent =
+            `แสดงข้อมูล ${formatThaiDate(startValue)} ถึง ${formatThaiDate(endValue)}`;
+
+        render(filtered);
+
+    });
+
+
+/* แสดงข้อมูลครั้งแรก */
+render(supportData);
+
+</script>
+
+</body>
+</html>
