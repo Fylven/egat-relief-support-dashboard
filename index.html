@@ -113,8 +113,18 @@ body{
   margin-top:15px;padding:10px;border-radius:15px;background:rgba(255,255,255,.42)
 }
 .summary-total-label{font-size:15px}
-.summary-total-number{margin-top:3px;font-size:27px;font-weight:900}
-.summary-total-sub{font-size:13px;color:#777;margin-top:1px}
+.summary-total-number{
+  margin-top:3px;
+  font-size:27px;
+  font-weight:900;
+}
+
+.summary-total-sub{
+  font-size:13px;
+  color:#777;
+  margin-right:6px;
+  display:inline;
+}
 body.page-completed .summary-total,
 body.page-planned .summary-total{display:none}
 body.page-completed .summary-card,
@@ -644,8 +654,6 @@ function updatePageText() {
     waterTitle.textContent = "น้ำดื่มตามแผนงาน (แพ็ก)";
     bagsTotalLabel.textContent = "ยอดถุงยังชีพที่สนับสนุนแล้ว";
     waterTotalLabel.textContent = "ยอดน้ำดื่มที่สนับสนุนแล้ว";
-    bagsTotalSub.textContent = "ภาพรวม";
-    waterTotalSub.textContent = "ภาพรวม";
     supportTitle.textContent = "สรุปข้อมูลรายจังหวัด";
   } else {
     summarySectionTitle.textContent = "ภาพรวมแผนงาน";
@@ -653,8 +661,6 @@ function updatePageText() {
     waterTitle.textContent = "น้ำดื่มตามแผนงาน (แพ็ก)";
     bagsTotalLabel.textContent = "ยอดถุงยังชีพที่สนับสนุนรวม";
     waterTotalLabel.textContent = "ยอดน้ำดื่มที่สนับสนุนรวม";
-    bagsTotalSub.textContent = "ทั้งหมด";
-    waterTotalSub.textContent = "ทั้งหมด";
     supportTitle.textContent = "ภาพรวมการสนับสนุน";
   }
 }
